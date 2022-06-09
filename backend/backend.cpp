@@ -130,6 +130,7 @@ int main()
     //Update("Stas", 9);
     Get();
     cout << "From NorthBackend";
+    cout << "From NorthBackend2";
 
     return 0;
 }
