@@ -129,9 +129,6 @@ int main()
     //Delete(7);
     //Update("Stas", 9);
     Get();
-    cout << "From NorthBackend";
-    cout << "From NorthBackend2";
-    cout << "Git Change";
 
     return 0;
 }
