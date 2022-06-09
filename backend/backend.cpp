@@ -1,6 +1,7 @@
 #include "Users.h"
 #include "TaskStatuses.h"
 #include "Tasks.h"
+#include "TaskCategories.h"
 #include "FriendStatuses.h"
 #include "Friendships.h"
 
@@ -101,66 +102,68 @@ int main()
     cout << "Executing query...";
     cout << "\n";
 
-    //Put();
-    //Delete(7);
-    //Update("Stas", 9);
+
+    //USERS
     Users User;
     User.Get();
     auto result = User.GetData();
-
     for_each(result.begin(), result.end(), [](auto x) {
         x.Print();
         });
-   
-    TaskStatuses objTaskStatus;
-    objTaskStatus.Get();
-    auto result2 = objTaskStatus.GetData();
-   
+    cout << "\n";
+
+    //TASKS
+    Tasks Task;
+    Task.Get();
+    auto result2 = Task.GetData();
     for_each(result2.begin(), result2.end(), [](auto x) {
         x.Print();
         });
+    cout << "\n";
 
+    //TASK Statuses
+    TaskStatuses Taskstatus;
+    Taskstatus.Get();
+    auto result3 = Taskstatus.GetData();
+    for_each(result3.begin(), result3.end(), [](auto x) {
+        x.Print();
+        });
+    cout << "\n";
+
+    //Friendships 
+    Friendships Fr;
+    Fr.Get();
+    auto result4 = Fr.GetData();
+    for_each(result4.begin(), result4.end(), [](auto x) {
+        x.Print();
+        });
+    cout << "\n";
+
+    //Friendship statuses
+    FriendStatuses Frstatus;
+    Frstatus.Get();
+    auto result5 = Frstatus.GetData();
+    for_each(result5.begin(), result5.end(), [](auto x) {
+        x.Print();
+        });
+    cout << "\n";
+
+    //TASKS Categories
+    TaskCategories TaskCategorie;
+    TaskCategorie.Get();
+    auto result6 = TaskCategorie.GetData();
+    for_each(result6.begin(), result6.end(), [](auto x) {
+        x.Print();
+        });
+    cout << "\n";
 
     return 0;
 }
 
-//void Get()
-//{
-//    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM USERS", SQL_NTS);
-//
-//    if (retcode == SQL_SUCCESS)
-//    {
-//        while (true)
-//        {
-//            retcode = SQLFetch(sqlStmtHandle);
-//            if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
-//            {
-//                cout << "Error reading query!\n";
-//            }
-//            if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
-//            {
-//                UsersStruct newUser;
-//                SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &newUser.userID, 0, &lenth);
-//                SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, newUser.userNameArr, FIELD_LEN, &lenth);
-//                SQLGetData(sqlStmtHandle, 3, SQL_C_CHAR, newUser.userSurnameArr, FIELD_LEN, &lenth);
-//                SQLGetData(sqlStmtHandle, 4, SQL_C_CHAR, newUser.userBithday, FIELD_LEN, &lenth);
-//                SQLGetData(sqlStmtHandle, 5, SQL_C_CHAR, newUser.userMail, FIELD_LEN, &lenth);
-//                SQLGetData(sqlStmtHandle, 6, SQL_C_CHAR, newUser.userPassword, FIELD_LEN, &lenth);
-//                SQLGetData(sqlStmtHandle, 7, SQL_C_ULONG, &newUser.userPoints, 0, &lenth);
-//                SQLGetData(sqlStmtHandle, 8, SQL_C_CHAR, newUser.userRank, FIELD_LEN, &lenth);
-//
-//                AllUsers.emplace_back(newUser);
-//
-//                cout << newUser.userID << "\t" << newUser.userNameArr << "\t" << newUser.userSurnameArr
-//                    << "\t" << newUser.userBithday << "\t" << newUser.userMail << "\t" << newUser.userPassword
-//                    << "\t" << newUser.userPoints << "\t" << newUser.userRank;
-//                cout << endl;
-//            }
-//            else break;
-//        }
-//    }
-//}
-//
+
+
+
+
 //void Put()
 //{
 //    string put = "INSERT INTO Users VALUES('";

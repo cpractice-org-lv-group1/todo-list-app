@@ -35,4 +35,5 @@ void TaskStatuses::Get()
     {
         cout << "Error getting data!";
     }
+    SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }

@@ -43,7 +43,7 @@
       <Filter>Source Files\CONTROLLERS</Filter>
     </ClCompile>
     <ClCompile Include="TaskCategories.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\CONTROLLERS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

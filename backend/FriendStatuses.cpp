@@ -8,7 +8,7 @@ vector<FriendStatuses::FriendStatusesStruct> FriendStatuses::GetData()
 
 void FriendStatuses::Get()
 {
-    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM TaskStatuses", SQL_NTS);
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM FriendStatuses", SQL_NTS);
 
     if (retcode == SQL_SUCCESS)
     {
@@ -35,4 +35,5 @@ void FriendStatuses::Get()
     {
         cout << "Error getting data!";
     }
+    SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
