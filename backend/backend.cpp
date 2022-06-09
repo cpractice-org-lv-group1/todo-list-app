@@ -5,6 +5,9 @@
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
+#include <algorithm>
+
+#include "Users.h"
 
 #define SQL_RESULT_LEN 240
 #define SQL_RETURN_CODE_LEN 1000
@@ -23,11 +26,6 @@ wchar_t* GetWCharFromString(string inString)
 
     return outString;
 }
-void Get();
-void Put();
-void Delete(int id);
-void Update(string name, int id);
-
 
 SQLHANDLE sqlConnHandle;
 SQLHANDLE sqlStmtHandle;
@@ -36,19 +34,7 @@ SQLWCHAR retconstring[SQL_RETURN_CODE_LEN];
 SQLRETURN retcode;
 SQLLEN lenth;
 
-struct Users
-{
-    SQLINTEGER userID;
-    SQLCHAR userNameArr[FIELD_LEN];
-    SQLCHAR userSurnameArr[FIELD_LEN];
-    SQLCHAR userBithday[FIELD_LEN];
-    SQLCHAR userMail[FIELD_LEN];
-    SQLCHAR userPassword[FIELD_LEN];
-    SQLINTEGER userPoints;
-    SQLCHAR userRank[FIELD_LEN];
-};
 
-vector<Users> AllUsers;
 
 void completedConnections() 
 {
@@ -128,77 +114,83 @@ int main()
     //Put();
     //Delete(7);
     //Update("Stas", 9);
-    Get();
+    Users User;
+    User.Get();
+    /*auto result = User.GetData();
+
+    for_each(result.begin(), result.end(), [](auto x) {
+        x.Print();
+        });*/
 
     return 0;
 }
 
-void Get()
-{
-    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM USERS", SQL_NTS);
-
-    if (retcode == SQL_SUCCESS)
-    {
-        while (true)
-        {
-            retcode = SQLFetch(sqlStmtHandle);
-            if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
-            {
-                cout << "Error reading query!\n";
-            }
-            if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
-            {
-                Users newUser;
-                SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &newUser.userID, 0, &lenth);
-                SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, newUser.userNameArr, FIELD_LEN, &lenth);
-                SQLGetData(sqlStmtHandle, 3, SQL_C_CHAR, newUser.userSurnameArr, FIELD_LEN, &lenth);
-                SQLGetData(sqlStmtHandle, 4, SQL_C_CHAR, newUser.userBithday, FIELD_LEN, &lenth);
-                SQLGetData(sqlStmtHandle, 5, SQL_C_CHAR, newUser.userMail, FIELD_LEN, &lenth);
-                SQLGetData(sqlStmtHandle, 6, SQL_C_CHAR, newUser.userPassword, FIELD_LEN, &lenth);
-                SQLGetData(sqlStmtHandle, 7, SQL_C_ULONG, &newUser.userPoints, 0, &lenth);
-                SQLGetData(sqlStmtHandle, 8, SQL_C_CHAR, newUser.userRank, FIELD_LEN, &lenth);
-
-                AllUsers.emplace_back(newUser);
-
-                cout << newUser.userID << "\t" << newUser.userNameArr << "\t" << newUser.userSurnameArr
-                    << "\t" << newUser.userBithday << "\t" << newUser.userMail << "\t" << newUser.userPassword
-                    << "\t" << newUser.userPoints << "\t" << newUser.userRank;
-                cout << endl;
-            }
-            else break;
-        }
-    }
-}
-
-void Put()
-{
-    string put = "INSERT INTO Users VALUES('";
-    put += "Name";
-    put += "', 'Surname', '2002 - 01 - 01', 'testmail@gmail.com', 'testpass', 2, 'Novice');";
-
-    wstring wput = GetWCharFromString(put);
-
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
-}
-
-void Delete(int id)
-{
-    string sqldelete = "Delete from Users where user_Id = ";
-    sqldelete += to_string(id);
-
-    wstring wsqldelete = GetWCharFromString(sqldelete);
-
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
-}
-
-void Update(string name, int id)
-{
-    string update = "update Users set user_Name = '";
-    update += name;
-    update += "' where user_id = ";
-    update += to_string(id);
-
-    wstring wupdate = GetWCharFromString(update);
-
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wupdate.c_str(), SQL_NTS);
-}
+//void Get()
+//{
+//    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM USERS", SQL_NTS);
+//
+//    if (retcode == SQL_SUCCESS)
+//    {
+//        while (true)
+//        {
+//            retcode = SQLFetch(sqlStmtHandle);
+//            if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
+//            {
+//                cout << "Error reading query!\n";
+//            }
+//            if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
+//            {
+//                UsersStruct newUser;
+//                SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &newUser.userID, 0, &lenth);
+//                SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, newUser.userNameArr, FIELD_LEN, &lenth);
+//                SQLGetData(sqlStmtHandle, 3, SQL_C_CHAR, newUser.userSurnameArr, FIELD_LEN, &lenth);
+//                SQLGetData(sqlStmtHandle, 4, SQL_C_CHAR, newUser.userBithday, FIELD_LEN, &lenth);
+//                SQLGetData(sqlStmtHandle, 5, SQL_C_CHAR, newUser.userMail, FIELD_LEN, &lenth);
+//                SQLGetData(sqlStmtHandle, 6, SQL_C_CHAR, newUser.userPassword, FIELD_LEN, &lenth);
+//                SQLGetData(sqlStmtHandle, 7, SQL_C_ULONG, &newUser.userPoints, 0, &lenth);
+//                SQLGetData(sqlStmtHandle, 8, SQL_C_CHAR, newUser.userRank, FIELD_LEN, &lenth);
+//
+//                AllUsers.emplace_back(newUser);
+//
+//                cout << newUser.userID << "\t" << newUser.userNameArr << "\t" << newUser.userSurnameArr
+//                    << "\t" << newUser.userBithday << "\t" << newUser.userMail << "\t" << newUser.userPassword
+//                    << "\t" << newUser.userPoints << "\t" << newUser.userRank;
+//                cout << endl;
+//            }
+//            else break;
+//        }
+//    }
+//}
+//
+//void Put()
+//{
+//    string put = "INSERT INTO Users VALUES('";
+//    put += "Name";
+//    put += "', 'Surname', '2002 - 01 - 01', 'testmail@gmail.com', 'testpass', 2, 'Novice');";
+//
+//    wstring wput = GetWCharFromString(put);
+//
+//    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+//}
+//
+//void Delete(int id)
+//{
+//    string sqldelete = "Delete from Users where user_Id = ";
+//    sqldelete += to_string(id);
+//
+//    wstring wsqldelete = GetWCharFromString(sqldelete);
+//
+//    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+//}
+//
+//void Update(string name, int id)
+//{
+//    string update = "update Users set user_Name = '";
+//    update += name;
+//    update += "' where user_id = ";
+//    update += to_string(id);
+//
+//    wstring wupdate = GetWCharFromString(update);
+//
+//    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wupdate.c_str(), SQL_NTS);
+//}
