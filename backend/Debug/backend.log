@@ -1,6 +1,2 @@
-﻿  Users.cpp
-  backend.cpp
-  Создание кода...
-  LINK : не найден или не выполнена сборка D:\practice\todo-list-app\Debug\backend.exe при последней инкрементной компоновке; выполняется полная компоновка
-Users.obj : error LNK2005: "void * sqlConnHandle" (?sqlConnHandle@@3PAXA) уже определен в backend.obj
-D:\practice\todo-list-app\Debug\backend.exe : fatal error LNK1169: обнаружен многократно определенный символ - один или более
+﻿  TaskStatuses.cpp
+  backend.vcxproj -> D:\practice\todo-list-app\Debug\backend.exe

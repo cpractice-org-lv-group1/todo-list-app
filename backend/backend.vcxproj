@@ -141,10 +141,20 @@
   <ItemGroup>
     <ClCompile Include="backend.cpp" />
     <ClCompile Include="CrudOperations.cpp" />
+    <ClCompile Include="Friendships.cpp" />
+    <ClCompile Include="FriendStatuses.cpp" />
+    <ClCompile Include="TaskCategories.cpp" />
+    <ClCompile Include="Tasks.cpp" />
+    <ClCompile Include="TaskStatuses.cpp" />
     <ClCompile Include="Users.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrudOperations.h" />
+    <ClInclude Include="Friendships.h" />
+    <ClInclude Include="FriendStatuses.h" />
+    <ClInclude Include="TaskCategories.h" />
+    <ClInclude Include="Tasks.h" />
+    <ClInclude Include="TaskStatuses.h" />
     <ClInclude Include="Users.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -30,12 +30,42 @@
     <ClCompile Include="Users.cpp">
       <Filter>Source Files\CONTROLLERS</Filter>
     </ClCompile>
+    <ClCompile Include="Friendships.cpp">
+      <Filter>Source Files\CONTROLLERS</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks.cpp">
+      <Filter>Source Files\CONTROLLERS</Filter>
+    </ClCompile>
+    <ClCompile Include="FriendStatuses.cpp">
+      <Filter>Source Files\CONTROLLERS</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskStatuses.cpp">
+      <Filter>Source Files\CONTROLLERS</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskCategories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrudOperations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Users.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Friendships.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendStatuses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskStatuses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskCategories.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

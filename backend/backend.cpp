@@ -1,4 +1,9 @@
 #include "Users.h"
+#include "TaskStatuses.h"
+#include "Tasks.h"
+#include "FriendStatuses.h"
+#include "Friendships.h"
+
 
 #define SQL_RESULT_LEN 240
 #define SQL_RETURN_CODE_LEN 1000
@@ -106,6 +111,15 @@ int main()
     for_each(result.begin(), result.end(), [](auto x) {
         x.Print();
         });
+   
+    TaskStatuses objTaskStatus;
+    objTaskStatus.Get();
+    auto result2 = objTaskStatus.GetData();
+   
+    for_each(result2.begin(), result2.end(), [](auto x) {
+        x.Print();
+        });
+
 
     return 0;
 }
