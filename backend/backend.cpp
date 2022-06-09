@@ -1,17 +1,9 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <windows.h>
-#include <sqltypes.h>
-#include <sql.h>
-#include <sqlext.h>
-#include <algorithm>
-
 #include "Users.h"
 
 #define SQL_RESULT_LEN 240
 #define SQL_RETURN_CODE_LEN 1000
 #define FIELD_LEN 50
+
 
 using namespace std;
 
@@ -27,15 +19,6 @@ wchar_t* GetWCharFromString(string inString)
     return outString;
 }
 
-SQLHANDLE sqlConnHandle;
-SQLHANDLE sqlStmtHandle;
-SQLHANDLE sqlEnvHandle;
-SQLWCHAR retconstring[SQL_RETURN_CODE_LEN];
-SQLRETURN retcode;
-SQLLEN lenth;
-
-
-
 void completedConnections() 
 {
     SQLFreeHandle(SQL_HANDLE_STMT, sqlStmtHandle);
@@ -46,6 +29,8 @@ void completedConnections()
     cout << "\nPress any key to exit...";
     getchar();
 }
+
+
 
 
 int main() 
@@ -116,11 +101,11 @@ int main()
     //Update("Stas", 9);
     Users User;
     User.Get();
-    /*auto result = User.GetData();
+    auto result = User.GetData();
 
     for_each(result.begin(), result.end(), [](auto x) {
         x.Print();
-        });*/
+        });
 
     return 0;
 }

@@ -1,5 +1,4 @@
 #include "Users.h"
-#include "backend.cpp"
 
 vector<Users::UsersStruct> Users::GetData()
 {

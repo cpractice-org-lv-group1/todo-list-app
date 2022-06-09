@@ -4,12 +4,21 @@
 #include <string>
 #include <windows.h>
 #include <sqltypes.h>
+#include <algorithm>
 #include <sql.h>
 #include <sqlext.h>
 #include "CrudOperations.h"
 #define FIELD_LEN 50
 
 using namespace std;
+
+#define SQL_RETURN_CODE_LEN 1000
+__declspec(selectany)SQLHANDLE sqlConnHandle;
+__declspec(selectany)SQLHANDLE sqlStmtHandle;
+__declspec(selectany)SQLHANDLE sqlEnvHandle;
+__declspec(selectany)SQLWCHAR retconstring[SQL_RETURN_CODE_LEN];
+__declspec(selectany)SQLRETURN retcode;
+__declspec(selectany)SQLLEN lenth;
 
 class Users : public CrudOperations
 {
@@ -32,7 +41,7 @@ class Users : public CrudOperations
             cout << endl;
         }
     };
-    static vector<UsersStruct> AllUsers;
+    vector<UsersStruct> AllUsers;
 public: 
     void Get();
     vector<UsersStruct> GetData();

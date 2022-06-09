@@ -1,12 +1,6 @@
-﻿  backend.cpp
-Users.obj : error LNK2005: "wchar_t * __cdecl GetWCharFromString(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?GetWCharFromString@@YAPA_WV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) already defined in backend.obj
-Users.obj : error LNK2005: "void __cdecl completedConnections(void)" (?completedConnections@@YAXXZ) already defined in backend.obj
-Users.obj : error LNK2005: _main already defined in backend.obj
-Users.obj : error LNK2005: "void * sqlConnHandle" (?sqlConnHandle@@3PAXA) already defined in backend.obj
-Users.obj : error LNK2005: "void * sqlStmtHandle" (?sqlStmtHandle@@3PAXA) already defined in backend.obj
-Users.obj : error LNK2005: "void * sqlEnvHandle" (?sqlEnvHandle@@3PAXA) already defined in backend.obj
-Users.obj : error LNK2005: "wchar_t * retconstring" (?retconstring@@3PA_WA) already defined in backend.obj
-Users.obj : error LNK2005: "short retcode" (?retcode@@3FA) already defined in backend.obj
-Users.obj : error LNK2005: "long lenth" (?lenth@@3JA) already defined in backend.obj
-Users.obj : error LNK2001: unresolved external symbol "private: static class std::vector<struct Users::UsersStruct,class std::allocator<struct Users::UsersStruct> > Users::AllUsers" (?AllUsers@Users@@0V?$vector@UUsersStruct@Users@@V?$allocator@UUsersStruct@Users@@@std@@@std@@A)
-C:\Users\alex2\Desktop\backend\backend\todo-list-app\Debug\backend.exe : fatal error LNK1120: 1 unresolved externals
+﻿  Users.cpp
+  backend.cpp
+  Создание кода...
+  LINK : не найден или не выполнена сборка D:\practice\todo-list-app\Debug\backend.exe при последней инкрементной компоновке; выполняется полная компоновка
+Users.obj : error LNK2005: "void * sqlConnHandle" (?sqlConnHandle@@3PAXA) уже определен в backend.obj
+D:\practice\todo-list-app\Debug\backend.exe : fatal error LNK1169: обнаружен многократно определенный символ - один или более
