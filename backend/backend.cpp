@@ -1,11 +1,13 @@
+#include "Users.h"
+#include "TaskStatuses.h"
+#include "Tasks.h"
+#include "TaskCategories.h"
+#include "FriendStatuses.h"
+#include "Friendships.h"
+#include "config.h"
 #include "CRUD.h"
 
-
-
-#define SQL_RESULT_LEN 240
-#define SQL_RETURN_CODE_LEN 1000
 #define FIELD_LEN 50
-
 
 using namespace std;
 
@@ -100,21 +102,7 @@ int main()
 
 
     //USERS
-   /* Users User;
-    User.Get();
-    auto result = User.GetData();
-    for_each(result.begin(), result.end(), [](auto x) {
-        x.Print();
-        });
-    cout << "\n";*/
-    //CRU
-   //auto result = CRUD::Get("Users");
-   //for_each(result.begin(), result.end(), [](auto x) {
-   //    x.Print();
-   //    });
-   //cout << "\n";
-    
-   auto result =any_cast<Users> (CRUD::Get("Users")).GetData();
+    auto result = CRUD::Get<Users>().GetData();
 
    for_each(result.begin(), result.end(), [](auto x) {
        x.Print();
@@ -122,45 +110,35 @@ int main()
    cout << "\n";
 
     //TASKS
-    Tasks Task;
-    Task.Get();
-    auto result2 = Task.GetData();
+   auto result2 = CRUD::Get<Tasks>().GetData();
     for_each(result2.begin(), result2.end(), [](auto x) {
         x.Print();
         });
     cout << "\n";
 
     //TASK Statuses
-    TaskStatuses Taskstatus;
-    Taskstatus.Get();
-    auto result3 = Taskstatus.GetData();
+    auto result3 = CRUD::Get<TaskStatuses>().GetData();
     for_each(result3.begin(), result3.end(), [](auto x) {
         x.Print();
         });
     cout << "\n";
 
-    //Friendships 
-    Friendships Fr;
-    Fr.Get();
-    auto result4 = Fr.GetData();
+    //Friendships
+    auto result4 = CRUD::Get<Friendships>().GetData();
     for_each(result4.begin(), result4.end(), [](auto x) {
         x.Print();
         });
     cout << "\n";
 
     //Friendship statuses
-    FriendStatuses Frstatus;
-    Frstatus.Get();
-    auto result5 = Frstatus.GetData();
+    auto result5 = CRUD::Get<FriendStatuses>().GetData();
     for_each(result5.begin(), result5.end(), [](auto x) {
         x.Print();
         });
     cout << "\n";
 
     //TASKS Categories
-    TaskCategories TaskCategorie;
-    TaskCategorie.Get();
-    auto result6 = TaskCategorie.GetData();
+    auto result6 = CRUD::Get<TaskCategories>().GetData();
     for_each(result6.begin(), result6.end(), [](auto x) {
         x.Print();
         });

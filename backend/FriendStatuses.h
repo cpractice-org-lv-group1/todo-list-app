@@ -1,14 +1,6 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <string>
-#include <windows.h>
-#include <sqltypes.h>
-#include <algorithm>
-#include <sql.h>
-#include <sqlext.h>
 #include "iCrudOperations.h"
-#include "Users.h"
+#include "config.h"
 #define FIELD_LEN 50
 
 using namespace std;

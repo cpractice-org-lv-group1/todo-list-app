@@ -71,7 +71,7 @@
     <ClInclude Include="CRUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnumTables.h">
+    <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

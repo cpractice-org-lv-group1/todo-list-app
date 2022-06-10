@@ -150,7 +150,7 @@
     <ClCompile Include="Users.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EnumTables.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="iCrudOperations.h" />
     <ClInclude Include="Friendships.h" />
     <ClInclude Include="FriendStatuses.h" />
