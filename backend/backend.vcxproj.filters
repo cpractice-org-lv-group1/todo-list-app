@@ -13,19 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\CRUD_INTERFACE">
-      <UniqueIdentifier>{55bec10e-e1b6-405e-aabf-0eb9bfbd09b1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\CONTROLLERS">
       <UniqueIdentifier>{3004dc57-5918-4be5-ad78-89af225df757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CRUD">
+      <UniqueIdentifier>{20394fef-f30e-4296-945f-4bb63ce9069e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="backend.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CrudOperations.cpp">
-      <Filter>Source Files\CRUD_INTERFACE</Filter>
     </ClCompile>
     <ClCompile Include="Users.cpp">
       <Filter>Source Files\CONTROLLERS</Filter>
@@ -45,9 +42,12 @@
     <ClCompile Include="TaskCategories.cpp">
       <Filter>Source Files\CONTROLLERS</Filter>
     </ClCompile>
+    <ClCompile Include="CRUD.cpp">
+      <Filter>Source Files\CRUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CrudOperations.h">
+    <ClInclude Include="iCrudOperations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Users.h">
@@ -66,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TaskCategories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CRUD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumTables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

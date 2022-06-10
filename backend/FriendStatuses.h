@@ -7,13 +7,13 @@
 #include <algorithm>
 #include <sql.h>
 #include <sqlext.h>
-#include "CrudOperations.h"
+#include "iCrudOperations.h"
 #include "Users.h"
 #define FIELD_LEN 50
 
 using namespace std;
 
-class FriendStatuses : public CrudOperations
+class FriendStatuses : public iCrudOperations
 {
     struct FriendStatusesStruct
     {

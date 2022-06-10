@@ -1,2 +1,12 @@
-﻿  TaskCategories.cpp
-  backend.vcxproj -> C:\Users\alex2\Desktop\backend\backend\todo-list-app\Debug\backend.exe
+﻿  backend.cpp
+D:\practice\todo-list-app\backend\CRUD.h(47,2): warning C4091: static : пропускается слева от "CRUD", когда ни одна переменная не объявлена
+  CRUD.cpp
+  Friendships.cpp
+  FriendStatuses.cpp
+  TaskCategories.cpp
+  Tasks.cpp
+  TaskStatuses.cpp
+  Users.cpp
+  Создание кода...
+D:\practice\todo-list-app\backend\CRUD.h(46): warning C4715: CRUD::Get: значение возвращается не при всех путях выполнения
+  backend.vcxproj -> D:\practice\todo-list-app\Debug\backend.exe

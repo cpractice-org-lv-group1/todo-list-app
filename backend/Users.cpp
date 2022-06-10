@@ -8,6 +8,7 @@ vector<Users::UsersStruct> Users::GetData()
 
 void Users::Get()
 {
+
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM USERS", SQL_NTS);
 
     if (retcode == SQL_SUCCESS)

@@ -7,7 +7,8 @@
 #include <algorithm>
 #include <sql.h>
 #include <sqlext.h>
-#include "CrudOperations.h"
+#include "Header.h"
+#include "iCrudOperations.h"
 #define FIELD_LEN 50
 
 using namespace std;
@@ -20,7 +21,7 @@ __declspec(selectany)SQLWCHAR retconstring[SQL_RETURN_CODE_LEN];
 __declspec(selectany)SQLRETURN retcode;
 __declspec(selectany)SQLLEN lenth;
 
-class Users : public CrudOperations
+class Users : public iCrudOperations
 {
     struct UsersStruct
     {

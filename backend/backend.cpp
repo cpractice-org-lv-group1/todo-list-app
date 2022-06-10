@@ -1,9 +1,5 @@
-#include "Users.h"
-#include "TaskStatuses.h"
-#include "Tasks.h"
-#include "TaskCategories.h"
-#include "FriendStatuses.h"
-#include "Friendships.h"
+#include "CRUD.h"
+
 
 
 #define SQL_RESULT_LEN 240
@@ -104,13 +100,26 @@ int main()
 
 
     //USERS
-    Users User;
+   /* Users User;
     User.Get();
     auto result = User.GetData();
     for_each(result.begin(), result.end(), [](auto x) {
         x.Print();
         });
-    cout << "\n";
+    cout << "\n";*/
+    //CRU
+   //auto result = CRUD::Get("Users");
+   //for_each(result.begin(), result.end(), [](auto x) {
+   //    x.Print();
+   //    });
+   //cout << "\n";
+    
+   auto result =any_cast<Users> (CRUD::Get("Users")).GetData();
+
+   for_each(result.begin(), result.end(), [](auto x) {
+       x.Print();
+       });
+   cout << "\n";
 
     //TASKS
     Tasks Task;

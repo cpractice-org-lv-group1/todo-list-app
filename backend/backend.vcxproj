@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="backend.cpp" />
-    <ClCompile Include="CrudOperations.cpp" />
+    <ClCompile Include="CRUD.cpp" />
     <ClCompile Include="Friendships.cpp" />
     <ClCompile Include="FriendStatuses.cpp" />
     <ClCompile Include="TaskCategories.cpp" />
@@ -149,9 +150,11 @@
     <ClCompile Include="Users.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CrudOperations.h" />
+    <ClInclude Include="EnumTables.h" />
+    <ClInclude Include="iCrudOperations.h" />
     <ClInclude Include="Friendships.h" />
     <ClInclude Include="FriendStatuses.h" />
+    <ClInclude Include="CRUD.h" />
     <ClInclude Include="TaskCategories.h" />
     <ClInclude Include="Tasks.h" />
     <ClInclude Include="TaskStatuses.h" />
