@@ -16,8 +16,17 @@
     <Filter Include="Source Files\CONTROLLERS">
       <UniqueIdentifier>{3004dc57-5918-4be5-ad78-89af225df757}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\CRUD">
-      <UniqueIdentifier>{20394fef-f30e-4296-945f-4bb63ce9069e}</UniqueIdentifier>
+    <Filter Include="Source Files\SOCKETS">
+      <UniqueIdentifier>{07e88544-0d51-4e5e-8248-5c0476a70fd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SOCKETS">
+      <UniqueIdentifier>{ad6ec589-7e67-4da4-9905-7f2dfef9d738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MODELSdbo">
+      <UniqueIdentifier>{ce188c5f-4be8-4ad4-82f4-8cdde0a61a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CRUD">
+      <UniqueIdentifier>{c655de34-fcf0-4289-a96f-7f3127863908}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,37 +51,58 @@
     <ClCompile Include="TaskCategories.cpp">
       <Filter>Source Files\CONTROLLERS</Filter>
     </ClCompile>
-    <ClCompile Include="CRUD.cpp">
-      <Filter>Source Files\CRUD</Filter>
+    <ClCompile Include="clientSocket.cpp">
+      <Filter>Source Files\SOCKETS</Filter>
+    </ClCompile>
+    <ClCompile Include="serverSocket.cpp">
+      <Filter>Source Files\SOCKETS</Filter>
+    </ClCompile>
+    <ClCompile Include="WSA_loader.cpp">
+      <Filter>Source Files\SOCKETS</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source Files\SOCKETS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="iCrudOperations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Users.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Friendships.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tasks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FriendStatuses.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskStatuses.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskCategories.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CRUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clientSocket.h">
+      <Filter>Header Files\SOCKETS</Filter>
+    </ClInclude>
+    <ClInclude Include="Friendships.h">
+      <Filter>Header Files\MODELSdbo</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendStatuses.h">
+      <Filter>Header Files\MODELSdbo</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskCategories.h">
+      <Filter>Header Files\MODELSdbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks.h">
+      <Filter>Header Files\MODELSdbo</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskStatuses.h">
+      <Filter>Header Files\MODELSdbo</Filter>
+    </ClInclude>
+    <ClInclude Include="Users.h">
+      <Filter>Header Files\MODELSdbo</Filter>
+    </ClInclude>
+    <ClInclude Include="CRUD.h">
+      <Filter>Header Files\CRUD</Filter>
+    </ClInclude>
+    <ClInclude Include="iCrudOperations.h">
+      <Filter>Header Files\CRUD</Filter>
+    </ClInclude>
+    <ClInclude Include="serverSocket.h">
+      <Filter>Header Files\SOCKETS</Filter>
+    </ClInclude>
+    <ClInclude Include="WSA_loader.h">
+      <Filter>Header Files\SOCKETS</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Header Files\SOCKETS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

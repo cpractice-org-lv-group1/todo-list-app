@@ -141,24 +141,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="backend.cpp" />
-    <ClCompile Include="CRUD.cpp" />
+    <ClCompile Include="clientSocket.cpp" />
     <ClCompile Include="Friendships.cpp" />
     <ClCompile Include="FriendStatuses.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="serverSocket.cpp" />
     <ClCompile Include="TaskCategories.cpp" />
     <ClCompile Include="Tasks.cpp" />
     <ClCompile Include="TaskStatuses.cpp" />
     <ClCompile Include="Users.cpp" />
+    <ClCompile Include="WSA_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="clientSocket.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="iCrudOperations.h" />
     <ClInclude Include="Friendships.h" />
     <ClInclude Include="FriendStatuses.h" />
     <ClInclude Include="CRUD.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="serverSocket.h" />
     <ClInclude Include="TaskCategories.h" />
     <ClInclude Include="Tasks.h" />
     <ClInclude Include="TaskStatuses.h" />
     <ClInclude Include="Users.h" />
+    <ClInclude Include="WSA_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

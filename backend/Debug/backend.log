@@ -1,6 +1,4 @@
 ﻿  backend.cpp
+D:\practice\todo-list-app\backend\WSA_loader.h(12,3): warning C4091: static : пропускается слева от "WSA_loader", когда ни одна переменная не объявлена
 D:\practice\todo-list-app\backend\CRUD.h(13,2): warning C4091: static : пропускается слева от "CRUD", когда ни одна переменная не объявлена
-D:\practice\todo-list-app\backend\backend.cpp(272,20): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "3" имеет тип "u_short (__stdcall *)(u_short)"
-D:\practice\todo-list-app\backend\backend.cpp(272,183): warning C4474: "printf" : для строки формата передано слишком много аргументов
-D:\practice\todo-list-app\backend\backend.cpp(272,183): message : заполнители и их параметры ожидают переменное число аргументов в количестве 3, но было предоставлено 4
   backend.vcxproj -> D:\practice\todo-list-app\Debug\backend.exe
