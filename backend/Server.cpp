@@ -1,4 +1,6 @@
 #include "Server.h"
+#include "Users.h"
+#include "CRUD.h"
 #define DEFAULT_BUFLEN 4096
 
 void Server::Initiliaze() 
@@ -10,8 +12,84 @@ void Server::Initiliaze()
 	server_socket.Listen(10);
 }
 
+bool myCompare(char* first, char* second, int length) 
+{
+	for (int i = 0; i < length; i++) {
+		if (first[i] != second[i]) 
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+
 void Server::RunSERVER() 
 {
+	//initializations
+    sqlConnHandle = NULL;
+    sqlStmtHandle = NULL;
+
+    //allocations
+    if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sqlEnvHandle))
+        completedConnections();
+
+    if (SQL_SUCCESS != SQLSetEnvAttr(sqlEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
+        completedConnections();
+
+    if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, sqlEnvHandle, &sqlConnHandle))
+        completedConnections();
+
+    //output
+    cout << "Attempting connection to SQL Server...";
+    cout << "\n";
+
+    switch (SQLDriverConnect(sqlConnHandle,
+        NULL,
+        (SQLWCHAR*)L"DRIVER={SQL Server};SERVER=mnkserver.database.windows.net, 1433;DATABASE=TodolistDB;UID=sanyok;PWD=!Politech;",
+        SQL_NTS,
+        retconstring,
+        1024,
+        NULL,
+        SQL_DRIVER_NOPROMPT)) {
+
+    case SQL_SUCCESS || SQL_SUCCESS_WITH_INFO :
+        cout << "Successfully connected to SQL Server";
+        cout << "\n";
+        break;
+
+    case SQL_INVALID_HANDLE:
+        cout << "Could not connect to SQL Server";
+        cout << "\n";
+        completedConnections();
+
+    case SQL_ERROR:
+        cout << "Could not connect to SQL Server";
+        cout << "\n";
+        completedConnections();
+
+    default:
+        break;
+    }
+
+    //if there is a problem connecting then exit application
+    if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
+        completedConnections();
+
+    //output
+    cout << "\n";
+    cout << "Executing query...";
+    cout << "\n";
+
+
+    //USERS
+    auto users = CRUD::Get<Users>("ivanglina").GetCurrentUser();
+	users.Print();
+ /*  for_each(users.begin(), users.end(), [](auto x) {
+       x.Print();
+       });
+   cout << "\n";*/
+
 	Initiliaze();
 
 	while (true) {
@@ -42,8 +120,8 @@ void Server::RunSERVER()
 				std::cout << "Exiting from server: ACCEPT error";
 				return;
 			};
-			char buf[4096];
-			printf("New connection, socket fd is %d, ip is: %s, port: %d\n", new_socket,inet_ntop(AF_INET, &address.sin_addr,buf,4096), ntohs(address.sin_port));
+			char buf[512];
+			printf("New connection, socket fd is %d, ip is: %s, port: %d\n", new_socket,inet_ntop(AF_INET, &address.sin_addr,buf,512), ntohs(address.sin_port));
 
 			client_socket.AddNewClientToArray(new_socket);
 		}
@@ -58,20 +136,16 @@ void Server::RunSERVER()
 				// get details of the client
 				getpeername(s, (sockaddr*)&address, (int*)&addrlen);
 
-				// check if it was for closing, and also read the incoming message
-				// recv does not place a null terminator at the end of the string (whilst printf %s assumes there is one)
-
 				char client_message[DEFAULT_BUFLEN];
 
 				int client_message_length = recv(s, client_message, DEFAULT_BUFLEN, 0);
-				client_message[client_message_length] = '\0';
 
-				for (int i = 0; i < 10; i++) {
-					if (client_socket.GetClientArrayById(i) != 0) {
-						SendMSG(client_message, i);
-					}
+				char hello[5] = { 'h','e','l','l', 'o' };
+
+				if (myCompare(client_message, hello, 5)) 
+				{
+					//SendMSG(users[0].JSON(), i);
 				}
-
 			}
 		}
 	}

@@ -10,4 +10,11 @@ public:
 		  obj.Get();
 		  return obj;
 	  }
+	  template <class T>
+	  static T Get(string email)
+	  {
+		  T obj;
+		  obj.Get(email);
+		  return obj;
+	  }
 };
