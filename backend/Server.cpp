@@ -139,13 +139,24 @@ void Server::RunSERVER()
 				char client_message[DEFAULT_BUFLEN];
 
 				int client_message_length = recv(s, client_message, DEFAULT_BUFLEN, 0);
+				client_message[client_message_length-1] = '\0';
 
-				char hello[5] = { 'h','e','l','l', 'o' };
-
-				if (myCompare(client_message, hello, 5)) 
+				string s_client_message(client_message);
+				// Find first occurrence of "geeks"
+				size_t found = s_client_message.find("Email");
+				cout << found;
+				string email = "";
+				int index = found + 9;
+				while (true)
 				{
-					//SendMSG(users[0].JSON(), i);
+					if (client_message[index] == '"') break;
+					email += client_message[index];
+					++index;
 				}
+
+				int userId = CRUD::Get<Users>(email).GetCurrentUser().userID;
+				
+				SendMSG(to_string(userId), i);
 			}
 		}
 	}

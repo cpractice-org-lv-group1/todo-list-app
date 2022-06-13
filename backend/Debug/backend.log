@@ -1,4 +1,4 @@
 ﻿  Server.cpp
-D:\practice\todo-list-app\backend\WSA_loader.h(12,3): warning C4091: static : пропускается слева от "WSA_loader", когда ни одна переменная не объявлена
-D:\practice\todo-list-app\backend\CRUD.h(20,2): warning C4091: static : пропускается слева от "CRUD", когда ни одна переменная не объявлена
-  backend.vcxproj -> D:\practice\todo-list-app\Debug\backend.exe
+C:\Users\alex2\Desktop\backend\backend\todo-list-app\backend\WSA_loader.h(12,3): warning C4091: 'static ': ignored on left of 'WSA_loader' when no variable is declared
+C:\Users\alex2\Desktop\backend\backend\todo-list-app\backend\CRUD.h(20,2): warning C4091: 'static ': ignored on left of 'CRUD' when no variable is declared
+  backend.vcxproj -> C:\Users\alex2\Desktop\backend\backend\todo-list-app\Debug\backend.exe
