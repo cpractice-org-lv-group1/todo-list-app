@@ -11,11 +11,12 @@ Registration::Registration(QWidget *parent)
     connect(this, &Registration::mySignal, form, &Form::slot);
     connect(form, SIGNAL(backSignal()), this, SLOT(ChangeWin()));
 
-
     socket = new QTcpSocket(this);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockReady()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(sockDisc()));
     socket->connectToHost("127.0.0.1", 8888);
+
+    ifOpen = true;
 }
 
 Registration::~Registration()
@@ -27,10 +28,6 @@ Registration::~Registration()
 
 void Registration::on_pushButton_clicked()
 {
-   this->hide();
-    form->show();
-    emit mySignal(ui->LogEmail->toPlainText());
-
 
     QJsonObject User
     {
@@ -50,13 +47,14 @@ void Registration::on_pushButton_clicked()
         socket-> write(jsString.toLatin1());
     }
 
-    qDebug() << formatted;
+    qDebug() << formatted; 
 }
 
 void Registration::ChangeWin()
 {
     this->show();
     form->hide();
+    ifOpen = true;
 }
 
 void Registration::sockDisc()
@@ -66,12 +64,20 @@ void Registration::sockDisc()
 
 void Registration::sockReady()
 {
-    qDebug()<< "Connected";
-    if (socket->waitForConnected(500))
+    if(ifOpen)
     {
-        socket->waitForReadyRead(500);
-        Data = socket->readAll();
-        qDebug()<<Data;
+        if (socket->waitForConnected(500))
+        {
+            socket->waitForReadyRead(500);
+            Data = socket->readAll();
+            QString sData(Data);
+            Id = sData.toInt();
+            qDebug() << Id;
+        }
+        this->hide();
+        form->show();
+        ifOpen = false;
+        emit mySignal(Id, socket);
     }
 }
 

@@ -28,9 +28,11 @@ public:
 
     QJsonDocument doc;
     QJsonParseError docError;
+    bool ifOpen;
+    int Id;
 
 signals:
-    void mySignal(QString id);
+    void mySignal(int id, QTcpSocket *sock);
 
 private slots:
     void on_pushButton_clicked();
