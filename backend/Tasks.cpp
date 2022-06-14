@@ -2,13 +2,22 @@
 
 vector<Tasks::TasksStruct> Tasks::GetData()
 {
-    return AllTasks;
+    return CurrentTasks;
 }
 
 
 void Tasks::Get()
 {
-    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM Tasks", SQL_NTS);
+
+}
+
+void Tasks::Get(int id)
+{
+    string put = "SELECT * FROM Tasks where task_User =";
+    put += to_string(id);
+    wstring wput = GetWCharFromString(put);
+
+    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
     if (retcode == SQL_SUCCESS)
     {
@@ -44,7 +53,7 @@ void Tasks::Get()
                     newTask.task_Real_End_Time[3] = none[3];
                     newTask.task_Real_End_Time[4] = '\0';
                 }
-                AllTasks.emplace_back(newTask);
+                CurrentTasks.emplace_back(newTask);
             }
             else break;
         }
@@ -55,3 +64,5 @@ void Tasks::Get()
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
+
+

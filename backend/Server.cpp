@@ -1,6 +1,8 @@
 #include "Server.h"
 #include "Users.h"
+#include "Tasks.h"
 #include "CRUD.h"
+#include <algorithm>
 #define DEFAULT_BUFLEN 4096
 
 void Server::Initiliaze() 
@@ -82,9 +84,17 @@ void Server::RunSERVER()
     cout << "\n";
 
 
-    //USERS
-    auto users = CRUD::Get<Users>("ivanglina").GetCurrentUser();
-	users.Print();
+    //Test
+
+	/*auto data = CRUD::Get<Tasks>(1).GetData();
+	string result = "";
+	for (auto x : data)
+	{
+		result += x.JSON();
+		result += ',';
+	}
+	result[result.length() - 1] = '\0';*/
+
  /*  for_each(users.begin(), users.end(), [](auto x) {
        x.Print();
        });
@@ -142,21 +152,57 @@ void Server::RunSERVER()
 				client_message[client_message_length-1] = '\0';
 
 				string s_client_message(client_message);
-				// Find first occurrence of "geeks"
-				size_t found = s_client_message.find("Email");
-				cout << found;
-				string email = "";
-				int index = found + 9;
+				cout << s_client_message << endl << endl;
+
+				size_t operation_pos = s_client_message.find("Operation");
+				string operation = "";
+				int operation_index = operation_pos + 13;
 				while (true)
 				{
-					if (client_message[index] == '"') break;
-					email += client_message[index];
-					++index;
+					if (s_client_message[operation_index] == '"') break;
+					operation += s_client_message[operation_index];
+					++operation_index;
 				}
+				//LoginGetTasks
+				if (operation == "Login")
+				{
+					size_t found = s_client_message.find("Email");
+					string email = "";
+					int index = found + 9;
+					while (true)
+					{
+						if (s_client_message[index] == '"') break;
+						email += s_client_message[index];
+						++index;
+					}
 
-				int userId = CRUD::Get<Users>(email).GetCurrentUser().userID;
-				
-				SendMSG(to_string(userId), i);
+					int userId = CRUD::Get<Users>(email).GetCurrentUser().userID;
+
+					SendMSG(to_string(userId), i);
+				}
+				else if(operation == "GetTasks")
+				{
+					size_t found = s_client_message.find("Id");
+					string id = "";
+					int index = found + 5;
+					while (true)
+					{
+						if (s_client_message[index] == ',') break;
+						id += s_client_message[index];
+						++index;
+					}
+					int Id = stoi(id);
+					auto data = CRUD::Get<Tasks>(Id).GetData();
+					string result = "";
+					for (auto x : data)
+					{
+						result += x.JSON();
+						result += ',';
+					}
+					result[result.length() - 1] = '\0';
+
+					SendMSG(result, i);
+				}
 			}
 		}
 	}
