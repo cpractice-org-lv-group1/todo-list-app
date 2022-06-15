@@ -17,6 +17,11 @@ SOCKET clientSocket::GetClientArrayById(int i)
 	return client_socketArray[i];
 }
 
+void clientSocket::clearSocket(int i)
+{
+	client_socketArray[i] = 0;
+}
+
 bool clientSocket::InitClientSocket() 
 {
 	// add child sockets to fdset

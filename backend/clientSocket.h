@@ -11,6 +11,7 @@ public:
 
 	fd_set* GetFD_SET();
 	SOCKET GetClientArrayById(int i);
+	void clearSocket(int i);
 private:
 	fd_set readfds;
 	SOCKET client_socketArray[10] = {};

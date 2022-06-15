@@ -139,69 +139,83 @@ void Server::RunSERVER()
 		// if some of client sockets sends something
 		for (int i = 0; i < 10; i++)
 		{
-			SOCKET s = client_socket.GetClientArrayById(i);
+			SOCKET tempSocket = client_socket.GetClientArrayById(i);
 			// if client presend in read sockets
-			if (FD_ISSET(s, client_socket.GetFD_SET()))
+			if (FD_ISSET(tempSocket, client_socket.GetFD_SET()))
 			{
-				// get details of the client
-				getpeername(s, (sockaddr*)&address, (int*)&addrlen);
-
+				//Check if it was for closing , and also read the 
+				//incoming message
+				int client_message_length;
 				char client_message[DEFAULT_BUFLEN];
+				ZeroMemory(client_message, DEFAULT_BUFLEN);
 
-				int client_message_length = recv(s, client_message, DEFAULT_BUFLEN, 0);
-				client_message[client_message_length-1] = '\0';
-
-				string s_client_message(client_message);
-				cout << s_client_message << endl << endl;
-
-				size_t operation_pos = s_client_message.find("Operation");
-				string operation = "";
-				int operation_index = operation_pos + 13;
-				while (true)
+				if ((client_message_length = recv(tempSocket, client_message, DEFAULT_BUFLEN,0)) == 0)
 				{
-					if (s_client_message[operation_index] == '"') break;
-					operation += s_client_message[operation_index];
-					++operation_index;
+					//Somebody disconnected , get his details and print 
+					getpeername(tempSocket, (sockaddr*)&address, (int*)&addrlen);
+					printf("Host disconnected , ip %s , port %d \n", inet_ntop(AF_INET, &address.sin_addr,
+						client_message, DEFAULT_BUFLEN), ntohs(address.sin_port));
+
+					closesocket(tempSocket);
+					client_socket.clearSocket(i);
 				}
-				//LoginGetTasks
-				if (operation == "Login")
+				else
 				{
-					size_t found = s_client_message.find("Email");
-					string email = "";
-					int index = found + 9;
+					client_message_length = recv(tempSocket, client_message, DEFAULT_BUFLEN, 0);
+					client_message[client_message_length - 1] = '\0';
+
+					string s_client_message(client_message);
+					cout << s_client_message << endl << endl;
+
+					size_t operation_pos = s_client_message.find("Operation");
+					string operation = "";
+					int operation_index = operation_pos + 13;
 					while (true)
 					{
-						if (s_client_message[index] == '"') break;
-						email += s_client_message[index];
-						++index;
+						if (s_client_message[operation_index] == '"') break;
+						operation += s_client_message[operation_index];
+						++operation_index;
 					}
-
-					int userId = CRUD::Get<Users>(email).GetCurrentUser().userID;
-
-					SendMSG(to_string(userId), i);
-				}
-				else if(operation == "GetTasks")
-				{
-					size_t found = s_client_message.find("Id");
-					string id = "";
-					int index = found + 5;
-					while (true)
+					//LoginGetTasks
+					if (operation == "Login")
 					{
-						if (s_client_message[index] == ',') break;
-						id += s_client_message[index];
-						++index;
-					}
-					int Id = stoi(id);
-					auto data = CRUD::Get<Tasks>(Id).GetData();
-					string result = "";
-					for (auto x : data)
-					{
-						result += x.JSON();
-						result += ',';
-					}
-					result[result.length() - 1] = '\0';
+						size_t found = s_client_message.find("Email");
+						string email = "";
+						int index = found + 9;
+						while (true)
+						{
+							if (s_client_message[index] == '"') break;
+							email += s_client_message[index];
+							++index;
+						}
 
-					SendMSG(result, i);
+						int userId = CRUD::Get<Users>(email).GetCurrentUser().userID;
+
+						SendMSG(to_string(userId), i);
+					}
+					else if (operation == "GetTasks")
+					{
+						size_t found = s_client_message.find("Id");
+						string id = "";
+						int index = found + 5;
+						while (true)
+						{
+							if (s_client_message[index] == ',') break;
+							id += s_client_message[index];
+							++index;
+						}
+						int Id = stoi(id);
+						auto data = CRUD::Get<Tasks>(Id).GetData();
+						string result = "";
+						for (auto x : data)
+						{
+							result += x.JSON();
+							result += ',';
+						}
+						result[result.length() - 1] = '\0';
+
+						SendMSG(result, i);
+					}
 				}
 			}
 		}
