@@ -6,8 +6,6 @@ Form::Form(QWidget *parent) :
     ui(new Ui::Form)
 {
     ui->setupUi(this);
-
-
 }
 
 Form::~Form()

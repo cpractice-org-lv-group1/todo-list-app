@@ -17,6 +17,15 @@ Registration::Registration(QWidget *parent)
     socket->connectToHost("127.0.0.1", 8888);
 
     ifOpen = true;
+
+    //UI
+    ui->GoToLog->setStyleSheet("border: none;color: palette(window-text);background: transparent;");
+    ui->GoToSign->setStyleSheet("border: none;color: palette(window-text);background: transparent;");
+
+    //On Load
+    connect(this, &Registration::ShowLogIn, this, &Registration::ShowLogInSlot);
+    connect(this, &Registration::ShowSignUp, this, &Registration::ShowSignUpSlot);
+    emit ShowLogIn();
 }
 
 Registration::~Registration()
@@ -26,9 +35,8 @@ Registration::~Registration()
 }
 
 
-void Registration::on_pushButton_clicked()
+void Registration::on_LoginButton_clicked()
 {
-
     QJsonObject User
     {
         {"Operation", "Login"},
@@ -47,7 +55,7 @@ void Registration::on_pushButton_clicked()
         socket-> write(jsString.toLatin1());
     }
 
-    qDebug() << formatted; 
+    qDebug() << formatted;
 }
 
 void Registration::ChangeWin()
@@ -79,5 +87,125 @@ void Registration::sockReady()
         ifOpen = false;
         emit mySignal(Id, socket);
     }
+}
+
+void Registration::on_GoToSign_clicked()
+{
+    emit ShowSignUp();
+    ui->Img->move(400,0);
+}
+
+
+void Registration::on_GoToLog_clicked()
+{
+    emit ShowLogIn();
+    ui->Img->move(0,0);
+    ui->SignUpButton->move(160,350);
+}
+
+void Registration::ShowLogInSlot()
+{
+    ui->SignUp_label->hide();
+    ui->SignUpName->hide();
+    ui->SignUpName_label->hide();
+    ui->SignUpSurname->hide();
+    ui->SignUpSurname_label->hide();
+    ui->SignUpBirth->hide();
+    ui->SignUpBirthday_label->hide();
+    ui->SignUpPass->hide();
+    ui->SignUpPass_label->hide();
+    ui->SignUpPass2->hide();
+    ui->SignUpPass2_label->hide();
+    ui->SignUpEmail->hide();
+    ui->SignUpEmail_label->hide();
+    ui->GoToLog->hide();
+    ui->HaveAcc_label->hide();
+    ui->SignUpButton->hide();
+    ui->SignUpBackButton->hide();
+
+    ui->LogIn_label->show();
+    ui->LogEmail->show();
+    ui->LogEmail_label->show();
+    ui->LogPass->show();
+    ui->LogPass_label->show();
+    ui->LoginButton->show();
+    ui->NeedAcc_label->show();
+    ui->GoToSign->show();
+}
+
+void Registration::ShowSignUpSlot()
+{
+    ui->SignUp_label->show();
+    ui->SignUpName->show();
+    ui->SignUpName_label->show();
+    ui->SignUpSurname->show();
+    ui->SignUpSurname_label->show();
+    ui->SignUpBirth->show();
+    ui->SignUpBirthday_label->show();
+    ui->GoToLog->show();
+    ui->HaveAcc_label->show();
+    ui->SignUpButton->show();
+
+    ui->LogIn_label->hide();
+    ui->LogEmail->hide();
+    ui->LogEmail_label->hide();
+    ui->LogPass->hide();
+    ui->LogPass_label->hide();
+    ui->LoginButton->hide();
+    ui->NeedAcc_label->hide();
+    ui->GoToSign->hide();
+
+    ui->SignUpButton->setText("Next");
+}
+
+//when user filled name, surname and birthday
+void Registration::on_SignUpButton_clicked()
+{
+    //case if fields are good
+    if(ui->SignUpButton->text() == "Next")
+    {
+        ui->SignUpPass->show();
+        ui->SignUpPass_label->show();
+        ui->SignUpPass2->show();
+        ui->SignUpPass2_label->show();
+        ui->SignUpEmail->show();
+        ui->SignUpEmail_label->show();
+        ui->SignUpBackButton->show();
+        ui->SignUpButton->move(230,350);
+
+        ui->SignUpName->hide();
+        ui->SignUpName_label->hide();
+        ui->SignUpSurname->hide();
+        ui->SignUpSurname_label->hide();
+        ui->SignUpBirth->hide();
+        ui->SignUpBirthday_label->hide();
+
+        ui->SignUpButton->setText("Sign Up");
+    }
+    else if(ui->SignUpButton->text() == "Sign Up")
+    {
+         // check for sign up
+    }
+}
+
+void Registration::on_SignUpBackButton_clicked()
+{
+    ui->SignUpPass->hide();
+    ui->SignUpPass_label->hide();
+    ui->SignUpPass2->hide();
+    ui->SignUpPass2_label->hide();
+    ui->SignUpEmail->hide();
+    ui->SignUpEmail_label->hide();
+    ui->SignUpBackButton->hide();
+    ui->SignUpButton->move(160,350);
+
+    ui->SignUpName->show();
+    ui->SignUpName_label->show();
+    ui->SignUpSurname->show();
+    ui->SignUpSurname_label->show();
+    ui->SignUpBirth->show();
+    ui->SignUpBirthday_label->show();
+
+    ui->SignUpButton->setText("Next");
 }
 

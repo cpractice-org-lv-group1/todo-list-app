@@ -10,6 +10,7 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QPixmap>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Registration; }
@@ -33,14 +34,24 @@ public:
 
 signals:
     void mySignal(int id, QTcpSocket *sock);
+    void ShowLogIn();
+    void ShowSignUp();
 
 private slots:
-    void on_pushButton_clicked();
     void ChangeWin();
+    void on_LoginButton_clicked();
+    void on_GoToSign_clicked();
+    void on_GoToLog_clicked();
+
+    void on_SignUpButton_clicked();
+
+    void on_SignUpBackButton_clicked();
 
 public slots:
     void sockReady();
     void sockDisc();
+    void ShowLogInSlot();
+    void ShowSignUpSlot();
 
 private:
     Ui::Registration *ui;
