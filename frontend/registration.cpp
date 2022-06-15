@@ -18,9 +18,15 @@ Registration::Registration(QWidget *parent)
 
     ifOpen = true;
 
-    //UI
-    ui->GoToLog->setStyleSheet("border: none;color: palette(window-text);background: transparent;");
-    ui->GoToSign->setStyleSheet("border: none;color: palette(window-text);background: transparent;");
+    //UI Styles
+    ui->LoginButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
+    ui->LogEmail->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+    ui->LogPass->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+    ui->GoToSign->setStyleSheet("QPushButton {border: none;color: palette(window-text);background: transparent;} QPushButton:hover { color:darkgreen;}");
+    ui->GoToLog->setStyleSheet("QPushButton {border: none;color: palette(window-text);background: transparent;} QPushButton:hover { color:darkgreen;}");
+    ui->LoginButton->setFocusPolicy(Qt::NoFocus);
+    this->setStyleSheet("background-color: white;");
+    font.setPointSize(14);
 
     //On Load
     connect(this, &Registration::ShowLogIn, this, &Registration::ShowLogInSlot);
@@ -137,14 +143,27 @@ void Registration::ShowSignUpSlot()
 {
     ui->SignUp_label->show();
     ui->SignUpName->show();
+    ui->SignUpName->setStyleSheet("border: 1px solid black");
+    ui->SignUpName->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+    ui->SignUpName->setFont(font);
     ui->SignUpName_label->show();
     ui->SignUpSurname->show();
+    ui->SignUpSurname->setStyleSheet("border: 1px solid black");
+    ui->SignUpSurname->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+    ui->SignUpSurname->setFont(font);
     ui->SignUpSurname_label->show();
     ui->SignUpBirth->show();
+    ui->SignUpBirth->setStyleSheet("border: 1px solid black");
+    ui->SignUpBirth->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+    ui->SignUpBirth->setFont(font);
     ui->SignUpBirthday_label->show();
     ui->GoToLog->show();
     ui->HaveAcc_label->show();
     ui->SignUpButton->show();
+    ui->SignUpButton->setStyleSheet("border: 1px solid black");
+    ui->SignUpButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
+    ui->SignUpBirth->setStyleSheet("QDateEdit{background-color: white;border: 1px solid black;spacing: 0 px; padding-left: 70px; padding-bottom:3px;}QDateEdit:focus { border: 1px solid darkgreen;}");
+
 
     ui->LogIn_label->hide();
     ui->LogEmail->hide();
@@ -165,12 +184,23 @@ void Registration::on_SignUpButton_clicked()
     if(ui->SignUpButton->text() == "Next")
     {
         ui->SignUpPass->show();
+        ui->SignUpPass->setStyleSheet("border: 1px solid black");
+        ui->SignUpPass->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+        ui->SignUpPass->setFont(font);
         ui->SignUpPass_label->show();
         ui->SignUpPass2->show();
+        ui->SignUpPass2->setStyleSheet("border: 1px solid black");
+        ui->SignUpPass2->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+        ui->SignUpPass2->setFont(font);
         ui->SignUpPass2_label->show();
         ui->SignUpEmail->show();
+        ui->SignUpEmail->setStyleSheet("border: 1px solid black");
+        ui->SignUpEmail->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
+        ui->SignUpEmail->setFont(font);
         ui->SignUpEmail_label->show();
         ui->SignUpBackButton->show();
+        ui->SignUpBackButton->setStyleSheet("border: 1px solid black");
+        ui->SignUpBackButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
         ui->SignUpButton->move(230,350);
 
         ui->SignUpName->hide();

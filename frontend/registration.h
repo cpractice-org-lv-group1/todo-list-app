@@ -31,6 +31,7 @@ public:
     QJsonParseError docError;
     bool ifOpen;
     int Id;
+    QFont font;
 
 signals:
     void mySignal(int id, QTcpSocket *sock);

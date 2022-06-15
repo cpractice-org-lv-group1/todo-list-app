@@ -14,7 +14,20 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Registration</string>
+   <string>ToDoList</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/Img/Img/icon.jpg</normaloff>:/Img/Img/icon.jpg</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton { border: 1px solid black }
+QPushButton :hover { border: 1px solid green }
+QTextEdit { border: 1px solid black }
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTextEdit" name="LogEmail">
@@ -26,6 +39,11 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
    </widget>
    <widget class="QTextEdit" name="LogPass">
     <property name="geometry">
@@ -36,11 +54,16 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
    </widget>
    <widget class="QLabel" name="LogIn_label">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>570</x>
       <y>90</y>
       <width>101</width>
       <height>61</height>
@@ -48,7 +71,8 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>26</pointsize>
+      <family>Times New Roman</family>
+      <pointsize>22</pointsize>
      </font>
     </property>
     <property name="text">
@@ -63,6 +87,11 @@
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+     </font>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
@@ -99,6 +128,11 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+     </font>
+    </property>
     <property name="text">
      <string>Email</string>
     </property>
@@ -111,6 +145,11 @@
       <width>49</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+     </font>
     </property>
     <property name="text">
      <string>Password</string>
@@ -211,11 +250,12 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>26</pointsize>
+      <family>Times New Roman</family>
+      <pointsize>22</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Sign Up</string>
+     <string>  Sign Up</string>
     </property>
    </widget>
    <widget class="QDateEdit" name="SignUpBirth">
@@ -226,6 +266,34 @@
       <width>231</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QDateEdit
+{
+    background-color: white;
+    border: 1px solid black;
+    spacing: 0 px; 
+    padding-left: 80px;
+}
+
+QDateEdit::drop-down {
+    width:50px;
+    height:15px;
+    subcontrol-position: right top;
+    subcontrol-origin:margin;
+    background-color: white;
+    border: 1px solid black;
+   spacing: 0 px; 
+}</string>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::NoButtons</enum>
+    </property>
+    <property name="showGroupSeparator" stdset="0">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="GoToLog">
@@ -364,6 +432,9 @@
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Back</string>

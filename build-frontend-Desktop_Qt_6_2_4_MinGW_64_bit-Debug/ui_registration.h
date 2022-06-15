@@ -10,6 +10,7 @@
 #define UI_REGISTRATION_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QLabel>
@@ -57,23 +58,39 @@ public:
             Registration->setObjectName(QString::fromUtf8("Registration"));
         Registration->setEnabled(true);
         Registration->resize(807, 503);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/Img/Img/icon.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+        Registration->setWindowIcon(icon);
+        Registration->setWindowOpacity(1.000000000000000);
+        Registration->setStyleSheet(QString::fromUtf8("QPushButton { border: 1px solid black }\n"
+"QPushButton :hover { border: 1px solid green }\n"
+"QTextEdit { border: 1px solid black }\n"
+""));
         centralwidget = new QWidget(Registration);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         LogEmail = new QTextEdit(centralwidget);
         LogEmail->setObjectName(QString::fromUtf8("LogEmail"));
         LogEmail->setGeometry(QRect(500, 200, 231, 41));
+        QFont font;
+        font.setPointSize(14);
+        LogEmail->setFont(font);
         LogPass = new QTextEdit(centralwidget);
         LogPass->setObjectName(QString::fromUtf8("LogPass"));
         LogPass->setGeometry(QRect(500, 280, 231, 41));
+        LogPass->setFont(font);
         LogIn_label = new QLabel(centralwidget);
         LogIn_label->setObjectName(QString::fromUtf8("LogIn_label"));
-        LogIn_label->setGeometry(QRect(560, 90, 101, 61));
-        QFont font;
-        font.setPointSize(26);
-        LogIn_label->setFont(font);
+        LogIn_label->setGeometry(QRect(570, 90, 101, 61));
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Times New Roman")});
+        font1.setPointSize(22);
+        LogIn_label->setFont(font1);
         LoginButton = new QPushButton(centralwidget);
         LoginButton->setObjectName(QString::fromUtf8("LoginButton"));
         LoginButton->setGeometry(QRect(570, 350, 101, 41));
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Segoe UI")});
+        LoginButton->setFont(font2);
         LoginButton->setCursor(QCursor(Qt::PointingHandCursor));
         Img = new QLabel(centralwidget);
         Img->setObjectName(QString::fromUtf8("Img"));
@@ -83,18 +100,20 @@ public:
         LogEmail_label = new QLabel(centralwidget);
         LogEmail_label->setObjectName(QString::fromUtf8("LogEmail_label"));
         LogEmail_label->setGeometry(QRect(500, 180, 49, 16));
+        LogEmail_label->setFont(font2);
         LogPass_label = new QLabel(centralwidget);
         LogPass_label->setObjectName(QString::fromUtf8("LogPass_label"));
         LogPass_label->setGeometry(QRect(500, 260, 49, 16));
+        LogPass_label->setFont(font2);
         NeedAcc_label = new QLabel(centralwidget);
         NeedAcc_label->setObjectName(QString::fromUtf8("NeedAcc_label"));
         NeedAcc_label->setGeometry(QRect(535, 424, 101, 16));
         GoToSign = new QPushButton(centralwidget);
         GoToSign->setObjectName(QString::fromUtf8("GoToSign"));
         GoToSign->setGeometry(QRect(620, 420, 80, 24));
-        QFont font1;
-        font1.setUnderline(true);
-        GoToSign->setFont(font1);
+        QFont font3;
+        font3.setUnderline(true);
+        GoToSign->setFont(font3);
         GoToSign->setCursor(QCursor(Qt::PointingHandCursor));
         SignUpName = new QTextEdit(centralwidget);
         SignUpName->setObjectName(QString::fromUtf8("SignUpName"));
@@ -114,14 +133,34 @@ public:
         SignUp_label = new QLabel(centralwidget);
         SignUp_label->setObjectName(QString::fromUtf8("SignUp_label"));
         SignUp_label->setGeometry(QRect(150, 30, 121, 61));
-        SignUp_label->setFont(font);
+        SignUp_label->setFont(font1);
         SignUpBirth = new QDateEdit(centralwidget);
         SignUpBirth->setObjectName(QString::fromUtf8("SignUpBirth"));
         SignUpBirth->setGeometry(QRect(100, 280, 231, 41));
+        SignUpBirth->setStyleSheet(QString::fromUtf8("QDateEdit\n"
+"{\n"
+"    background-color: white;\n"
+"    border: 1px solid black;\n"
+"    spacing: 0 px; \n"
+"    padding-left: 80px;\n"
+"}\n"
+"\n"
+"QDateEdit::drop-down {\n"
+"    width:50px;\n"
+"    height:15px;\n"
+"    subcontrol-position: right top;\n"
+"    subcontrol-origin:margin;\n"
+"    background-color: white;\n"
+"    border: 1px solid black;\n"
+"   spacing: 0 px; \n"
+"}"));
+        SignUpBirth->setFrame(true);
+        SignUpBirth->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        SignUpBirth->setProperty("showGroupSeparator", QVariant(true));
         GoToLog = new QPushButton(centralwidget);
         GoToLog->setObjectName(QString::fromUtf8("GoToLog"));
         GoToLog->setGeometry(QRect(210, 420, 80, 24));
-        GoToLog->setFont(font1);
+        GoToLog->setFont(font3);
         GoToLog->setCursor(QCursor(Qt::PointingHandCursor));
         HaveAcc_label = new QLabel(centralwidget);
         HaveAcc_label->setObjectName(QString::fromUtf8("HaveAcc_label"));
@@ -151,6 +190,7 @@ public:
         SignUpBackButton = new QPushButton(centralwidget);
         SignUpBackButton->setObjectName(QString::fromUtf8("SignUpBackButton"));
         SignUpBackButton->setGeometry(QRect(100, 350, 101, 41));
+        SignUpBackButton->setCursor(QCursor(Qt::PointingHandCursor));
         Registration->setCentralWidget(centralwidget);
         Img->raise();
         LogEmail->raise();
@@ -186,7 +226,7 @@ public:
 
     void retranslateUi(QMainWindow *Registration)
     {
-        Registration->setWindowTitle(QCoreApplication::translate("Registration", "Registration", nullptr));
+        Registration->setWindowTitle(QCoreApplication::translate("Registration", "ToDoList", nullptr));
         LogIn_label->setText(QCoreApplication::translate("Registration", "Log In", nullptr));
         LoginButton->setText(QCoreApplication::translate("Registration", "Login", nullptr));
         Img->setText(QString());
@@ -194,7 +234,7 @@ public:
         LogPass_label->setText(QCoreApplication::translate("Registration", "Password", nullptr));
         NeedAcc_label->setText(QCoreApplication::translate("Registration", "Need an account?", nullptr));
         GoToSign->setText(QCoreApplication::translate("Registration", "SIGN UP", nullptr));
-        SignUp_label->setText(QCoreApplication::translate("Registration", "Sign Up", nullptr));
+        SignUp_label->setText(QCoreApplication::translate("Registration", "  Sign Up", nullptr));
         GoToLog->setText(QCoreApplication::translate("Registration", "LOG IN", nullptr));
         HaveAcc_label->setText(QCoreApplication::translate("Registration", "Have an account?", nullptr));
         SignUpButton->setText(QCoreApplication::translate("Registration", "Next", nullptr));
