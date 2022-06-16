@@ -24,4 +24,11 @@ public:
 		  obj.Get(id);
 		  return obj;
 	  }
+	  template <class T>
+	  static T Put(nlohmann::json object)
+	  {
+		  T obj;
+		  obj.Put(object);
+		  return obj;
+	  }
 };

@@ -49,6 +49,7 @@ class Users : public iCrudOperations
 public: 
     void Get();
     void Get(string email);
+    void Put(nlohmann::json newObject);
     vector<UsersStruct> GetData();
     UsersStruct GetCurrentUser();
 };

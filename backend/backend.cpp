@@ -28,20 +28,6 @@ int main()
 }
 
 
-
-
-
-//void Put()
-//{
-//    string put = "INSERT INTO Users VALUES('";
-//    put += "Name";
-//    put += "', 'Surname', '2002 - 01 - 01', 'testmail@gmail.com', 'testpass', 2, 'Novice');";
-//
-//    wstring wput = GetWCharFromString(put);
-//
-//    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
-//}
-//
 //void Delete(int id)
 //{
 //    string sqldelete = "Delete from Users where user_Id = ";

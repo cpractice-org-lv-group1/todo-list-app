@@ -17,7 +17,7 @@ SOCKET clientSocket::GetClientArrayById(int i)
 	return client_socketArray[i];
 }
 
-void clientSocket::clearSocket(int i)
+void clientSocket::clearSocker(int i)
 {
 	client_socketArray[i] = 0;
 }

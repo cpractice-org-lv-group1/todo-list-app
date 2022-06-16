@@ -3,6 +3,7 @@
 #include "Tasks.h"
 #include "CRUD.h"
 #include <algorithm>
+#include "nlohmann/json.hpp"
 #define DEFAULT_BUFLEN 4096
 
 void Server::Initiliaze() 
@@ -83,22 +84,8 @@ void Server::RunSERVER()
     cout << "Executing query...";
     cout << "\n";
 
-
-    //Test
-
-	/*auto data = CRUD::Get<Tasks>(1).GetData();
-	string result = "";
-	for (auto x : data)
-	{
-		result += x.JSON();
-		result += ',';
-	}
-	result[result.length() - 1] = '\0';*/
-
- /*  for_each(users.begin(), users.end(), [](auto x) {
-       x.Print();
-       });
-   cout << "\n";*/
+	/*int userId = CRUD::Get<Users>("somethinf").GetCurrentUser().userID;
+	cout << userId;*/
 
 	Initiliaze();
 
@@ -148,65 +135,52 @@ void Server::RunSERVER()
 				int client_message_length;
 				char client_message[DEFAULT_BUFLEN];
 				ZeroMemory(client_message, DEFAULT_BUFLEN);
+				getpeername(tempSocket, (sockaddr*)&address, (int*)&addrlen);
 
-				if ((client_message_length = recv(tempSocket, client_message, DEFAULT_BUFLEN,0)) == 0)
-				{
-					//Somebody disconnected , get his details and print 
-					getpeername(tempSocket, (sockaddr*)&address, (int*)&addrlen);
-					printf("Host disconnected , ip %s , port %d \n", inet_ntop(AF_INET, &address.sin_addr,
-						client_message, DEFAULT_BUFLEN), ntohs(address.sin_port));
+				client_message_length = recv(tempSocket, client_message, DEFAULT_BUFLEN, 0);
+				client_message[client_message_length] = '\0';
 
-					closesocket(tempSocket);
-					client_socket.clearSocket(i);
-				}
-				else
-				{
-					client_message_length = recv(tempSocket, client_message, DEFAULT_BUFLEN, 0);
-					client_message[client_message_length - 1] = '\0';
-
+				if (client_message_length != 0) {
 					string s_client_message(client_message);
+					s_client_message.erase(std::remove(s_client_message.begin(), s_client_message.end(), '['), s_client_message.end());
+					s_client_message.erase(std::remove(s_client_message.begin(), s_client_message.end(), ']'), s_client_message.end());
 					cout << s_client_message << endl << endl;
 
-					size_t operation_pos = s_client_message.find("Operation");
-					string operation = "";
-					int operation_index = operation_pos + 13;
-					while (true)
-					{
-						if (s_client_message[operation_index] == '"') break;
-						operation += s_client_message[operation_index];
-						++operation_index;
-					}
+					nlohmann::json myJSON = nlohmann::json::parse(s_client_message);
+					auto jsonIterator = myJSON.find("Operation");
+
 					//LoginGetTasks
-					if (operation == "Login")
+					if (jsonIterator.value() == "Login")
 					{
-						size_t found = s_client_message.find("Email");
-						string email = "";
-						int index = found + 9;
-						while (true)
+						Users user;
+						auto tempIt = myJSON.find("Email");
+						user = CRUD::Get<Users>(tempIt.value().get<string>());
+						int userId = user.GetCurrentUser().userID;
+						string userPass((const char*)user.GetCurrentUser().userPassword);
+
+						nlohmann::json result;
+
+						if (userId == 0 || myJSON["Password"].get<string>() != userPass)
 						{
-							if (s_client_message[index] == '"') break;
-							email += s_client_message[index];
-							++index;
+							result["Result"] = "Erorr";
+							result["userID"] = 0;
+							SendMSG(result.dump(), i);
 						}
-
-						int userId = CRUD::Get<Users>(email).GetCurrentUser().userID;
-
-						SendMSG(to_string(userId), i);
+						else
+						{
+							result["Result"] = "Success";
+							result["userID"] = userId;
+							SendMSG(result.dump(), i);
+						}
 					}
-					else if (operation == "GetTasks")
+					else if (jsonIterator.value() == "GetTasks")
 					{
-						size_t found = s_client_message.find("Id");
-						string id = "";
-						int index = found + 5;
-						while (true)
-						{
-							if (s_client_message[index] == ',') break;
-							id += s_client_message[index];
-							++index;
-						}
-						int Id = stoi(id);
+						auto tempIt = myJSON.find("Id");
+
+						int Id = tempIt.value().get<int>();
 						auto data = CRUD::Get<Tasks>(Id).GetData();
 						string result = "";
+
 						for (auto x : data)
 						{
 							result += x.JSON();
@@ -216,11 +190,18 @@ void Server::RunSERVER()
 
 						SendMSG(result, i);
 					}
+					else if (jsonIterator.value() == "Create user")
+					{
+						CRUD::Put<Users>(myJSON);
+					}
+				}
+				else {
+					printf("Client has been disconected ip is: %s, port: %d\n",inet_ntop(AF_INET, &address.sin_addr, client_message, 512), ntohs(address.sin_port));
+					client_socket.clearSocker(i);
 				}
 			}
 		}
 	}
-
 }
 
 void Server::SendMSG(std::string MESSAGE, int SocketNum)
