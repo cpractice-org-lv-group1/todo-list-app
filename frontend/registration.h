@@ -11,6 +11,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QPixmap>
+#include <QRegularExpression>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Registration; }
