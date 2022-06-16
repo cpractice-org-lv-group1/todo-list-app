@@ -4,6 +4,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # User-specific files
+
+build-frontend-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/
+
 *.rsuser
 *.suo
 *.user
