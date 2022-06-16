@@ -4,6 +4,7 @@
 #include "CRUD.h"
 #include <algorithm>
 #include "nlohmann/json.hpp"
+
 #define DEFAULT_BUFLEN 4096
 
 void Server::Initiliaze() 
@@ -157,23 +158,28 @@ void Server::RunSERVER()
 						user = CRUD::Get<Users>(tempIt.value().get<string>());
 						int userId = user.GetCurrentUser().userID;
 						string userPass((const char*)user.GetCurrentUser().userPassword);
+						userPass[userPass.length()] = '\0';
 
 						nlohmann::json result;
+						cout << userId << " " << userPass << " " << myJSON["Password"].get<string>();
 
 						if (userId == 0)
 						{
+							result["Operation"] = "Login";
 							result["Result"] = "Erorr Email";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
 						else if (myJSON["Password"].get<string>() != userPass) 
 						{
+							result["Operation"] = "Login";
 							result["Result"] = "Erorr Password";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
 						else
 						{
+							result["Operation"] = "Login";
 							result["Result"] = "Success Login";
 							result["userID"] = userId;
 							SendMSG(result.dump(), i);
