@@ -160,15 +160,21 @@ void Server::RunSERVER()
 
 						nlohmann::json result;
 
-						if (userId == 0 || myJSON["Password"].get<string>() != userPass)
+						if (userId == 0)
 						{
-							result["Result"] = "Erorr";
+							result["Result"] = "Erorr Email";
+							result["userID"] = 0;
+							SendMSG(result.dump(), i);
+						}
+						else if (myJSON["Password"].get<string>() != userPass) 
+						{
+							result["Result"] = "Erorr Password";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
 						else
 						{
-							result["Result"] = "Success";
+							result["Result"] = "Success Login";
 							result["userID"] = userId;
 							SendMSG(result.dump(), i);
 						}
