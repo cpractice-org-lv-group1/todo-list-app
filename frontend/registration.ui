@@ -463,14 +463,14 @@ QDateEdit::drop-down {
    <widget class="QLabel" name="SignUpWrongPass">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>160</x>
       <y>180</y>
-      <width>161</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>At lest one number is required!</string>
+     <string> At least one number is required!</string>
     </property>
    </widget>
    <widget class="QLabel" name="SignUpWrongPass2">

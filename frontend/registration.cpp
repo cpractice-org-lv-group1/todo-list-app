@@ -388,7 +388,7 @@ void Registration::on_SignUpButton_clicked()
             if(password.length() < 8)
             {
                 ui->SignUpWrongPass->setStyleSheet("color: red");
-                ui->SignUpWrongPass->setText("   You need at least 8 symbols!");
+                ui->SignUpWrongPass->setText("        You need at least 8 symbols!");
                 ui->SignUpWrongPass->show();
                 ifPass = false;
             }
@@ -406,7 +406,7 @@ void Registration::on_SignUpButton_clicked()
                 if(!ifDigit)
                 {
                     ui->SignUpWrongPass->setStyleSheet("color: red");
-                    ui->SignUpWrongPass->setText("At lest one number is required!");
+                    ui->SignUpWrongPass->setText(" At least one number is required!");
                     ui->SignUpWrongPass->show();
                     ifPass = false;
                 }
@@ -438,7 +438,7 @@ void Registration::on_SignUpButton_clicked()
             ui->SignUpWrongPass2->hide();
         }
 
-        //if somethinf is ok
+        //if something is ok
         if(ifEmail) ui->SignUpWrongEmail->hide();
         if(ifPass) ui->SignUpWrongPass->hide();
         if(ifPass2) ui->SignUpWrongPass2->hide();
