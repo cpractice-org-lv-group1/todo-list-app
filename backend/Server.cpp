@@ -161,7 +161,6 @@ void Server::RunSERVER()
 						userPass[userPass.length()] = '\0';
 
 						nlohmann::json result;
-						cout << userId << " " << userPass << " " << myJSON["Password"].get<string>();
 
 						if (userId == 0)
 						{

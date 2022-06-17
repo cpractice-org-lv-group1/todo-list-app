@@ -11,7 +11,7 @@ Users::UsersStruct Users::GetCurrentUser()
 
 void Users::Get(string email) 
 {
-    string put = "SELECT user_Id FROM USERS where user_Mail ='";
+    string put = "SELECT * FROM USERS where user_Mail ='";
            put += email+"'";
     wstring wput = GetWCharFromString(put);
 
