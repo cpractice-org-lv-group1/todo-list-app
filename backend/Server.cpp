@@ -201,10 +201,10 @@ void Server::RunSERVER()
 
 						SendMSG(result, i);
 					}
-					else if (jsonIterator.value() == "Signup")
+					else if (jsonIterator.value() == "SignUp")
 					{
 						nlohmann::json result;
-						result["Operation"] = "Signup";
+						result["Operation"] = "SignUp";
 						bool bSignUpSucces = CRUD::Put<Users>(myJSON);
 						if(bSignUpSucces == true)
 						{

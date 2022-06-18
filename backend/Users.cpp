@@ -47,20 +47,18 @@ void Users::Get(string email)
 }
 
 bool Users::Put(nlohmann::json newObject)
-{
+{  
     string put = "INSERT INTO Users VALUES('";
-    put += newObject["userNameArr"].get<string>()+ "', '"+
-        newObject["userSurnameArr"].get<string>() +"', '"+
-        newObject["userBithday"].get<string>() +"', '"+
-        newObject["userMail"].get<string>() +"', '"+
-        newObject["userPassword"].get<string>() +"'," +
-        to_string(newObject["userPoints"].get<int>()) +", '"+
-        newObject["userRank"].get<string>() +"');";
+    put += newObject["userNameArr"].get<string>() + "', '" +
+        newObject["userSurnameArr"].get<string>() + "', '" +
+        newObject["userBithday"].get<string>() + "', '" +
+        newObject["userMail"].get<string>() + "', '"+
+        newObject["userPassword"].get<string>() + "', " + to_string(0)+ ", '" + "Novice" + "');";
 
-    wstring wput = GetWCharFromString(put);
+   wstring wput = GetWCharFromString(put);
 
-   int succesCode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
-   if (succesCode == SQL_SUCCESS)
+
+   if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
    {
        return true;
    }else 
