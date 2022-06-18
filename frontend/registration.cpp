@@ -33,7 +33,7 @@ Registration::Registration(QWidget *parent)
     //On Load
     connect(this, &Registration::ShowLogIn, this, &Registration::ShowLogInSlot);
     connect(this, &Registration::ShowSignUp, this, &Registration::ShowSignUpSlot);
-    emit ShowLogIn();
+    emit ShowLogIn(); 
 }
 
 Registration::~Registration()
@@ -74,7 +74,8 @@ void Registration::on_LoginButton_clicked()
     {
         if(ui->LogEmail->document()->isEmpty() && !ui->LogPass->text().isEmpty())
         {
-            ui->LogWrongEmail->setText("  Enter email!");
+            ui->LogWrongEmail->setStyleSheet("color: red");
+            ui->LogWrongEmail->setText("             Enter email!");
             ui->LogWrongEmail->show();
             ui->LogWrongPass->hide();
         }
@@ -107,6 +108,10 @@ void Registration::sockDisc()
     socket->deleteLater();
 }
 
+
+
+
+
 //get result back from server
 void Registration::sockReady()
 {
@@ -116,6 +121,7 @@ void Registration::sockReady()
         {
             socket->waitForReadyRead(500);
             Data = socket->readAll();
+            qDebug() << Data;
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
@@ -134,7 +140,8 @@ void Registration::sockReady()
                     else if(doc.object().value("Result").toString() == "Erorr Email")
                     {
                         ui->LogWrongPass->hide();
-                        ui->LogWrongEmail->setText("Wrong email!");
+                        ui->LogWrongEmail->setStyleSheet("color: red");
+                        ui->LogWrongEmail->setText("          Wrong email!");
                         ui->LogWrongEmail->show();
                         return;
                     }
@@ -156,7 +163,27 @@ void Registration::sockReady()
                 //if signup
                 else if(doc.object().value("Operation").toString() == "SignUp")
                 {
-
+                    if(doc.object().value("Result").toString() == "Success SignUp")
+                    {
+                        qDebug() << "Success signup!";
+                        emit ShowLogIn();
+                        ui->Img->move(0,0);
+                        ui->SignUpButton->move(160,350);
+                        ui->LogEmail->setText(ui->SignUpEmail->toPlainText());
+                        ui->LogWrongEmail->show();
+                        ui->LogWrongEmail->setStyleSheet("color: green");
+                        ui->LogWrongEmail->setText(" Signup successful!");
+                    }
+                    else if(doc.object().value("Result").toString() == "Erorr SignUp")
+                    {
+                        qDebug() << "Error signup!";
+                        return;
+                    }
+                    else
+                    {
+                        qDebug() << "Wrong Result value!";
+                        return;
+                    }
                 }
                 //if wrong operation value
                 else
@@ -444,11 +471,35 @@ void Registration::on_SignUpButton_clicked()
         if(ifPass2) ui->SignUpWrongPass2->hide();
 
         //if everything is ok
+        // put method
         if(ifEmail && ifPass && ifPass2)
         {
             ui->SignUpWrongEmail->hide();
             ui->SignUpWrongPass->hide();
             ui->SignUpWrongPass2->hide();
+
+            QJsonObject NewUser
+            {
+                {"Operation", "SignUp"},
+                {"userNameArr", ui->SignUpName->toPlainText()},
+                {"userSurnameArr", ui->SignUpSurname->toPlainText()},
+                {"userBithday", ui->SignUpBirth->date().toString("yyyy-MM-dd")},
+                {"userMail", ui->SignUpEmail->toPlainText()},
+                {"userPassword", ui->SignUpPass->text()},
+            };
+
+            QJsonArray jsarray {NewUser};
+            QJsonDocument jsDoc(jsarray);
+            QString jsString = QString::fromLatin1(jsDoc.toJson());
+            QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+            QString formatted = doc.toJson(QJsonDocument::Compact);
+
+            if(socket->isOpen())
+            {
+                socket-> write(jsString.toLatin1());
+            }
+
+            qDebug() << formatted;
         }
     }
 }
