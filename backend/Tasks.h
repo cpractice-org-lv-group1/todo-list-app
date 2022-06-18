@@ -32,12 +32,18 @@ class Tasks : public iCrudOperations
 
         nlohmann::json JSON()
         {
+            string task_Header2((const char*)task_Header);
+            string task_Body2((const char*)task_Body);
+            string task_Start_Time2((const char*)task_Start_Time);
+            string task_Expected_End_Time2((const char*)task_Expected_End_Time);
+            string task_Real_End_Time2((const char*)task_Real_End_Time);
+
             nlohmann::json myJSON = nlohmann::json{ {"task_Id", task_Id},
-                                                    {"task_Header", task_Header},
-                                                    {"task_Body", task_Body},
-                                                    {"task_Start_Time", task_Start_Time},
-                                                    {"task_Expected_End_Time", task_Expected_End_Time},
-                                                    {"task_Real_End_Time", task_Real_End_Time},
+                                                    {"task_Header", task_Header2},
+                                                    {"task_Body", task_Body2},
+                                                    {"task_Start_Time", task_Start_Time2},
+                                                    {"task_Expected_End_Time", task_Expected_End_Time2},
+                                                    {"task_Real_End_Time", task_Real_End_Time2},
                                                     {"task_Status", task_Status},
                                                     {"task_Category", task_Category},
                                                     {"task_User", task_User},
