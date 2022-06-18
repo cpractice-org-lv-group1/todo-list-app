@@ -52,10 +52,10 @@ void Form::sockReady()
                 if (!doc.isArray())
                 {
                     qDebug() << "Document does not contain array";
-                   // return;
+                    //case for not arrays
                 }
 
-                //If everything is good
+                //If data is array
                 QJsonArray array = doc.array();
                 vector<QJsonObject> Tasks;
                 for(const auto &v : array)
