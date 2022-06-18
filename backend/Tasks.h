@@ -69,7 +69,7 @@ class Tasks : public iCrudOperations
 public:
     void Get(int id);
     void Get();
-    void Put(nlohmann::json newObject) {};
+    bool Put(nlohmann::json newObject) { return true; };
     vector<TasksStruct> GetData();
 };
 

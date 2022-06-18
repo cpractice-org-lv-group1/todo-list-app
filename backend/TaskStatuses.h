@@ -22,7 +22,7 @@ class TaskStatuses : public iCrudOperations
     vector<TaskStatusesStruct> AllTaskStatuses;
 public:
     void Get();
-    void Put(nlohmann::json newObject) {};
+    bool Put(nlohmann::json newObject) {};
     vector<TaskStatusesStruct> GetData();
 };
 

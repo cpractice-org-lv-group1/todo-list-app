@@ -46,7 +46,7 @@ void Users::Get(string email)
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
-void Users::Put(nlohmann::json newObject)
+bool Users::Put(nlohmann::json newObject)
 {
     string put = "INSERT INTO Users VALUES('";
     put += newObject["userNameArr"].get<string>()+ "', '"+
@@ -59,7 +59,14 @@ void Users::Put(nlohmann::json newObject)
 
     wstring wput = GetWCharFromString(put);
 
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+   int succesCode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+   if (succesCode == SQL_SUCCESS)
+   {
+       return true;
+   }else 
+   {
+       return false;
+   }
 }
 
 void Users::Get()

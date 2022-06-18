@@ -201,9 +201,20 @@ void Server::RunSERVER()
 
 						SendMSG(result, i);
 					}
-					else if (jsonIterator.value() == "Create user")
+					else if (jsonIterator.value() == "Signup")
 					{
-						CRUD::Put<Users>(myJSON);
+						nlohmann::json result;
+						result["Operation"] = "Signup";
+						bool bSignUpSucces = CRUD::Put<Users>(myJSON);
+						if(bSignUpSucces == true)
+						{
+							result["Result"] = "Success SignUp";
+						}
+						else 
+						{
+							result["Result"] = "Erorr SignUp";
+						}
+						SendMSG(result.dump(), i);
 					}
 				}
 				else {

@@ -25,10 +25,9 @@ public:
 		  return obj;
 	  }
 	  template <class T>
-	  static T Put(nlohmann::json object)
+	  static bool Put(nlohmann::json object)
 	  {
 		  T obj;
-		  obj.Put(object);
-		  return obj;
+		  return obj.Put(object);
 	  }
 };
