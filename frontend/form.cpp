@@ -1,5 +1,6 @@
 #include "form.h"
 #include "ui_form.h"
+using namespace std;
 
 Form::Form(QWidget *parent) :
     QMainWindow(parent),
@@ -28,24 +29,7 @@ void Form::slot(int id, QTcpSocket *sock)
 
     ui->label->setText(QString::number(id));
 
-    QJsonObject GetById
-    {
-        {"Operation", "GetTasks"},
-        {"Id", id}
-    };
-
-    QJsonArray jsarray {GetById};
-    QJsonDocument jsDoc(jsarray);
-    QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
-
-    if(socket->isOpen())
-    {
-        socket-> write(jsString.toLatin1());
-    }
-
-    qDebug() << formatted;
+    Operations::GetTasks(id, socket);
 }
 
 void Form::sockDisc()
@@ -62,6 +46,35 @@ void Form::sockReady()
             socket->waitForReadyRead(500);
             Data = socket->readAll();
             qDebug() << Data;
+            doc  = QJsonDocument::fromJson(Data, &docError);
+            if(docError.errorString().toInt() == QJsonParseError::NoError)
+            {
+                if (!doc.isArray())
+                {
+                    qDebug() << "Document does not contain array";
+                   // return;
+                }
+
+                //If everything is good
+                QJsonArray array = doc.array();
+                vector<QJsonObject> Tasks;
+                for(const auto &v : array)
+                {
+                    QJsonObject obj = v.toObject();
+                    Tasks.emplace_back(obj);
+                }
+                for(const auto &x : Tasks)
+                {
+                    qDebug() << x.value("task_Header") << " ";
+                }
+
+
+            }
+            else
+            {
+                qDebug() << "Parse error: " << docError.errorString();
+                return;
+            }
         }
     }
 }

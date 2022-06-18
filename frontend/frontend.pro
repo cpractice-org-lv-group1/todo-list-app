@@ -12,10 +12,12 @@ CONFIG += c++17
 SOURCES += \
     form.cpp \
     main.cpp \
+    operations.cpp \
     registration.cpp
 
 HEADERS += \
     form.h \
+    operations.h \
     registration.h
 
 FORMS += \

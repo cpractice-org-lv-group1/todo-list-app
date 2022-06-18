@@ -9,6 +9,8 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "operations.h"
+#include <vector>
 
 namespace Ui {
 class Form;

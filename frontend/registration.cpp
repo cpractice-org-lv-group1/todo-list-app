@@ -81,14 +81,14 @@ void Registration::on_LoginButton_clicked()
         }
         else if(ui->LogPass->text().isEmpty() && !ui->LogEmail->document()->isEmpty())
         {
-            ui->LogWrongPass->setText("  Enter password!");
+            ui->LogWrongPass->setText("   Enter password!");
             ui->LogWrongPass->show();
             ui->LogWrongEmail->hide();
         }
         else
         {
-            ui->LogWrongEmail->setText("  Enter email!");
-            ui->LogWrongPass->setText("  Enter password!");
+            ui->LogWrongEmail->setText("             Enter email!");
+            ui->LogWrongPass->setText("   Enter password!");
             ui->LogWrongPass->show();
             ui->LogWrongEmail->show();
         }
@@ -192,6 +192,11 @@ void Registration::sockReady()
                     return;
                 }
 
+            }
+            else
+            {
+                qDebug() << "Parse error: " << docError.errorString();
+                return;
             }
         }
 
@@ -379,7 +384,7 @@ void Registration::on_SignUpButton_clicked()
         if(ui->SignUpPass->text().isEmpty())
         {
             ui->SignUpWrongPass->setStyleSheet("color: red");
-            ui->SignUpWrongPass->setText("                          Enter password!");
+            ui->SignUpWrongPass->setText("                             Enter password!");
             ui->SignUpWrongPass->show();
         }
         if(ui->SignUpPass2->text().isEmpty())
@@ -508,10 +513,13 @@ void Registration::on_SignUpBackButton_clicked()
 {
     ui->SignUpPass->hide();
     ui->SignUpPass_label->hide();
+    ui->SignUpWrongPass->hide();
     ui->SignUpPass2->hide();
     ui->SignUpPass2_label->hide();
+    ui->SignUpWrongPass2->hide();
     ui->SignUpEmail->hide();
     ui->SignUpEmail_label->hide();
+    ui->SignUpWrongEmail->hide();
     ui->SignUpBackButton->hide();
     ui->SignUpButton->move(160,350);
 
