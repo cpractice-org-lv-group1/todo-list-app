@@ -30,7 +30,7 @@ class Tasks : public iCrudOperations
             cout << endl;
         }
 
-        /*nlohmann::json JSON()
+        nlohmann::json JSON()
         {
             nlohmann::json myJSON = nlohmann::json{ {"task_Id", task_Id},
                                                     {"task_Header", task_Header},
@@ -43,8 +43,8 @@ class Tasks : public iCrudOperations
                                                     {"task_User", task_User},
                                                     {"task_Difficulty", task_Difficulty}};
             return myJSON;
-        }*/
-        string JSON()
+        }
+        /*string JSON()
         {
             std::stringstream stream;
             std::string JSON_string = "";
@@ -62,7 +62,7 @@ class Tasks : public iCrudOperations
 
             JSON_string = stream.str();
             return JSON_string;
-        }
+        }*/
 
     };
     vector<TasksStruct> CurrentTasks;

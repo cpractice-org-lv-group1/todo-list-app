@@ -190,16 +190,20 @@ void Server::RunSERVER()
 
 						int Id = tempIt.value().get<int>();
 						auto data = CRUD::Get<Tasks>(Id).GetData();
-						string result = "";
-
-						for (auto x : data)
+						if (data.empty())
 						{
-							result += x.JSON();
-							result += ',';
+							SendMSG("Error", i);
 						}
-						result[result.length() - 1] = '\0';
-
-						SendMSG(result, i);
+						else 
+						{
+							nlohmann::json json_myTasksArray = data[0].JSON();
+							for (int i = 1; i < data.size(); ++i) 
+							{
+								nlohmann::json temp = data[i].JSON();
+								json_myTasksArray.update(temp);
+							}
+							SendMSG(json_myTasksArray.dump(), i);
+						}
 					}
 					else if (jsonIterator.value() == "SignUp")
 					{
