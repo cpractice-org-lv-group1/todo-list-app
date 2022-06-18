@@ -197,12 +197,17 @@ void Server::RunSERVER()
 						else 
 						{
 							nlohmann::json json_myTasksArray = data[0].JSON();
+							string result = "[";
 							for (int i = 1; i < data.size(); ++i) 
 							{
-								nlohmann::json temp = data[i].JSON();
-								json_myTasksArray.update(temp);
+								result += data[i].JSON().dump();
+								if (i != data.size() - 1)
+								{
+									result += ",";
+								}
 							}
-							SendMSG(json_myTasksArray.dump(), i);
+							result += "]";
+							SendMSG(result, i);
 						}
 					}
 					else if (jsonIterator.value() == "SignUp")
