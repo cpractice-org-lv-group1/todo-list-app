@@ -196,9 +196,8 @@ void Server::RunSERVER()
 						}
 						else 
 						{
-							nlohmann::json json_myTasksArray = data[0].JSON();
 							string result = "[";
-							for (int i = 1; i < data.size(); ++i) 
+							for (int i = 0; i < data.size(); ++i) 
 							{
 								result += data[i].JSON().dump();
 								if (i != data.size() - 1)
