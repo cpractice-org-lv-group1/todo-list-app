@@ -7,6 +7,12 @@ Form::Form(QWidget *parent) :
     ui(new Ui::Form)
 {
     ui->setupUi(this);
+
+    //UI STYLES
+    this->setStyleSheet("background-color: white;");
+    ui->AddFriendButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
+    ui->ArchiveButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
+    ui->SignOutButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid red;}");
 }
 
 Form::~Form()
@@ -14,7 +20,7 @@ Form::~Form()
     delete ui;
 }
 
-void Form::on_pushButton_clicked()
+void Form::on_SignOutButton_clicked()
 {
     ifOpen = false;
     emit backSignal();
@@ -65,7 +71,7 @@ void Form::sockReady()
                 }
                 for(const auto &x : Tasks)
                 {
-                    qDebug() << x.value("task_Header") << " ";
+                    qDebug() << x.value("task_Header").toString() << " ";
                 }
 
 
@@ -78,6 +84,9 @@ void Form::sockReady()
         }
     }
 }
+
+
+
 
 
 

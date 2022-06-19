@@ -1,24 +1,26 @@
 #include "registration.h"
 #include "ui_registration.h"
 
+//CONSTRUCTOR
 Registration::Registration(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Registration)
 {
     ui->setupUi(this);
 
+    //INITIALIZATION OF SIGNALS AND KEY COMPONENTS
     form = new Form ();
     connect(this, &Registration::mySignal, form, &Form::slot);
     connect(form, SIGNAL(backSignal()), this, SLOT(ChangeWin()));
-
     socket = new QTcpSocket(this);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockReady()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(sockDisc()));
+    connect(this, &Registration::ShowLogIn, this, &Registration::ShowLogInSlot);
+    connect(this, &Registration::ShowSignUp, this, &Registration::ShowSignUpSlot);
     socket->connectToHost("127.0.0.1", 8888);
-
     ifOpen = true;
 
-    //UI Styles
+    //UI STYLES
     ui->LoginButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
     ui->LogEmail->setStyleSheet("QTextEdit {border: 1px solid black; } QTextEdit:focus { border: 1px solid darkgreen;}");
     ui->LogPass->setStyleSheet("QLineEdit {border: 1px solid black; padding-bottom:3px;} QLineEdit:focus { border: 1px solid darkgreen;}");
@@ -30,26 +32,31 @@ Registration::Registration(QWidget *parent)
     ui->LogWrongPass->setStyleSheet("color: red");
     ui->LogPass->setEchoMode(QLineEdit::Password);
 
-    //On Load
-    connect(this, &Registration::ShowLogIn, this, &Registration::ShowLogInSlot);
-    connect(this, &Registration::ShowSignUp, this, &Registration::ShowSignUpSlot);
-    emit ShowLogIn(); 
+    //SHOW LOGIN AS DEFAULT WINDOW
+    emit ShowLogIn();
+
+    //CASE TO SKIP LOGIN;
+    ui->LogEmail->setText("ivanglina@gmail.com");
+    ui->LogPass->setText("2281337a");
 }
 
+//DESTRUCTOR
 Registration::~Registration()
 {
     delete ui;
     delete form;
 }
 
-
+//FUNCTION FOR CLICK ON LOGIN BUTTON
 void Registration::on_LoginButton_clicked()
 {
+    //IF BOTH EMAIL AND PASSWORD IS NOT EMPTY SEND REQUEST TO SERVER
     if(!ui->LogEmail->document()->isEmpty() && !ui->LogPass->text().isEmpty())
     {
         ui->LogWrongEmail->hide();
         ui->LogWrongPass->hide();
 
+        //FORM JSON DATA TO SEND
         QJsonObject User
         {
             {"Operation", "Login"},
@@ -70,6 +77,7 @@ void Registration::on_LoginButton_clicked()
 
         qDebug() << formatted;
     }
+    //CASES FOR WHEN SOME OR BOTH FIELDS ARE EMPTY SO NO NEED TO SEND REQUEST
     else
     {
         if(ui->LogEmail->document()->isEmpty() && !ui->LogPass->text().isEmpty())
@@ -96,6 +104,7 @@ void Registration::on_LoginButton_clicked()
 
 }
 
+//FUNCTION TO GET BACK TO THIS WINDOW FROM MAIN WINDOW
 void Registration::ChangeWin()
 {
     this->show();
@@ -103,16 +112,13 @@ void Registration::ChangeWin()
     ifOpen = true;
 }
 
+//DESTRUCTOR OF SOCKET
 void Registration::sockDisc()
 {
     socket->deleteLater();
 }
 
-
-
-
-
-//get result back from server
+//HANDLER OF DATA FROM SERVER
 void Registration::sockReady()
 {
     if(ifOpen)
@@ -125,18 +131,19 @@ void Registration::sockReady()
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
-                //if login
+//------------------------------------------IF LOGIN--------------------------------------//
                 if(doc.object().value("Operation").toString() == "Login")
                 {
-                    //checking result
+                    //LOGIN SUCCSESSFUL
                     if(doc.object().value("Result").toString() == "Success Login")
                     {
                         this->hide();
                         form->show();
                         ifOpen = false;
+                        //GO TO MAIN WINDOW
                         emit mySignal(doc.object().value("userID").toInt(), socket);
                     }
-                    //wrong email
+                    //WRONG EMAIL
                     else if(doc.object().value("Result").toString() == "Erorr Email")
                     {
                         ui->LogWrongPass->hide();
@@ -145,7 +152,7 @@ void Registration::sockReady()
                         ui->LogWrongEmail->show();
                         return;
                     }
-                    //wrong password
+                    //WRONG PASSWORD
                     else if(doc.object().value("Result").toString() == "Erorr Password")
                     {
                         ui->LogWrongEmail->hide();
@@ -153,16 +160,17 @@ void Registration::sockReady()
                         ui->LogWrongPass->show();
                         return;
                     }
-                    //wrong result value
+                    //WRONG RESULT VALUE
                     else
                     {
                         qDebug() << "Wrong Result value!";
                         return;
                     }
                 }
-                //if signup
+//------------------------------------------IF SIGNUP--------------------------------------//
                 else if(doc.object().value("Operation").toString() == "SignUp")
                 {
+                    //SIGNUP SUCCSESSFUL
                     if(doc.object().value("Result").toString() == "Success SignUp")
                     {
                         qDebug() << "Success signup!";
@@ -174,18 +182,20 @@ void Registration::sockReady()
                         ui->LogWrongEmail->setStyleSheet("color: green");
                         ui->LogWrongEmail->setText(" Signup successful!");
                     }
+                    //SIGNUP NOT SUCCSESSFUL
                     else if(doc.object().value("Result").toString() == "Erorr SignUp")
                     {
                         qDebug() << "Error signup!";
                         return;
                     }
+                    //WRONG RESULT VALUE
                     else
                     {
                         qDebug() << "Wrong Result value!";
                         return;
                     }
                 }
-                //if wrong operation value
+//-------------------------------------WRONG OPERATION--------------------------------------//
                 else
                 {
                     qDebug() << "Wrong Operation value!";
@@ -203,13 +213,14 @@ void Registration::sockReady()
     }
 }
 
+//BUTTON TO GO TO SIGN UP
 void Registration::on_GoToSign_clicked()
 {
     emit ShowSignUp();
     ui->Img->move(400,0);
 }
 
-
+//BUTTON TO GO TO LOG IN
 void Registration::on_GoToLog_clicked()
 {
     emit ShowLogIn();
@@ -217,9 +228,10 @@ void Registration::on_GoToLog_clicked()
     ui->SignUpButton->move(160,350);
 }
 
+//--------------------------SLOT TO SHOW LOG IN--------------------------//
 void Registration::ShowLogInSlot()
 {
-    //signup fields
+    //HIDE SIGNUP FIELDS
     ui->SignUp_label->hide();
     ui->SignUpName->hide();
     ui->SignUpName_label->hide();
@@ -237,14 +249,15 @@ void Registration::ShowLogInSlot()
     ui->HaveAcc_label->hide();
     ui->SignUpButton->hide();
     ui->SignUpBackButton->hide();
-    //signup errors
+    //HIDE SIGNUP ERRORS
     ui->SignUpWrongName->hide();
     ui->SignUpWrongSur->hide();
     ui->SignUpWrongEmail->hide();
     ui->SignUpWrongPass->hide();
     ui->SignUpWrongPass2->hide();
 
-    //login fields
+
+    //SHOW LOGIN FIELDS
     ui->LogIn_label->show();
     ui->LogEmail->show();
     ui->LogEmail_label->show();
@@ -253,15 +266,15 @@ void Registration::ShowLogInSlot()
     ui->LoginButton->show();
     ui->NeedAcc_label->show();
     ui->GoToSign->show();
-
-    //login errors
+    //HIDE LOGIN ERRORS
     ui->LogWrongEmail->hide();
     ui->LogWrongPass->hide();
 }
 
+//--------------------------SLOT TO SHOW SIGN UP--------------------------//
 void Registration::ShowSignUpSlot()
 {
-    //show signup
+    //SHOW SIGNUP FIELDS
     ui->SignUp_label->show();
     ui->SignUpName->show();
     ui->SignUpName->setStyleSheet("border: 1px solid black");
@@ -285,7 +298,7 @@ void Registration::ShowSignUpSlot()
     ui->SignUpButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
     ui->SignUpBirth->setStyleSheet("QDateEdit{background-color: white;border: 1px solid black;spacing: 0 px; padding-left: 70px; padding-bottom:3px;}QDateEdit:focus { border: 1px solid darkgreen;}");
 
-    //hide login
+    //HIDE LOGIN FIELDS
     ui->LogIn_label->hide();
     ui->LogEmail->hide();
     ui->LogEmail_label->hide();
@@ -297,22 +310,23 @@ void Registration::ShowSignUpSlot()
     ui->LogWrongEmail->hide();
     ui->LogWrongPass->hide();
 
+    //SET VALUE OF NEXT/SIGNUP BUTTON
     ui->SignUpButton->setText("Next");
 }
 
-//when user filled name, surname and birthday
+//----------------------------------NEXT/SIGNUP BUTTON----------------------------------//
 void Registration::on_SignUpButton_clicked()
 {
-    //case if fields are good
+//---------------------------------FIRT HALF ON SIGN UP---------------------------------//
     if(ui->SignUpButton->text() == "Next")
     {
-
+        //IF FIELDS ARE NOT EMPTY
         if(!ui->SignUpName->document()->isEmpty() && !ui->SignUpSurname->document()->isEmpty())
         {
             ui->SignUpWrongName->hide();
             ui->SignUpWrongSur->hide();
 
-            //hide first half
+            //HIDE FIRST HALF
             ui->SignUpName->hide();
             ui->SignUpName_label->hide();
             ui->SignUpSurname->hide();
@@ -320,7 +334,7 @@ void Registration::on_SignUpButton_clicked()
             ui->SignUpBirth->hide();
             ui->SignUpBirthday_label->hide();
 
-            //show first half
+            //SHOW SECOND HALF
             ui->SignUpPass->show();
             ui->SignUpPass->setStyleSheet("border: 1px solid black");
             ui->SignUpPass->setStyleSheet("QLineEdit {border: 1px solid black; padding-bottom:3px;} QLineEdit:focus { border: 1px solid darkgreen;}");
@@ -343,22 +357,27 @@ void Registration::on_SignUpButton_clicked()
             ui->SignUpBackButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
             ui->SignUpButton->move(230,350);
 
+            //SET VALUE OF NEXT/SIGNUP BUTTON
             ui->SignUpButton->setText("Sign Up");
         }
+        //IF SOME FIELDS ARE EMPTY
         else
         {
+            //IF NAME IS EMPTY
             if(ui->SignUpName->document()->isEmpty() && !ui->SignUpSurname->document()->isEmpty())
             {
                 ui->SignUpWrongName->setStyleSheet("color: red");
                 ui->SignUpWrongName->show();
                 ui->SignUpWrongSur->hide();
             }
+            //IF SURNAME IS EMPTY
             else if(!ui->SignUpName->document()->isEmpty() && ui->SignUpSurname->document()->isEmpty())
             {
                 ui->SignUpWrongSur->setStyleSheet("color: red");
                 ui->SignUpWrongSur->show();
                 ui->SignUpWrongName->hide();
             }
+            //IF BOTH ARE EMPTY
             else
             {
                 ui->SignUpWrongSur->setStyleSheet("color: red");
@@ -367,14 +386,16 @@ void Registration::on_SignUpButton_clicked()
                 ui->SignUpWrongName->show();
             }
         }
-
     }
+//---------------------------------SECOND HALF ON SIGN UP---------------------------------//
     else if(ui->SignUpButton->text() == "Sign Up")
     {
+        //VALUE TO SE STATE OF FIELDS
         bool ifEmail = false;
         bool ifPass = false;
         bool ifPass2 = false;
-         // check for sign up
+
+        //CHECK FOR EMPTY
         if(ui->SignUpEmail->document()->isEmpty())
         {
             ui->SignUpWrongEmail->setStyleSheet("color: red");
@@ -394,7 +415,7 @@ void Registration::on_SignUpButton_clicked()
             ui->SignUpWrongPass2->show();
         }
 
-        //check for email
+        //REGEX CHECK FOR EMAIL
         if(!ui->SignUpEmail->document()->isEmpty())
         {
             const QRegularExpression regex("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b", QRegularExpression::CaseInsensitiveOption);
@@ -412,7 +433,7 @@ void Registration::on_SignUpButton_clicked()
             }
         }
 
-        //check for pass 1
+        //CHECK FOR PASSWORD
         if(!ui->SignUpPass->text().isEmpty())
         {
             QString password = ui->SignUpPass->text();
@@ -449,7 +470,7 @@ void Registration::on_SignUpButton_clicked()
             }
         }
 
-        //check for pass2
+        //CHECK FOR REPEAT PASSWORD
         if(!ui->SignUpPass2->text().isEmpty() && ifPass)
         {
             if(ui->SignUpPass->text() != ui->SignUpPass2->text())
@@ -465,24 +486,24 @@ void Registration::on_SignUpButton_clicked()
             }
         }
 
+        //IF PASS HAS ERRORS NO NEED TO SHOW PASS2 ERRORS
         if(!ui->SignUpPass2->text().isEmpty() && !ifPass)
         {
             ui->SignUpWrongPass2->hide();
         }
 
-        //if something is ok
+        //IF ANY IS OK
         if(ifEmail) ui->SignUpWrongEmail->hide();
         if(ifPass) ui->SignUpWrongPass->hide();
         if(ifPass2) ui->SignUpWrongPass2->hide();
 
-        //if everything is ok
-        // put method
+        //IF EVERYTHING IS OK
         if(ifEmail && ifPass && ifPass2)
         {
             ui->SignUpWrongEmail->hide();
             ui->SignUpWrongPass->hide();
             ui->SignUpWrongPass2->hide();
-
+//----------------------------------------PUT METHOD---------------------------------------//
             QJsonObject NewUser
             {
                 {"Operation", "SignUp"},
@@ -509,8 +530,10 @@ void Registration::on_SignUpButton_clicked()
     }
 }
 
+//BUTTON TO GO BACK FROM SIGN UP PART 2 TO PART 1
 void Registration::on_SignUpBackButton_clicked()
 {
+    //HIDE PART 2
     ui->SignUpPass->hide();
     ui->SignUpPass_label->hide();
     ui->SignUpWrongPass->hide();
@@ -523,6 +546,7 @@ void Registration::on_SignUpBackButton_clicked()
     ui->SignUpBackButton->hide();
     ui->SignUpButton->move(160,350);
 
+    //SHOW PART 1
     ui->SignUpName->show();
     ui->SignUpName_label->show();
     ui->SignUpSurname->show();
@@ -530,6 +554,7 @@ void Registration::on_SignUpBackButton_clicked()
     ui->SignUpBirth->show();
     ui->SignUpBirthday_label->show();
 
+    //SET VALUE OF NEXT/SIGNUP BUTTON
     ui->SignUpButton->setText("Next");
 }
 

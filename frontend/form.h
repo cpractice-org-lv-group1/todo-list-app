@@ -35,7 +35,8 @@ signals:
      void backSignal();
 
 private slots:
-    void on_pushButton_clicked();
+
+    void on_SignOutButton_clicked();
 
 public slots:
     void slot(int id, QTcpSocket *sock);
