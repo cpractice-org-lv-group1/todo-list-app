@@ -72,9 +72,9 @@ void Form::sockReady()
                 for(const auto &x : Tasks)
                 {
                     qDebug() << x.value("task_Header").toString() << " ";
+                    //QListWidgetItem *item = new QListWidgetItem(x.value("task_Header").toString(), x.value("task_Start_Time").toString());
+                    ui->ToDo->addItem(x.value("task_Header").toString());
                 }
-
-
             }
             else
             {
