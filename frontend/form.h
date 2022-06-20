@@ -11,6 +11,7 @@
 #include <QJsonArray>
 #include "operations.h"
 #include <vector>
+#include "listwidgethelper.h"
 
 namespace Ui {
 class Form;

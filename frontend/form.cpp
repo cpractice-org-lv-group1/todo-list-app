@@ -14,6 +14,8 @@ Form::Form(QWidget *parent) :
     ui->ArchiveButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
     ui->SignOutButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid red;}");
     ui->ToDo->setIconSize(QSize(70, 70));
+    ui->InProgress->setIconSize(QSize(70, 70));
+    ui->Done->setIconSize(QSize(70, 70));
 }
 
 Form::~Form()
@@ -59,10 +61,10 @@ void Form::sockReady()
                 if (!doc.isArray())
                 {
                     qDebug() << "Document does not contain array";
-                    //case for not arrays
+                    //CASE FOR NOT ARRAYS
                 }
 
-                //If data is array
+                //IF DATA IS ARRAY
                 QJsonArray array = doc.array();
                 vector<QJsonObject> Tasks;
                 for(const auto &v : array)
@@ -70,21 +72,9 @@ void Form::sockReady()
                     QJsonObject obj = v.toObject();
                     Tasks.emplace_back(obj);
                 }
-                for(const auto &x : Tasks)
-                {
-                    qDebug() << x.value("task_Header").toString() << " ";
-                    //QListWidgetItem *item = new QListWidgetItem(x.value("task_Header").toString(), x.value("task_Start_Time").toString());
-                    //ui->ToDo->addItem(x.value("task_Header").toString());
 
-                    QString stringresult = x.value("task_Header").toString() + "\n" + x.value("task_Body").toString();
+                ListWidgetHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, Tasks);
 
-
-                    //Need to put it in separate class later
-                    QListWidgetItem *newItem = new QListWidgetItem;
-                    newItem->setText(stringresult);
-                    newItem->setIcon(QIcon(":/Img/Img/test1day.png"));
-                    ui->ToDo->addItem(newItem);
-                }
             }
             else
             {

@@ -11,12 +11,14 @@ CONFIG += c++17
 
 SOURCES += \
     form.cpp \
+    listwidgethelper.cpp \
     main.cpp \
     operations.cpp \
     registration.cpp
 
 HEADERS += \
     form.h \
+    listwidgethelper.h \
     operations.h \
     registration.h
 
