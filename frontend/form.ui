@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ToDoList</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/Img/Img/icon.jpg</normaloff>:/Img/Img/icon.jpg</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QPushButton { border: 1px solid black }
@@ -33,6 +37,7 @@ QPushButton :hover { border: 1px solid green }
      <string notr="true">QFrame
 {
    border: 1px solid black;
+   border-left: none;
 }
 </string>
     </property>
@@ -46,17 +51,23 @@ QPushButton :hover { border: 1px solid green }
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>430</y>
-       <width>141</width>
+       <y>440</y>
+       <width>201</width>
        <height>201</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QListWidget
+{
+	border: none;
+}</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>390</y>
+       <x>90</x>
+       <y>400</y>
        <width>81</width>
        <height>31</height>
       </rect>
@@ -65,6 +76,12 @@ QPushButton :hover { border: 1px solid green }
       <font>
        <pointsize>16</pointsize>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
      </property>
      <property name="text">
       <string>Friends</string>
@@ -75,7 +92,7 @@ QPushButton :hover { border: 1px solid green }
       <rect>
        <x>30</x>
        <y>30</y>
-       <width>81</width>
+       <width>151</width>
        <height>31</height>
       </rect>
      </property>
@@ -84,17 +101,23 @@ QPushButton :hover { border: 1px solid green }
        <pointsize>16</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
+     </property>
      <property name="text">
-      <string>Name</string>
+      <string>Name Surname</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="RankImg">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>30</y>
-       <width>81</width>
-       <height>31</height>
+       <x>196</x>
+       <y>28</y>
+       <width>40</width>
+       <height>40</height>
       </rect>
      </property>
      <property name="font">
@@ -102,8 +125,20 @@ QPushButton :hover { border: 1px solid green }
        <pointsize>16</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
+     </property>
      <property name="text">
-      <string>Rank</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="Resources.qrc">:/Img/Ranks/immortal.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="label_9">
@@ -115,6 +150,12 @@ QPushButton :hover { border: 1px solid green }
        <height>16</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
+     </property>
      <property name="text">
       <string>Points</string>
      </property>
@@ -122,8 +163,8 @@ QPushButton :hover { border: 1px solid green }
     <widget class="QPushButton" name="ArchiveButton">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>240</y>
+       <x>70</x>
+       <y>220</y>
        <width>101</width>
        <height>41</height>
       </rect>
@@ -131,15 +172,22 @@ QPushButton :hover { border: 1px solid green }
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+   border: 1px solid black;
+}
+</string>
+     </property>
      <property name="text">
-      <string>Archive</string>
+      <string>History</string>
      </property>
     </widget>
     <widget class="QPushButton" name="AddFriendButton">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>320</y>
+       <x>70</x>
+       <y>340</y>
        <width>101</width>
        <height>41</height>
       </rect>
@@ -154,7 +202,7 @@ QPushButton :hover { border: 1px solid green }
     <widget class="QPushButton" name="SignOutButton">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>70</x>
        <y>160</y>
        <width>101</width>
        <height>41</height>
@@ -170,14 +218,43 @@ QPushButton :hover { border: 1px solid green }
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>80</y>
+       <x>30</x>
+       <y>120</y>
        <width>49</width>
        <height>16</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
+     </property>
      <property name="text">
       <string>Test</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="AddFriendButton_2">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>280</y>
+       <width>101</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+   border: 1px solid black;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Friend requests</string>
      </property>
     </widget>
    </widget>
@@ -234,6 +311,9 @@ QPushButton :hover { border: 1px solid green }
       <height>651</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="autoFillBackground">
      <bool>true</bool>
     </property>
@@ -278,6 +358,9 @@ QPushButton :hover { border: 1px solid green }
        <height>41</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {border: 1px solid black; } 
 QPushButton:hover { border: 1px solid darkgreen;}</string>
@@ -319,6 +402,9 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {border: 1px solid black; } 
 QPushButton:hover { border: 1px solid darkgreen;}</string>
@@ -336,6 +422,17 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
        <height>491</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
     </widget>
     <widget class="QListWidget" name="InProgress">
      <property name="geometry">
@@ -346,6 +443,18 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
        <height>491</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+</string>
+     </property>
     </widget>
     <widget class="QListWidget" name="Done">
      <property name="geometry">
@@ -355,6 +464,17 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
        <width>224</width>
        <height>491</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="cursor" stdset="0">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
     </widget>
     <widget class="QLabel" name="ToDolabel">

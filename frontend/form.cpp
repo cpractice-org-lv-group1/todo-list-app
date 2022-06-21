@@ -16,6 +16,7 @@ Form::Form(QWidget *parent) :
     ui->ToDo->setIconSize(QSize(70, 70));
     ui->InProgress->setIconSize(QSize(70, 70));
     ui->Done->setIconSize(QSize(70, 70));
+    this->setFixedSize(1049,645);
 }
 
 Form::~Form()
@@ -39,6 +40,9 @@ void Form::slot(int id, QTcpSocket *sock)
     ui->label->setText(QString::number(id));
 
     Operations::GetTasks(id, socket);
+    //Operations::GetUserData(id, socket);
+    //Operations::GetFriends(id, socket);
+    //Operations::GetCategories(id, socket);
 }
 
 void Form::sockDisc()
@@ -46,6 +50,7 @@ void Form::sockDisc()
     socket->deleteLater();
 }
 
+//FUNCTION THAT HANDLES INCOMING DATA FROM SERVER
 void Form::sockReady()
 {
     if(ifOpen)
@@ -60,20 +65,51 @@ void Form::sockReady()
             {
                 if (!doc.isArray())
                 {
-                    qDebug() << "Document does not contain array";
                     //CASE FOR NOT ARRAYS
+                    QJsonObject obj = doc.object();
+                    if(obj.value("Operation").toString() == "GetUserData")
+                    {
+                        ///
+                    }
                 }
 
                 //IF DATA IS ARRAY
                 QJsonArray array = doc.array();
-                vector<QJsonObject> Tasks;
-                for(const auto &v : array)
+                //IF IT IS TASKS
+                if(array[0].toObject().value("task_Id").toDouble() != 0)
                 {
-                    QJsonObject obj = v.toObject();
-                    Tasks.emplace_back(obj);
+                    for(const auto &v : array)
+                    {
+                        QJsonObject obj = v.toObject();
+                        VectorData::Tasks.emplace_back(obj);
+                    }
+                    ListWidgetHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
                 }
-
-                ListWidgetHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, Tasks);
+                //IF IT IS FRIENDS
+                else if(array[0].toObject().value("userID").toDouble() != 0)
+                {
+                    for(const auto &v : array)
+                    {
+                        QJsonObject obj = v.toObject();
+                        VectorData::Friends.emplace_back(obj);
+                    }
+                    //TODO SOME FILL ON FRIENDS
+                }
+                //IF IT IS CATEGORIES
+                else if(array[0].toObject().value("taskCategories_Id").toDouble() != 0)
+                {
+                    for(const auto &v : array)
+                    {
+                        QJsonObject obj = v.toObject();
+                        VectorData::Categories.emplace_back(obj);
+                    }
+                    //TODO SOME LOGIC WITH CATEGORIES
+                }
+                else
+                {
+                    qDebug() << "Wrong array data!";
+                    return;
+                }
 
             }
             else

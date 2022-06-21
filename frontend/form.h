@@ -12,6 +12,7 @@
 #include "operations.h"
 #include <vector>
 #include "listwidgethelper.h"
+#include "vectordata.h"
 
 namespace Ui {
 class Form;

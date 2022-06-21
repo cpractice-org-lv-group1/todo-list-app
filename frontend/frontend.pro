@@ -14,13 +14,15 @@ SOURCES += \
     listwidgethelper.cpp \
     main.cpp \
     operations.cpp \
-    registration.cpp
+    registration.cpp \
+    vectordata.cpp
 
 HEADERS += \
     form.h \
     listwidgethelper.h \
     operations.h \
-    registration.h
+    registration.h \
+    vectordata.h
 
 FORMS += \
     form.ui \

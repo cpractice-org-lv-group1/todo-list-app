@@ -31,6 +31,7 @@ Registration::Registration(QWidget *parent)
     ui->LogWrongEmail->setStyleSheet("color: red");
     ui->LogWrongPass->setStyleSheet("color: red");
     ui->LogPass->setEchoMode(QLineEdit::Password);
+    this->setFixedSize(807,503);
 
     //SHOW LOGIN AS DEFAULT WINDOW
     emit ShowLogIn();

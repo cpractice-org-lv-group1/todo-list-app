@@ -24,7 +24,36 @@ void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress,
     currentseconds += currenttime.sliced(17, 2).toLongLong();
     for(const auto &x : Tasks)
     {
-        QString stringresult = x.value("task_Header").toString() + "\n" + x.value("task_Body").toString();
+        //MARE SURE THAT TEXT DOES NOT OVERFLOW
+        QString TaskHeader, TaskBody;
+        if(x.value("task_Header").toString().length() >= 18)
+        {
+            TaskHeader = x.value("task_Header").toString();
+            int index = TaskHeader.length() - 1;
+            while(1)
+            {
+                if(TaskHeader[index] == ' ' && index < 18) break;
+                index--;
+            }
+            TaskHeader = x.value("task_Header").toString().sliced(0, index) + "...";
+        }
+        else
+            TaskHeader = x.value("task_Header").toString();
+
+        if(x.value("task_Body").toString().length() >= 18)
+        {
+            TaskBody = x.value("task_Body").toString();
+            int index = TaskBody.length() - 1;
+            while(1)
+            {
+                if(TaskBody[index] == ' ' && index < 18) break;
+                index--;
+            }
+            TaskBody = x.value("task_Body").toString().sliced(0, index) + "...";
+        }
+        else
+            TaskBody = x.value("task_Body").toString();
+        QString stringresult = TaskHeader + "\n" + TaskBody;
         QListWidgetItem *newItem = new QListWidgetItem;
         newItem->setText(stringresult);
 
