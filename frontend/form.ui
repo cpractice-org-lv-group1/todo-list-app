@@ -144,9 +144,9 @@ QPushButton :hover { border: 1px solid green }
     <widget class="QLabel" name="label_9">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>185</x>
        <y>80</y>
-       <width>49</width>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
@@ -157,7 +157,7 @@ QPushButton :hover { border: 1px solid green }
 }</string>
      </property>
      <property name="text">
-      <string>Points</string>
+      <string>Points: 150 rr</string>
      </property>
     </widget>
     <widget class="QPushButton" name="ArchiveButton">
@@ -215,26 +215,7 @@ QPushButton :hover { border: 1px solid green }
       <string>Sign out</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>120</y>
-       <width>49</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel
-{
-	border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string>Test</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="AddFriendButton_2">
+    <widget class="QPushButton" name="FriendRequests">
      <property name="geometry">
       <rect>
        <x>70</x>
@@ -255,6 +236,25 @@ QPushButton :hover { border: 1px solid green }
      </property>
      <property name="text">
       <string>Friend requests</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>80</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
+     </property>
+     <property name="text">
+      <string>Rank: Immortal</string>
      </property>
     </widget>
    </widget>
@@ -349,7 +349,7 @@ QPushButton :hover { border: 1px solid green }
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="AddTaskButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -372,9 +372,9 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
     <widget class="QLabel" name="Categorylabel">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>170</x>
        <y>20</y>
-       <width>151</width>
+       <width>411</width>
        <height>41</height>
       </rect>
      </property>
@@ -390,13 +390,13 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>All Categories</string>
+      <string>                     All Categories</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="CategoriesButton">
      <property name="geometry">
       <rect>
-       <x>550</x>
+       <x>560</x>
        <y>20</y>
        <width>141</width>
        <height>41</height>
@@ -410,7 +410,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 QPushButton:hover { border: 1px solid darkgreen;}</string>
      </property>
      <property name="text">
-      <string>Add category</string>
+      <string>Categories</string>
      </property>
     </widget>
     <widget class="QListWidget" name="ToDo">
@@ -433,6 +433,9 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
     </widget>
     <widget class="QListWidget" name="InProgress">
      <property name="geometry">
@@ -452,8 +455,13 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
-      <string notr="true">
-</string>
+      <string notr="true"/>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAsNeeded</enum>
      </property>
     </widget>
     <widget class="QListWidget" name="Done">
@@ -476,13 +484,16 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
     </widget>
     <widget class="QLabel" name="ToDolabel">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>67</x>
        <y>80</y>
-       <width>31</width>
+       <width>131</width>
        <height>16</height>
       </rect>
      </property>
@@ -493,7 +504,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>TODO</string>
+      <string>             TODO</string>
      </property>
     </widget>
     <widget class="QLabel" name="InProgresslabel">
@@ -501,7 +512,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
       <rect>
        <x>320</x>
        <y>80</y>
-       <width>71</width>
+       <width>81</width>
        <height>16</height>
       </rect>
      </property>
@@ -512,15 +523,15 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>IN PROGRESS</string>
+      <string> IN PROGRESS</string>
      </property>
     </widget>
     <widget class="QLabel" name="Donelabel">
      <property name="geometry">
       <rect>
-       <x>580</x>
+       <x>546</x>
        <y>80</y>
-       <width>31</width>
+       <width>111</width>
        <height>16</height>
       </rect>
      </property>
@@ -531,7 +542,43 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>DONE</string>
+      <string>DONE (LAST 72h)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="SearchOk">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>20</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {border: 1px solid black; } 
+QPushButton:hover { border: 1px solid darkgreen;}</string>
+     </property>
+     <property name="text">
+      <string>Ok</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="SearchDepth">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>20</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
     </widget>
    </widget>

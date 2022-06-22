@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     operations.cpp \
     registration.cpp \
+    taskinfo.cpp \
     vectordata.cpp
 
 HEADERS += \
@@ -22,11 +23,13 @@ HEADERS += \
     listwidgethelper.h \
     operations.h \
     registration.h \
+    taskinfo.h \
     vectordata.h
 
 FORMS += \
     form.ui \
-    registration.ui
+    registration.ui \
+    taskinfo.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -22,5 +22,6 @@
         <file>Ranks/immortal.png</file>
         <file>Ranks/platinum.png</file>
         <file>Ranks/silver.png</file>
+        <file>TimeIcons/deleted.png</file>
     </qresource>
 </RCC>

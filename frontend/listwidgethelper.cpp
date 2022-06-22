@@ -5,6 +5,7 @@ ListWidgetHelper::ListWidgetHelper()
 
 }
 
+//WARNING!! HAVE TO REMAKE AFTER FORIEGN KEYS ARE DONE!!
 void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks)
 {
     //CLEAR FROM PREVIOUS DATA
@@ -24,36 +25,40 @@ void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress,
     currentseconds += currenttime.sliced(17, 2).toLongLong();
     for(const auto &x : Tasks)
     {
+        //SKIP DELETED
+        if(x.value("task_Status").toDouble() == 4) continue;
         //MARE SURE THAT TEXT DOES NOT OVERFLOW
         QString TaskHeader, TaskBody;
-        if(x.value("task_Header").toString().length() >= 18)
-        {
-            TaskHeader = x.value("task_Header").toString();
-            int index = TaskHeader.length() - 1;
-            while(1)
-            {
-                if(TaskHeader[index] == ' ' && index < 18) break;
-                index--;
-            }
-            TaskHeader = x.value("task_Header").toString().sliced(0, index) + "...";
-        }
-        else
+//        if(x.value("task_Header").toString().length() >= 18)
+//        {
+//            TaskHeader = x.value("task_Header").toString();
+//            int index = TaskHeader.length() - 1;
+//            while(1)
+//            {
+//                if(TaskHeader[index] == ' ' && index < 18) break;
+//                index--;
+//            }
+//            TaskHeader = x.value("task_Header").toString().sliced(0, index) + "...";
+//        }
+//        else
             TaskHeader = x.value("task_Header").toString();
 
-        if(x.value("task_Body").toString().length() >= 18)
-        {
+//        if(x.value("task_Body").toString().length() >= 18)
+//        {
+//            TaskBody = x.value("task_Body").toString();
+//            int index = TaskBody.length() - 1;
+//            while(1)
+//            {
+//                if(TaskBody[index] == ' ' && index < 18) break;
+//                index--;
+//            }
+//            TaskBody = x.value("task_Body").toString().sliced(0, index) + "...";
+//        }
+//        else
             TaskBody = x.value("task_Body").toString();
-            int index = TaskBody.length() - 1;
-            while(1)
-            {
-                if(TaskBody[index] == ' ' && index < 18) break;
-                index--;
-            }
-            TaskBody = x.value("task_Body").toString().sliced(0, index) + "...";
-        }
-        else
-            TaskBody = x.value("task_Body").toString();
-        QString stringresult = TaskHeader + "\n" + TaskBody;
+
+        //I HIDE TASK ID IN THIS STRING TO USE IT LATER FOR LOGIC, BUT IT CANNOT BE SEEN BT USER
+        QString stringresult = TaskHeader + "\n" + TaskBody + "                          " + QString::number(x.value("task_Id").toDouble());
         QListWidgetItem *newItem = new QListWidgetItem;
         newItem->setText(stringresult);
 
@@ -83,8 +88,19 @@ void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress,
             //IF IT IS FINISHED
             if(x.value("task_Real_End_Time").toString() != "None")
             {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/done.png"));
-                Done->addItem(newItem);
+                QString end = x.value("task_Real_End_Time").toString();
+                long long endsecs = 0;
+                endsecs += end.sliced(0, 4).toLongLong() * 31536000;
+                endsecs += end.sliced(5, 2).toLongLong() * 2628288;
+                endsecs += end.sliced(8, 2).toLongLong() * 86400;
+                endsecs += end.sliced(11, 2).toLongLong() * 3600;
+                endsecs += end.sliced(14, 2).toLongLong()  * 60;
+                endsecs += end.sliced(17, 2).toLongLong();
+                if(((currentseconds - endsecs) / 3600.0) < 3.0)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/done.png"));
+                    Done->addItem(newItem);
+                }
             }
             //IF IT IS NOT FINISHED
             else
@@ -94,6 +110,7 @@ void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress,
                 {
                     newItem->setIcon(QIcon(":/Img/TimeIcons/late.png"));
                     InProgress->addItem(newItem);
+                    newItem->setForeground(QColor("red"));
                 }
                 //IF IT IS IN PROGRESS
                 else
@@ -163,9 +180,103 @@ void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress,
                 newItem->setIcon(QIcon(":/Img/TimeIcons/test1h.png"));
                 Todo->addItem(newItem);
             }
+        }
+    }
+}
 
+//WARNING!! HAVE TO REMAKE AFTER FORIEGN KEYS ARE DONE!!
+void ListWidgetHelper::FillWithHistoryTasks(QListWidget* Fastest, QListWidget* Deleted, QListWidget* Done, vector<QJsonObject> Tasks, int depth)
+{
+    if(depth < 1) return;
+    Fastest->clear();
+    Deleted->clear();
+    Done->clear();
+
+    //FASTEST
+    vector<pair<QJsonObject, long>> done;
+    for(const auto &x : Tasks)
+    {
+        if(x.value("task_Status").toDouble() == 3)
+        {
+            done.emplace_back(make_pair(x, 0));
         }
     }
 
+    int maxdepth = depth;
+    if(done.size() > 1)
+    {
+        for_each(done.begin(), done.end(), [](auto &a)
+        {
+            QString starttimeA = a.first.value("task_Start_Time").toString();
+            QString endtimeA = a.first.value("task_Real_End_Time").toString();
+            long long startsecondsA = 0;
+            startsecondsA += starttimeA.sliced(0, 4).toLongLong() * 31536000;
+            startsecondsA += starttimeA.sliced(5, 2).toLongLong() * 2628288;
+            startsecondsA += starttimeA.sliced(8, 2).toLongLong() * 86400;
+            startsecondsA += starttimeA.sliced(11, 2).toLongLong() * 3600;
+            startsecondsA += starttimeA.sliced(14, 2).toLongLong() * 60;
+            startsecondsA += starttimeA.sliced(17, 2).toLongLong();
+            long long endsecondsA = 0;
+            endsecondsA += endtimeA.sliced(0, 4).toLongLong() * 31536000;
+            endsecondsA += endtimeA.sliced(5, 2).toLongLong() * 2628288;
+            endsecondsA += endtimeA.sliced(8, 2).toLongLong() * 86400;
+            endsecondsA += endtimeA.sliced(11, 2).toLongLong() * 3600;
+            endsecondsA += endtimeA.sliced(14, 2).toLongLong()  * 60;
+            endsecondsA += endtimeA.sliced(17, 2).toLongLong();
 
+            a.second = endsecondsA - startsecondsA;
+        });
+
+        sort(done.begin(), done.end(), [](auto &a, auto &b)
+        {
+            return a.second < b.second;
+        });
+
+        for(const auto &x : done)
+        {
+            double hours = x.second / 3600.0;
+            QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setIcon(QIcon(":/Img/TimeIcons/done.png"));
+            QString stringresult = "(" + QString::number(hours) + " h)" + x.first.value("task_Header").toString() + "\n" + x.first.value("task_Body").toString() + "                          " + QString::number(x.first.value("task_Id").toDouble());
+            newItem->setText(stringresult);
+            Fastest->addItem(newItem);
+            maxdepth--;
+            if(!maxdepth) break;
+        }
+    }
+
+    //DELETED
+    maxdepth = depth;
+    for(const auto &x : Tasks)
+    {
+        if(x.value("task_Status").toDouble() == 4)
+        {
+            QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setIcon(QIcon(":/Img/TimeIcons/deleted.png"));
+            QString stringresult = x.value("task_Header").toString() + "\n" + x.value("task_Body").toString() + "                          " + QString::number(x.value("task_Id").toDouble());
+            newItem->setText(stringresult);
+            Deleted->addItem(newItem);
+            maxdepth--;
+            if(!maxdepth) break;
+        }
+    }
+    //DONE
+    maxdepth = depth;
+    for(const auto &x : Tasks)
+    {
+        if(x.value("task_Status").toDouble() == 3)
+        {
+            QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setIcon(QIcon(":/Img/TimeIcons/done.png"));
+            QString stringresult = x.value("task_Header").toString() + "\n" + x.value("task_Body").toString() + "                          " + QString::number(x.value("task_Id").toDouble());
+            newItem->setText(stringresult);
+            Done->addItem(newItem);
+            maxdepth--;
+            if(!maxdepth) break;
+        }
+    }
 }
+
+
+
+
