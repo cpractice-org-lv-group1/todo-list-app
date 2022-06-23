@@ -224,6 +224,19 @@ void Server::RunSERVER()
 						}
 						SendMSG(result.dump(), i);
 					}
+					else if (jsonIterator.value() == "GetUserData")
+					{
+						auto data = CRUD::Get<Users>(myJSON["user_Id"].get<int>()).GetCurrentData();
+						SendMSG(data.JSON(), i);
+					}
+					else if (jsonIterator.value() == "GetUserFriends")
+					{
+						
+					}
+					else 
+					{
+						cout << "unknown command";
+					}
 				}
 				else {
 					printf("Client has been disconected ip is: %s, port: %d\n",inet_ntop(AF_INET, &address.sin_addr, client_message, 512), ntohs(address.sin_port));

@@ -50,26 +50,6 @@ class Tasks : public iCrudOperations
                                                     {"task_Difficulty", task_Difficulty}};
             return myJSON;
         }
-        /*string JSON()
-        {
-            std::stringstream stream;
-            std::string JSON_string = "";
-
-            stream << JSON_string << "{\"task_Id\":" << task_Id << "," <<
-                "\"task_Header\":" << "\"" << task_Header << "\"," <<
-                "\"task_Body\":" << "\"" << task_Body << "\"," <<
-                "\"task_Start_Time\":" << "\"" << task_Start_Time << "\"," <<
-                "\"task_Expected_End_Time\":" << "\"" << task_Expected_End_Time << "\"," <<
-                "\"task_Real_End_Time\":" << "\"" << task_Real_End_Time << "\"," <<
-                "\"task_Status\":" << task_Status << "," <<
-                "\"task_Category\":" << task_Category << "," <<
-                "\"task_User\":" << task_User << "," <<
-                "\"task_Difficulty\":" << task_Difficulty << "}\0";
-
-            JSON_string = stream.str();
-            return JSON_string;
-        }*/
-
     };
     vector<TasksStruct> CurrentTasks;
 public:

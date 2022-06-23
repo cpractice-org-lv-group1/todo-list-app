@@ -39,18 +39,21 @@ class Users : public iCrudOperations
                                      "\"userMail\":" << "\"" << userMail << "\"," <<
                                      "\"userPassword\":" << "\"" << userPassword << "\"," <<
                                      "\"userPoints\":" << userPoints << ","<<
-                                     "\"userRank\":" << "\"" << userRank << "\"" << "}\0";
+                                     "\"userRank\":" << "\"" << userRank << "\"" << "}";
             stream >> JSON_string;
             return JSON_string;
         }
     };
     vector<UsersStruct> AllUsers;
     UsersStruct currentUser;
+    UsersStruct currentData;
 public: 
     void Get();
+    void Get(int id);
     void Get(string email);
     bool Put(nlohmann::json newObject);
     vector<UsersStruct> GetData();
     UsersStruct GetCurrentUser();
+    UsersStruct GetCurrentData();
 };
 

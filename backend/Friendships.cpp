@@ -40,3 +40,8 @@ void Friendships::Get()
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
+
+void Friendships::Get(int idUser)
+{
+
+}
