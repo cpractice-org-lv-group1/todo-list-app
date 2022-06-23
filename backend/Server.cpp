@@ -228,7 +228,10 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetUserData")
 					{
 						auto data = CRUD::Get<Users>(myJSON["user_Id"].get<int>()).GetCurrentData();
-						SendMSG(data.JSON(), i);
+						nlohmann::json tempJson;
+						tempJson.parse(data.JSON());
+						tempJson["Operation"] = "GetUserData";
+						SendMSG(tempJson.dump(), i);
 					}
 					else if (jsonIterator.value() == "GetUserFriends") ///////=========================================
 					{
