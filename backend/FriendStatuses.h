@@ -22,7 +22,6 @@ class FriendStatuses : public iCrudOperations
     vector<FriendStatusesStruct> AllFriendStatuses;
 public:
     void Get();
-    void Get(int id);
     bool Put(nlohmann::json newObject) {};
     vector<FriendStatusesStruct> GetData();
 };

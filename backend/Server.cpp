@@ -235,7 +235,7 @@ void Server::RunSERVER()
 					}
 					else 
 					{
-						cout << "unknown command";
+						cout << "Unknown command";
 					}
 				}
 				else {
