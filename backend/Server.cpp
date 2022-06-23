@@ -1,6 +1,7 @@
 #include "Server.h"
 #include "Users.h"
 #include "Tasks.h"
+#include "TaskCategories.h"
 #include "CRUD.h"
 #include <algorithm>
 #include "nlohmann/json.hpp"
@@ -229,9 +230,24 @@ void Server::RunSERVER()
 						auto data = CRUD::Get<Users>(myJSON["user_Id"].get<int>()).GetCurrentData();
 						SendMSG(data.JSON(), i);
 					}
-					else if (jsonIterator.value() == "GetUserFriends")
+					else if (jsonIterator.value() == "GetUserFriends") ///////=========================================
 					{
-						
+						//=============================================================================================
+					}
+					else if (jsonIterator.value() == "GetCategories")
+					{
+						auto data = CRUD::Get<TaskCategories>(myJSON["user_Id"].get<int>()).GetData();
+						string result = "[";
+						for (int i = 0; i < data.size(); ++i)
+						{
+							result += data[i].JSON();
+							if (i != data.size() - 1)
+							{
+								result += ",";
+							}
+						}
+						result += "]";
+						SendMSG(result, i);
 					}
 					else 
 					{

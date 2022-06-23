@@ -19,10 +19,22 @@ class TaskCategories : public iCrudOperations
             cout << this->taskCategories_Id << "\t" << this->taskCategories_Name << "\t" << this->taskCategories_User;
             cout << endl;
         }
+        string JSON()
+        {
+            std::stringstream stream;
+            std::string JSON_string = "";
+
+            stream << JSON_string << "{\"taskCategories_Id\":" << taskCategories_Id << "," <<
+                "\"taskCategories_Name\":" << "\"" << taskCategories_Name << "\"," <<
+                "\"taskCategories_User\":" << taskCategories_User << "}";
+            stream >> JSON_string;
+            return JSON_string;
+        }
     };
     vector<TaskCategoriesStruct> AllTaskCategories;
 public:
     void Get();
+    void Get(int userId);
     bool Put(nlohmann::json newObject) {};
     vector<TaskCategoriesStruct> GetData();
 };

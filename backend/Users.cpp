@@ -14,8 +14,6 @@ Users::UsersStruct Users::GetCurrentData()
     return currentData;
 }
 
-
-
 void Users::Get(string email) 
 {
     string put = "SELECT * FROM USERS where user_Mail ='";
