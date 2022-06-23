@@ -30,4 +30,10 @@ public:
 		  T obj;
 		  return obj.Put(object);
 	  }
+	  template <class T>
+	  static void Delete(int deleteID)
+	  {
+		  T obj;
+		  obj.Delete(deleteID);
+	  }
 };

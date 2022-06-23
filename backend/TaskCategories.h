@@ -36,6 +36,7 @@ public:
     void Get();
     void Get(int userId);
     bool Put(nlohmann::json newObject) { return true; };
+    void Delete(int id);
     vector<TaskCategoriesStruct> GetData();
 };
 

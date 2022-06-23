@@ -52,6 +52,7 @@ public:
     void Get(int id);
     void Get(string email);
     bool Put(nlohmann::json newObject);
+    void Delete(int id);
     vector<UsersStruct> GetData();
     UsersStruct GetCurrentUser();
     UsersStruct GetCurrentData();

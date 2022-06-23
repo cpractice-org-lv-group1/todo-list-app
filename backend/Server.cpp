@@ -228,7 +228,6 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetUserData")
 					{
 						auto data = CRUD::Get<Users>(myJSON["Id"].get<int>()).GetCurrentData();
-						data.Print();
 						nlohmann::json tempJson = nlohmann::json::parse(data.JSON());
 						tempJson["Operation"] = "GetUserData";
 						SendMSG(tempJson.dump(), i);
@@ -237,7 +236,7 @@ void Server::RunSERVER()
 					{
 						//=============================================================================================
 					}
-					/*else if (jsonIterator.value() == "GetCategories")
+					else if (jsonIterator.value() == "GetCategories")
 					{
 						auto data = CRUD::Get<TaskCategories>(myJSON["Id"].get<int>()).GetData();
 						string result = "[";
@@ -251,7 +250,7 @@ void Server::RunSERVER()
 						}
 						result += "]";
 						SendMSG(result, i);
-					}*/
+					}
 					else 
 					{
 						cout << "Unknown command";

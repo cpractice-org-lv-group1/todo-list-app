@@ -1,5 +1,15 @@
 #include "TaskCategories.h"
 
+void TaskCategories::Delete(int id)
+{
+    string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";
+    sqldelete += to_string(id);
+
+    wstring wsqldelete = GetWCharFromString(sqldelete);
+
+    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+}
+
 vector<TaskCategories::TaskCategoriesStruct> TaskCategories::GetData()
 {
     return AllTaskCategories;

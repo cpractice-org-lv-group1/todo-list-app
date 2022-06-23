@@ -72,6 +72,16 @@ bool Users::Put(nlohmann::json newObject)
    }
 }
 
+void Users::Delete(int id)
+{
+    string sqldelete = "Delete from Users where user_Id = ";
+    sqldelete += to_string(id);
+
+    wstring wsqldelete = GetWCharFromString(sqldelete);
+
+    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+}
+
 void Users::Get()
 {
 

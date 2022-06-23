@@ -1,5 +1,15 @@
 #include "Tasks.h"
 
+void Tasks::Delete(int id)
+{
+    string sqldelete = "Delete from Tasks where task_Id = ";
+    sqldelete += to_string(id);
+
+    wstring wsqldelete = GetWCharFromString(sqldelete);
+
+    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+}
+
 vector<Tasks::TasksStruct> Tasks::GetData()
 {
     return CurrentTasks;
