@@ -228,8 +228,7 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetUserData")
 					{
 						auto data = CRUD::Get<Users>(myJSON["user_Id"].get<int>()).GetCurrentData();
-						nlohmann::json tempJson;
-						tempJson.parse(data.JSON());
+						nlohmann::json tempJson = nlohmann::json::parse(data.JSON());
 						tempJson["Operation"] = "GetUserData";
 						SendMSG(tempJson.dump(), i);
 					}
