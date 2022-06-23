@@ -6,7 +6,7 @@ DataFillHelper::DataFillHelper()
 }
 
 //WARNING!! HAVE TO REMAKE AFTER FORIEGN KEYS ARE DONE!!
-void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks)
+void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks, int depth)
 {
     //CLEAR FROM PREVIOUS DATA
     Todo->clear();
@@ -29,33 +29,8 @@ void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, Q
         if(x.value("task_Status").toDouble() == 4) continue;
         //MARE SURE THAT TEXT DOES NOT OVERFLOW
         QString TaskHeader, TaskBody;
-//        if(x.value("task_Header").toString().length() >= 18)
-//        {
-//            TaskHeader = x.value("task_Header").toString();
-//            int index = TaskHeader.length() - 1;
-//            while(1)
-//            {
-//                if(TaskHeader[index] == ' ' && index < 18) break;
-//                index--;
-//            }
-//            TaskHeader = x.value("task_Header").toString().sliced(0, index) + "...";
-//        }
-//        else
-            TaskHeader = x.value("task_Header").toString();
-
-//        if(x.value("task_Body").toString().length() >= 18)
-//        {
-//            TaskBody = x.value("task_Body").toString();
-//            int index = TaskBody.length() - 1;
-//            while(1)
-//            {
-//                if(TaskBody[index] == ' ' && index < 18) break;
-//                index--;
-//            }
-//            TaskBody = x.value("task_Body").toString().sliced(0, index) + "...";
-//        }
-//        else
-            TaskBody = x.value("task_Body").toString();
+        TaskHeader = x.value("task_Header").toString();
+        TaskBody = x.value("task_Body").toString();
 
         //I HIDE TASK ID IN THIS STRING TO USE IT LATER FOR LOGIC, BUT IT CANNOT BE SEEN BT USER
         QString stringresult = TaskHeader + "\n" + TaskBody + "                          " + QString::number(x.value("task_Id").toDouble());
@@ -96,7 +71,7 @@ void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, Q
                 endsecs += end.sliced(11, 2).toLongLong() * 3600;
                 endsecs += end.sliced(14, 2).toLongLong()  * 60;
                 endsecs += end.sliced(17, 2).toLongLong();
-                if(((currentseconds - endsecs) / 3600.0) < 3.0)
+                if((currentseconds - endsecs) < (depth * 3600))
                 {
                     newItem->setIcon(QIcon(":/Img/TimeIcons/done.png"));
                     Done->addItem(newItem);
@@ -125,60 +100,63 @@ void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, Q
         {
             long long difference = startseconds - currentseconds;
             //CASES FOR DIFFERENCE
-            if(difference > 31536000)
+            if(difference < (depth * 3600))
             {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test1y.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <= 31536000 && difference > 2628288)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test1m.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <= 2628288 && difference > 86400 * 7)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test1w.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <= 86400 * 7 && difference > 86400 * 5)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test5day.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <= 86400 * 5 && difference > 86400 * 3)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test3day.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <= 86400 * 3 && difference > 86400)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test1day.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <= 86400 && difference > 3600 * 9)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test9h.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <=  3600 * 9 && difference > 3600 * 6)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test6h.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <=  3600 * 6 && difference > 3600 * 3)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test3h.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <  3600 * 3 && difference > 3600 * 2)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test2h.png"));
-                Todo->addItem(newItem);
-            }
-            else if(difference <  3600 * 2)
-            {
-                newItem->setIcon(QIcon(":/Img/TimeIcons/test1h.png"));
-                Todo->addItem(newItem);
+                if(difference > 31536000)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test1y.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <= 31536000 && difference > 2628288)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test1m.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <= 2628288 && difference > 86400 * 7)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test1w.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <= 86400 * 7 && difference > 86400 * 5)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test5day.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <= 86400 * 5 && difference > 86400 * 3)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test3day.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <= 86400 * 3 && difference > 86400)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test1day.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <= 86400 && difference > 3600 * 9)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test9h.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <=  3600 * 9 && difference > 3600 * 6)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test6h.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <=  3600 * 6 && difference > 3600 * 3)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test3h.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <  3600 * 3 && difference > 3600 * 2)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test2h.png"));
+                    Todo->addItem(newItem);
+                }
+                else if(difference <  3600 * 2)
+                {
+                    newItem->setIcon(QIcon(":/Img/TimeIcons/test1h.png"));
+                    Todo->addItem(newItem);
+                }
             }
         }
     }
@@ -274,6 +252,44 @@ void DataFillHelper::FillWithHistoryTasks(QListWidget* Fastest, QListWidget* Del
             maxdepth--;
             if(!maxdepth) break;
         }
+    }
+}
+
+void DataFillHelper::FillUserData(QLabel * Name, QLabel * RankName, QLabel * Points, QLabel * Icon, QJsonObject User)
+{
+    QString rankName = User.value("userRank").toString();
+    Name->setText(User.value("userNameArr").toString() + " " + User.value("userSurnameArr").toString());
+    RankName->setText("Rank: " + rankName);
+    Points->setText("Points: " + QString::number(User.value("userPoints").toDouble()));
+    if(rankName == "Novice")
+    {
+        QPixmap pix(":/Img/Ranks/silver.png");
+        Icon->setPixmap(pix);
+        return;
+    }
+    else if(rankName == "Gold")
+    {
+        QPixmap pix(":/Img/Ranks/gold.png");
+        Icon->setPixmap(pix);
+        return;
+    }
+    else if(rankName == "Platinum")
+    {
+        QPixmap pix(":/Img/Ranks/platinum.png");
+        Icon->setPixmap(pix);
+        return;
+    }
+    else if(rankName == "Diamomd")
+    {
+        QPixmap pix(":/Img/Ranks/diamond.png");
+        Icon->setPixmap(pix);
+        return;
+    }
+    else
+    {
+        QPixmap pix(":/Img/Ranks/immortal.png");
+        Icon->setPixmap(pix);
+        return;
     }
 }
 

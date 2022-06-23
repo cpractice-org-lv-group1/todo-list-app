@@ -31,6 +31,7 @@ public:
 
     QTcpSocket* socket;
     QByteArray Data;
+    QFont font;
 
     QJsonDocument doc;
     QJsonParseError docError;
@@ -38,6 +39,9 @@ public:
     int Id;
     QFile log;
     QTextStream logstream;
+    QFile hoursSearch;
+    QTextStream streamSearch;
+    int hours;
 
 signals:
      void backSignal();

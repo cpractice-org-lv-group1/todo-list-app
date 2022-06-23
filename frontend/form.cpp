@@ -18,8 +18,9 @@ Form::Form(QWidget *parent) :
     ui->InProgress->setIconSize(QSize(70, 70));
     ui->Done->setIconSize(QSize(70, 70));
     this->setFixedSize(1049,645);
-    ui->SearchDepth->hide();
-    ui->SearchOk->hide();
+    font.setPointSize(16);
+    ui->SearchDepth->setFont(font);
+
 
     //SIGNALS
     taskwindow = new TaskInfo;
@@ -30,11 +31,23 @@ Form::Form(QWidget *parent) :
 
     log.setFileName("log.txt");
     log.open(QIODevice::WriteOnly | QIODevice::Append);
+
+    hoursSearch.setFileName("search.txt");
+    hoursSearch.open(QIODevice::ReadWrite | QIODevice::Text);
+    streamSearch.setDevice(&hoursSearch);
+    hours = streamSearch.readLine().toInt();
+    ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
+    ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
+    ui->SearchDepth->setText(QString::number(hours));
 }
 
 Form::~Form()
 {
     delete ui;
+    log.close();
+    hoursSearch.resize(0);
+    streamSearch << hours;
+    hoursSearch.close();
 }
 
 //GET BACK TO REGISTRATION
@@ -110,7 +123,7 @@ void Form::sockReady()
     {
         if (socket->waitForConnected(500))
         {
-            socket->waitForReadyRead(500);
+            socket->waitForReadyRead(10);
             Data = socket->readAll();
             qDebug() << Data;
             //logstream << LogWriter::Send("test log");
@@ -125,7 +138,8 @@ void Form::sockReady()
                     if(obj.value("Operation").toString() == "GetUserData")
                     {
                         VectorData::User = obj;
-                        qDebug() << VectorData::User;
+                        DataFillHelper::FillUserData(ui->labelName, ui->labelRankName, ui->labelPoints, ui->RankImg, VectorData::User);
+                        Operations::GetCategories(Id, socket);
                     }
                 }
                 else
@@ -141,7 +155,7 @@ void Form::sockReady()
                             QJsonObject obj = v.toObject();
                             VectorData::Tasks.emplace_back(obj);
                         }
-                        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
+                        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours);
                         //CALL GET USER DATA
                         Operations::GetUserData(Id, socket);
                     }
@@ -189,13 +203,11 @@ void Form::on_ArchiveButton_clicked()
     if(ui->ArchiveButton->text() == "History")
     {
         ui->ArchiveButton->setText("Back");
-        ui->Categorylabel->setText("                          History                Search:");
+        ui->Categorylabel->setText("                          History                 Search:");
 
         ui->AddTaskButton->setEnabled(false);
-        ui->CategoriesButton->hide();
+        ui->CategoriesButton->setEnabled(false);
         ui->SearchDepth->show();
-        QFont font;
-        font.setPointSize(14);
         ui->SearchDepth->setFont(font);
         ui->SearchDepth->setText("5");
         ui->SearchOk->show();
@@ -207,21 +219,29 @@ void Form::on_ArchiveButton_clicked()
     else
     {
         ui->ArchiveButton->setText("History");
-        ui->Categorylabel->setText("                     All Categories");
-        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
+        ui->Categorylabel->setText("                     All Categories                 Last      h");
+        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours);
         ui->AddTaskButton->setEnabled(true);
-        ui->CategoriesButton->show();
-        ui->SearchDepth->hide();
-        ui->SearchOk->hide();
-        ui->Donelabel->setText("DONE (LAST 72h)");
+        ui->CategoriesButton->setEnabled(true);
+        ui->SearchDepth->setText(QString::number(hours));
+        ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
         ui->InProgresslabel->setText(" IN PROGRESS");
-        ui->ToDolabel->setText("             TODO");
+        ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
     }
 }
 
 
 void Form::on_SearchOk_clicked()
 {
-    DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, ui->SearchDepth->toPlainText().toInt());
+    if(ui->ArchiveButton->text() == "Back")
+    DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, ui->SearchDepth->text().toInt());
+    else
+    {
+        hours = ui->SearchDepth->text().toInt();
+        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours);
+        ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
+        ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
+
+    }
 }
 

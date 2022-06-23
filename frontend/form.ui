@@ -87,7 +87,7 @@ QPushButton :hover { border: 1px solid green }
       <string>Friends</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="labelName">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -141,7 +141,7 @@ QPushButton :hover { border: 1px solid green }
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="labelPoints">
      <property name="geometry">
       <rect>
        <x>185</x>
@@ -238,7 +238,7 @@ QPushButton :hover { border: 1px solid green }
       <string>Friend requests</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_10">
+    <widget class="QLabel" name="labelRankName">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -354,7 +354,7 @@ QPushButton :hover { border: 1px solid green }
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>141</width>
+       <width>91</width>
        <height>41</height>
       </rect>
      </property>
@@ -372,9 +372,9 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
     <widget class="QLabel" name="Categorylabel">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>173</x>
        <y>20</y>
-       <width>411</width>
+       <width>471</width>
        <height>41</height>
       </rect>
      </property>
@@ -390,15 +390,15 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>                     All Categories</string>
+      <string>                     All Categories                 Last      h</string>
      </property>
     </widget>
     <widget class="QPushButton" name="CategoriesButton">
      <property name="geometry">
       <rect>
-       <x>560</x>
+       <x>150</x>
        <y>20</y>
-       <width>141</width>
+       <width>91</width>
        <height>41</height>
       </rect>
      </property>
@@ -504,7 +504,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>             TODO</string>
+      <string>               TODO</string>
      </property>
     </widget>
     <widget class="QLabel" name="InProgresslabel">
@@ -542,7 +542,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>DONE (LAST 72h)</string>
+      <string>         DONE</string>
      </property>
     </widget>
     <widget class="QPushButton" name="SearchOk">
@@ -565,20 +565,20 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
       <string>Ok</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="SearchDepth">
+    <widget class="QLineEdit" name="SearchDepth">
      <property name="geometry">
       <rect>
        <x>570</x>
        <y>20</y>
-       <width>41</width>
+       <width>31</width>
        <height>41</height>
       </rect>
      </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit
+{
+border: none;
+}</string>
      </property>
     </widget>
    </widget>

@@ -86,8 +86,6 @@ void Registration::on_LoginButton_clicked()
         {
             socket-> write(jsString.toLatin1());
         }
-
-        logstream << LogWriter::Send(formatted);
     }
     //CASES FOR WHEN SOME OR BOTH FIELDS ARE EMPTY SO NO NEED TO SEND REQUEST
     else
@@ -138,7 +136,7 @@ void Registration::sockReady()
     {
         if (socket->waitForConnected(500))
         {
-            socket->waitForReadyRead(500);
+            socket->waitForReadyRead(10);
             Data = socket->readAll();
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
