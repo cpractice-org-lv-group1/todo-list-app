@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include <QTcpSocket>
 #include <vector>
+#include "logwriter.h"
 
 namespace Ui {
 class TaskInfo;
@@ -26,6 +27,7 @@ public:
 
     QJsonDocument doc;
     QJsonParseError docError;
+    QTextStream logstream;
 
 public slots:
     void GetTaskData(QJsonObject *obj, QTcpSocket *sock);

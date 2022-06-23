@@ -19,6 +19,9 @@ Registration::Registration(QWidget *parent)
     connect(this, &Registration::ShowSignUp, this, &Registration::ShowSignUpSlot);
     socket->connectToHost("127.0.0.1", 8888);
     ifOpen = true;
+    log.setFileName("log.txt");
+    log.open(QIODevice::WriteOnly | QIODevice::Append);
+    logstream.setDevice(&log);
 
     //UI STYLES
     ui->LoginButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
@@ -53,6 +56,7 @@ Registration::~Registration()
 {
     delete ui;
     delete form;
+    log.close();
 }
 
 //FUNCTION FOR CLICK ON LOGIN BUTTON
@@ -83,7 +87,7 @@ void Registration::on_LoginButton_clicked()
             socket-> write(jsString.toLatin1());
         }
 
-        qDebug() << formatted;
+        logstream << LogWriter::Send(formatted);
     }
     //CASES FOR WHEN SOME OR BOTH FIELDS ARE EMPTY SO NO NEED TO SEND REQUEST
     else
@@ -118,6 +122,7 @@ void Registration::ChangeWin()
     this->show();
     form->hide();
     ifOpen = true;
+    logstream.setDevice(&log);
 }
 
 //DESTRUCTOR OF SOCKET
@@ -135,7 +140,6 @@ void Registration::sockReady()
         {
             socket->waitForReadyRead(500);
             Data = socket->readAll();
-            qDebug() << Data;
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
@@ -169,7 +173,7 @@ void Registration::sockReady()
                             file.close();
                         }
                         //GO TO MAIN WINDOW
-                        emit mySignal(doc.object().value("userID").toInt(), socket);
+                        emit mySignal(doc.object().value("userID").toInt(), socket, &logstream);
                     }
                     //WRONG EMAIL
                     else if(doc.object().value("Result").toString() == "Erorr Email")
@@ -191,7 +195,7 @@ void Registration::sockReady()
                     //WRONG RESULT VALUE
                     else
                     {
-                        qDebug() << "Wrong Result value!";
+                        logstream << LogWriter::Send("Wrong Result value on result of login!");
                         return;
                     }
                 }
@@ -201,7 +205,7 @@ void Registration::sockReady()
                     //SIGNUP SUCCSESSFUL
                     if(doc.object().value("Result").toString() == "Success SignUp")
                     {
-                        qDebug() << "Success signup!";
+                        logstream << LogWriter::Send("Success signup!");
                         emit ShowLogIn();
                         ui->Img->move(0,0);
                         ui->SignUpButton->move(160,350);
@@ -213,20 +217,20 @@ void Registration::sockReady()
                     //SIGNUP NOT SUCCSESSFUL
                     else if(doc.object().value("Result").toString() == "Erorr SignUp")
                     {
-                        qDebug() << "Error signup!";
+                        logstream << LogWriter::Send("Error signup!");
                         return;
                     }
                     //WRONG RESULT VALUE
                     else
                     {
-                        qDebug() << "Wrong Result value!";
+                        logstream << LogWriter::Send("Wrong Result value on signup!");
                         return;
                     }
                 }
 //-------------------------------------WRONG OPERATION--------------------------------------//
                 else
                 {
-                    qDebug() << "Wrong Operation value!";
+                    logstream << LogWriter::Send("Wrong Operation value!");
                     return;
                 }
 
@@ -555,7 +559,6 @@ void Registration::on_SignUpButton_clicked()
                 socket-> write(jsString.toLatin1());
             }
 
-            qDebug() << formatted;
         }
     }
 }

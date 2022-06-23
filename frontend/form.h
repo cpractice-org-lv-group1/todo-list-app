@@ -11,9 +11,11 @@
 #include <QJsonArray>
 #include "operations.h"
 #include <vector>
+#include <QFile>
 #include "datafillhelper.h"
 #include "vectordata.h"
 #include "taskinfo.h"
+#include "logwriter.h"
 
 namespace Ui {
 class Form;
@@ -34,6 +36,8 @@ public:
     QJsonParseError docError;
     bool ifOpen;
     int Id;
+    QFile log;
+    QTextStream logstream;
 
 signals:
      void backSignal();
@@ -48,7 +52,7 @@ private slots:
     void on_SearchOk_clicked();
 
 public slots:
-    void slot(int id, QTcpSocket *sock);
+    void slot(int id, QTcpSocket *sock, QTextStream *sendlogstream);
     void sockReady();
     void sockDisc();
     void onTaskClicked(QListWidgetItem* item);

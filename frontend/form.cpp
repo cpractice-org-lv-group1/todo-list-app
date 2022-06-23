@@ -27,6 +27,9 @@ Form::Form(QWidget *parent) :
     connect(ui->InProgress, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(ui->Done, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(this, &Form::SendTaskData, taskwindow, &TaskInfo::GetTaskData);
+
+    log.setFileName("log.txt");
+    log.open(QIODevice::WriteOnly | QIODevice::Append);
 }
 
 Form::~Form()
@@ -34,9 +37,11 @@ Form::~Form()
     delete ui;
 }
 
+//GET BACK TO REGISTRATION
 void Form::on_SignOutButton_clicked()
 {
     ifOpen = false;
+    logstream.setDevice(NULL);
     emit backSignal();
 }
 
@@ -74,7 +79,8 @@ void Form::onTaskClicked(QListWidgetItem* item)
     taskwindow->show();
 }
 
-void Form::slot(int id, QTcpSocket *sock)
+//SLOT ON WINDOW SHOW
+void Form::slot(int id, QTcpSocket *sock, QTextStream *sendlogstream)
 {
     socket = sock;
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockReady()));
@@ -83,8 +89,11 @@ void Form::slot(int id, QTcpSocket *sock)
 
     Id = id;
 
-   // Operations::GetTasks(id, socket);
-    Operations::GetUserData(Id, socket);
+    logstream.setDevice(&*sendlogstream->device());
+    sendlogstream->setDevice(NULL);
+
+    Operations::GetTasks(id, socket);
+    //Operations::GetUserData(Id, socket);
     //Operations::GetFriends(id, socket);
     //Operations::GetCategories(id, socket);
 }
@@ -104,6 +113,7 @@ void Form::sockReady()
             socket->waitForReadyRead(500);
             Data = socket->readAll();
             qDebug() << Data;
+            //logstream << LogWriter::Send("test log");
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
@@ -118,50 +128,51 @@ void Form::sockReady()
                         qDebug() << VectorData::User;
                     }
                 }
-
-                //IF DATA IS ARRAY
-                QJsonArray array = doc.array();
-                //IF IT IS TASKS
-                if(array[0].toObject().value("task_Id").toDouble() != 0)
-                {
-                    VectorData::Tasks.clear();
-                    for(const auto &v : array)
-                    {
-                        QJsonObject obj = v.toObject();
-                        VectorData::Tasks.emplace_back(obj);
-                    }
-                    DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
-                    //CALL GET USER DATA
-                   // Operations::GetUserData(Id, socket);
-                }
-                //IF IT IS FRIENDS
-                else if(array[0].toObject().value("userID").toDouble() != 0)
-                {
-                    VectorData::Friends.clear();
-                    for(const auto &v : array)
-                    {
-                        QJsonObject obj = v.toObject();
-                        VectorData::Friends.emplace_back(obj);
-                    }
-                    //TODO SOME FILL ON FRIENDS
-                }
-                //IF IT IS CATEGORIES
-                else if(array[0].toObject().value("taskCategories_Id").toDouble() != 0)
-                {
-                    VectorData::Categories.clear();
-                    for(const auto &v : array)
-                    {
-                        QJsonObject obj = v.toObject();
-                        VectorData::Categories.emplace_back(obj);
-                    }
-                    //TODO SOME LOGIC WITH CATEGORIES
-                }
                 else
                 {
-                    qDebug() << "Wrong array data!";
-                    return;
+                    //IF DATA IS ARRAY
+                    QJsonArray array = doc.array();
+                    //IF IT IS TASKS
+                    if(array[0].toObject().value("task_Id").toDouble() != 0)
+                    {
+                        VectorData::Tasks.clear();
+                        for(const auto &v : array)
+                        {
+                            QJsonObject obj = v.toObject();
+                            VectorData::Tasks.emplace_back(obj);
+                        }
+                        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
+                        //CALL GET USER DATA
+                        Operations::GetUserData(Id, socket);
+                    }
+                    //IF IT IS FRIENDS
+                    else if(array[0].toObject().value("userID").toDouble() != 0)
+                    {
+                        VectorData::Friends.clear();
+                        for(const auto &v : array)
+                        {
+                            QJsonObject obj = v.toObject();
+                            VectorData::Friends.emplace_back(obj);
+                        }
+                        //TODO SOME FILL ON FRIENDS
+                    }
+                    //IF IT IS CATEGORIES
+                    else if(array[0].toObject().value("taskCategories_Id").toDouble() != 0)
+                    {
+                        VectorData::Categories.clear();
+                        for(const auto &v : array)
+                        {
+                            QJsonObject obj = v.toObject();
+                            VectorData::Categories.emplace_back(obj);
+                        }
+                        //TODO SOME LOGIC WITH CATEGORIES
+                    }
+                    else
+                    {
+                        qDebug() << "Wrong array data!";
+                        return;
+                    }
                 }
-
             }
             else
             {

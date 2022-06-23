@@ -13,7 +13,7 @@
 #include <QPixmap>
 #include <QRegularExpression>
 #include <QFile>
-#include <QDir>
+#include "logwriter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Registration; }
@@ -35,9 +35,11 @@ public:
     bool ifOpen;
     int Id;
     QFont font;
+    QFile log;
+    QTextStream logstream;
 
 signals:
-    void mySignal(int id, QTcpSocket *sock);
+    void mySignal(int id, QTcpSocket *sock, QTextStream *sendlogstream);
     void ShowLogIn();
     void ShowSignUp();
 

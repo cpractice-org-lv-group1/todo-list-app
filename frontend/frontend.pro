@@ -12,6 +12,7 @@ CONFIG += c++17
 SOURCES += \
     datafillhelper.cpp \
     form.cpp \
+    logwriter.cpp \
     main.cpp \
     operations.cpp \
     registration.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     datafillhelper.h \
     form.h \
+    logwriter.h \
     operations.h \
     registration.h \
     taskinfo.h \

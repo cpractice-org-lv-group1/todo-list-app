@@ -16,12 +16,12 @@ void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, Q
 
     //AMOUNT OF SECONDS RIGHT NOW FROM YEAR 0
     long long currentseconds = 0;
-    QString currenttime = QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:ss:mm");//3h 10m
+    QString currenttime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
     currentseconds += currenttime.sliced(0, 4).toLongLong() * 31536000;
     currentseconds += currenttime.sliced(5, 2).toLongLong() * 2628288;
     currentseconds += currenttime.sliced(8, 2).toLongLong() * 86400;
-    currentseconds += (currenttime.sliced(11, 2).toLongLong() + 3) * 3600;
-    currentseconds += (currenttime.sliced(14, 2).toLongLong() + 10) * 60;
+    currentseconds += currenttime.sliced(11, 2).toLongLong() * 3600;
+    currentseconds += currenttime.sliced(14, 2).toLongLong() * 60;
     currentseconds += currenttime.sliced(17, 2).toLongLong();
     for(const auto &x : Tasks)
     {
