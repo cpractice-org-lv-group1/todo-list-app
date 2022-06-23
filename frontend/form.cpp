@@ -36,6 +36,7 @@ Form::Form(QWidget *parent) :
     hoursSearch.open(QIODevice::ReadWrite | QIODevice::Text);
     streamSearch.setDevice(&hoursSearch);
     hours = streamSearch.readLine().toInt();
+    if(hours == 0) hours = 72;
     ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
     ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
     ui->SearchDepth->setText(QString::number(hours));
