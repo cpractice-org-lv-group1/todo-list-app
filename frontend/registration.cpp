@@ -36,9 +36,16 @@ Registration::Registration(QWidget *parent)
     //SHOW LOGIN AS DEFAULT WINDOW
     emit ShowLogIn();
 
-    //CASE TO SKIP LOGIN;
-    ui->LogEmail->setText("ivanglina@gmail.com");
-    ui->LogPass->setText("2281337a");
+    //GET REMEMBERED DATA
+    QFile file;
+    file.setFileName("userdata.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream stream(&file);
+    QString email = stream.readLine();
+    QString pass = stream.readLine();
+    ui->LogEmail->setText(email);
+    ui->LogPass->setText(pass);
+    file.close();
 }
 
 //DESTRUCTOR
@@ -141,6 +148,26 @@ void Registration::sockReady()
                         this->hide();
                         form->show();
                         ifOpen = false;
+                        //Write remember me to file
+                        if(ui->RememberMe->isChecked())
+                        {
+                            QFile file;
+                            file.setFileName("userdata.txt");
+                            file.open(QIODevice::WriteOnly);
+                            QTextStream stream(&file);
+                            stream << ui->LogEmail->toPlainText() + "\r\n";
+                            stream << ui->LogPass->text() + "\r\n";
+                            file.close();
+                        }
+                        else
+                        {
+                            QFile file;
+                            file.setFileName("userdata.txt");
+                            file.open(QIODevice::WriteOnly);
+                            QTextStream stream(&file);
+                            stream << "";
+                            file.close();
+                        }
                         //GO TO MAIN WINDOW
                         emit mySignal(doc.object().value("userID").toInt(), socket);
                     }
@@ -267,6 +294,7 @@ void Registration::ShowLogInSlot()
     ui->LoginButton->show();
     ui->NeedAcc_label->show();
     ui->GoToSign->show();
+    ui->RememberMe->show();
     //HIDE LOGIN ERRORS
     ui->LogWrongEmail->hide();
     ui->LogWrongPass->hide();
@@ -310,6 +338,7 @@ void Registration::ShowSignUpSlot()
     ui->GoToSign->hide();
     ui->LogWrongEmail->hide();
     ui->LogWrongPass->hide();
+    ui->RememberMe->hide();
 
     //SET VALUE OF NEXT/SIGNUP BUTTON
     ui->SignUpButton->setText("Next");

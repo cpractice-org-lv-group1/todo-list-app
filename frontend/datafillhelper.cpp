@@ -1,12 +1,12 @@
-#include "listwidgethelper.h"
+#include "datafillhelper.h"
 
-ListWidgetHelper::ListWidgetHelper()
+DataFillHelper::DataFillHelper()
 {
 
 }
 
 //WARNING!! HAVE TO REMAKE AFTER FORIEGN KEYS ARE DONE!!
-void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks)
+void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks)
 {
     //CLEAR FROM PREVIOUS DATA
     Todo->clear();
@@ -185,7 +185,7 @@ void ListWidgetHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress,
 }
 
 //WARNING!! HAVE TO REMAKE AFTER FORIEGN KEYS ARE DONE!!
-void ListWidgetHelper::FillWithHistoryTasks(QListWidget* Fastest, QListWidget* Deleted, QListWidget* Done, vector<QJsonObject> Tasks, int depth)
+void DataFillHelper::FillWithHistoryTasks(QListWidget* Fastest, QListWidget* Deleted, QListWidget* Done, vector<QJsonObject> Tasks, int depth)
 {
     if(depth < 1) return;
     Fastest->clear();

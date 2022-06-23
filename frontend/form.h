@@ -11,7 +11,7 @@
 #include <QJsonArray>
 #include "operations.h"
 #include <vector>
-#include "listwidgethelper.h"
+#include "datafillhelper.h"
 #include "vectordata.h"
 #include "taskinfo.h"
 

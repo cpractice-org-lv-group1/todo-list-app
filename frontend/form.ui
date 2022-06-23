@@ -461,7 +461,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAsNeeded</enum>
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
     </widget>
     <widget class="QListWidget" name="Done">

@@ -83,8 +83,8 @@ void Form::slot(int id, QTcpSocket *sock)
 
     Id = id;
 
-    Operations::GetTasks(id, socket);
-    //Operations::GetUserData(id, socket);
+   // Operations::GetTasks(id, socket);
+    Operations::GetUserData(Id, socket);
     //Operations::GetFriends(id, socket);
     //Operations::GetCategories(id, socket);
 }
@@ -111,9 +111,11 @@ void Form::sockReady()
                 {
                     //CASE FOR NOT ARRAYS
                     QJsonObject obj = doc.object();
+                    //IF IT IS USER DATA
                     if(obj.value("Operation").toString() == "GetUserData")
                     {
-                        ///
+                        VectorData::User = obj;
+                        qDebug() << VectorData::User;
                     }
                 }
 
@@ -128,7 +130,9 @@ void Form::sockReady()
                         QJsonObject obj = v.toObject();
                         VectorData::Tasks.emplace_back(obj);
                     }
-                    ListWidgetHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
+                    DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
+                    //CALL GET USER DATA
+                   // Operations::GetUserData(Id, socket);
                 }
                 //IF IT IS FRIENDS
                 else if(array[0].toObject().value("userID").toDouble() != 0)
@@ -187,13 +191,13 @@ void Form::on_ArchiveButton_clicked()
         ui->Donelabel->setText("DONE (ALL TIME)");
         ui->InProgresslabel->setText("   DELETED");
         ui->ToDolabel->setText("FASTEST COMPLETIONS");
-        ListWidgetHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, 5);
+        DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, 5);
     }
     else
     {
         ui->ArchiveButton->setText("History");
         ui->Categorylabel->setText("                     All Categories");
-        ListWidgetHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
+        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks);
         ui->AddTaskButton->setEnabled(true);
         ui->CategoriesButton->show();
         ui->SearchDepth->hide();
@@ -207,6 +211,6 @@ void Form::on_ArchiveButton_clicked()
 
 void Form::on_SearchOk_clicked()
 {
-    ListWidgetHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, ui->SearchDepth->toPlainText().toInt());
+    DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, ui->SearchDepth->toPlainText().toInt());
 }
 

@@ -19,6 +19,7 @@ public:
     static vector<QJsonObject> Tasks;
     static vector<QJsonObject> Friends;
     static vector<QJsonObject> Categories;
+    static QJsonObject User;
 };
 
 
