@@ -2,6 +2,7 @@
 #include "Users.h"
 #include "Tasks.h"
 #include "TaskCategories.h"
+#include "Friendships.h"
 #include "CRUD.h"
 #include <algorithm>
 #include "nlohmann/json.hpp"
@@ -170,14 +171,14 @@ void Server::RunSERVER()
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
-						else if (myJSON["Password"].get<string>() != userPass) //UNCORRECT USER
+						else if (myJSON["Password"].get<string>() != userPass) //UNCORRECT USER password
 						{
 							result["Operation"] = "Login";
 							result["Result"] = "Erorr Password";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
-						else                                //SUCCES
+						else                                //SUCCES login
 						{
 							result["Operation"] = "Login";
 							result["Result"] = "Success Login";
@@ -232,11 +233,29 @@ void Server::RunSERVER()
 						tempJson["Operation"] = "GetUserData";
 						SendMSG(tempJson.dump(), i);
 					}
-					else if (jsonIterator.value() == "GetUserFriends") ///////=========================================
+					else if (jsonIterator.value() == "GetUserFriends") // GET FRIENDS
 					{
-						//=============================================================================================
+						auto data = CRUD::Get<Friendships>(myJSON["Id"].get<int>()).GetAllFriends();
+						if (data.empty())
+						{
+							SendMSG("No friends", i);
+						}
+						else 
+						{
+							string result = "[";
+							for (int i = 0; i < data.size(); ++i)
+							{
+								result += data[i].JSON();
+								if (i != data.size() - 1)
+								{
+									result += ",";
+								}
+							}
+							result += "]";
+							SendMSG(result, i);
+						}
 					}
-					else if (jsonIterator.value() == "GetCategories")
+					else if (jsonIterator.value() == "GetCategories") //GET CATEGORIES
 					{
 						auto data = CRUD::Get<TaskCategories>(myJSON["Id"].get<int>()).GetData();
 						string result = "[";
