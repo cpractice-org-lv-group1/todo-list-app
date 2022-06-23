@@ -35,7 +35,7 @@ class TaskCategories : public iCrudOperations
 public:
     void Get();
     void Get(int userId);
-    bool Put(nlohmann::json newObject) {};
+    bool Put(nlohmann::json newObject) { return true; };
     vector<TaskCategoriesStruct> GetData();
 };
 

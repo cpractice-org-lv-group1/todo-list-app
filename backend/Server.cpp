@@ -151,8 +151,8 @@ void Server::RunSERVER()
 					nlohmann::json myJSON = nlohmann::json::parse(s_client_message);
 					auto jsonIterator = myJSON.find("Operation");
 
-					//LoginGetTasks
-					if (jsonIterator.value() == "Login")
+					
+					if (jsonIterator.value() == "Login")  //LOGIN
 					{
 						Users user;
 						auto tempIt = myJSON.find("Email");
@@ -163,21 +163,21 @@ void Server::RunSERVER()
 
 						nlohmann::json result;
 
-						if (userId == 0)
+						if (userId == 0) //UNKNOWN USER
 						{
 							result["Operation"] = "Login";
 							result["Result"] = "Erorr Email";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
-						else if (myJSON["Password"].get<string>() != userPass) 
+						else if (myJSON["Password"].get<string>() != userPass) //UNCORRECT USER
 						{
 							result["Operation"] = "Login";
 							result["Result"] = "Erorr Password";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
 						}
-						else
+						else                                //SUCCES
 						{
 							result["Operation"] = "Login";
 							result["Result"] = "Success Login";
@@ -185,7 +185,7 @@ void Server::RunSERVER()
 							SendMSG(result.dump(), i);
 						}
 					}
-					else if (jsonIterator.value() == "GetTasks")
+					else if (jsonIterator.value() == "GetTasks") //GET TASKS
 					{
 						auto tempIt = myJSON.find("Id");
 
@@ -210,7 +210,7 @@ void Server::RunSERVER()
 							SendMSG(result, i);
 						}
 					}
-					else if (jsonIterator.value() == "SignUp")
+					else if (jsonIterator.value() == "SignUp") //NEW USER
 					{
 						nlohmann::json result;
 						result["Operation"] = "SignUp";
@@ -227,7 +227,8 @@ void Server::RunSERVER()
 					}
 					else if (jsonIterator.value() == "GetUserData")
 					{
-						auto data = CRUD::Get<Users>(myJSON["user_Id"].get<int>()).GetCurrentData();
+						auto data = CRUD::Get<Users>(myJSON["Id"].get<int>()).GetCurrentData();
+						data.Print();
 						nlohmann::json tempJson = nlohmann::json::parse(data.JSON());
 						tempJson["Operation"] = "GetUserData";
 						SendMSG(tempJson.dump(), i);
@@ -236,9 +237,9 @@ void Server::RunSERVER()
 					{
 						//=============================================================================================
 					}
-					else if (jsonIterator.value() == "GetCategories")
+					/*else if (jsonIterator.value() == "GetCategories")
 					{
-						auto data = CRUD::Get<TaskCategories>(myJSON["user_Id"].get<int>()).GetData();
+						auto data = CRUD::Get<TaskCategories>(myJSON["Id"].get<int>()).GetData();
 						string result = "[";
 						for (int i = 0; i < data.size(); ++i)
 						{
@@ -250,7 +251,7 @@ void Server::RunSERVER()
 						}
 						result += "]";
 						SendMSG(result, i);
-					}
+					}*/
 					else 
 					{
 						cout << "Unknown command";
