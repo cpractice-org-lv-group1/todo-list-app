@@ -6,14 +6,23 @@ DataFillHelper::DataFillHelper()
 }
 
 //WARNING!! HAVE TO REMAKE AFTER FORIEGN KEYS ARE DONE!!
-void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks, int depth)
+void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks, int depth, QString category)
 {
     //CLEAR FROM PREVIOUS DATA
     Todo->clear();
     InProgress->clear();
     Done->clear();
-    //FIll
 
+//    vector<QJsonObject> TasksVector;
+//    if(category == "All Categories") TasksVector = Tasks;
+//    else
+//    {
+//        for(const auto &x : Tasks)
+//        {
+//            if(x.value("task_Start_Time").toString())
+//        }
+//    }
+    //FIll
     //AMOUNT OF SECONDS RIGHT NOW FROM YEAR 0
     long long currentseconds = 0;
     QString currenttime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");

@@ -12,7 +12,7 @@ class DataFillHelper
 {
 public:
     DataFillHelper();
-    static void FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks, int depth);
+    static void FillWithTasks(QListWidget* Todo, QListWidget* InProgress, QListWidget* Done, vector<QJsonObject> Tasks, int depth, QString category);
     static void FillWithHistoryTasks(QListWidget* Fastest, QListWidget* Deleted, QListWidget* Done, vector<QJsonObject> Tasks, int depth);
     static void FillUserData(QLabel * Name, QLabel * RankName, QLabel * Points, QLabel * Icon, QJsonObject User);
 };
