@@ -31,7 +31,7 @@ void Operations::GetFriends(int id, QTcpSocket *socket)
 {
     QJsonObject GetById
     {
-        {"Operation", "GetFriends"},
+        {"Operation", "GetUserFriends"},
         {"Id", id}
     };
 

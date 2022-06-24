@@ -116,9 +116,6 @@ void Form::slot(int id, QTcpSocket *sock, QTextStream *sendlogstream)
     sendlogstream->setDevice(NULL);
 
     Operations::GetTasks(id, socket);
-    //Operations::GetUserData(Id, socket);
-    //Operations::GetFriends(id, socket);
-    //Operations::GetCategories(id, socket);
 }
 
 void Form::sockDisc()
@@ -136,7 +133,6 @@ void Form::sockReady()
             socket->waitForReadyRead(10);
             Data = socket->readAll();
             qDebug() << Data;
-            //logstream << LogWriter::Send("test log");
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
@@ -170,7 +166,7 @@ void Form::sockReady()
                         Operations::GetUserData(Id, socket);
                     }
                     //IF IT IS FRIENDS
-                    else if(array[0].toObject().value("userID").toDouble() != 0)
+                    else if(array[0].toObject().value("user_Id").toDouble() != 0)
                     {
                         VectorData::Friends.clear();
                         for(const auto &v : array)
@@ -189,6 +185,7 @@ void Form::sockReady()
                             QJsonObject obj = v.toObject();
                             VectorData::Categories.emplace_back(obj);
                         }
+                        Operations::GetFriends(Id, socket);
                         //TODO SOME LOGIC WITH CATEGORIES
                     }
                     else
