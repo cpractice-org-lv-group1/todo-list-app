@@ -234,7 +234,7 @@ void Server::RunSERVER()
 							string result = "[";
 							for (int i = 0; i < data.size(); ++i)
 							{
-								result += data[i].JSON();
+								result += data[i].JSON().dump();
 								if (i != data.size() - 1)
 								{
 									result += ",";

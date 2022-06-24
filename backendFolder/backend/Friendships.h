@@ -41,21 +41,25 @@ class Friendships : public iCrudOperations
                 << this->user_Rank << "\t" << this->friend_status_Name;
             cout << endl;
         }
-        string JSON()
-        {
-            std::stringstream stream;
-            std::string JSON_string = "";
 
-            stream << JSON_string << "{\"user_Id\":" << user_Id << "," <<
-                "\"user_Name\":" << "\"" << user_Name << "\"," <<
-                "\"user_Surname\":" << "\"" << user_Surname << "\"," <<
-                "\"user_Birthday\":" << "\"" << user_Birthday << "\"," <<
-                "\"user_Mail\":" << "\"" << user_Mail << "\"," <<
-                "\"user_Points\":" << user_Points << "," <<
-                "\"user_Rank\":" << "\"" << user_Rank << "\"," <<
-                "\"user_Birthday\":" << "\"" << friend_status_Name << "\"}";
-            stream >> JSON_string;
-            return JSON_string;
+        nlohmann::json JSON()
+        {
+            string user_Name2((const char*)user_Name);
+            string user_Surname2((const char*)user_Surname);
+            string user_Birthday2((const char*)user_Birthday);
+            string user_Mail2((const char*)user_Mail);
+            string user_Rank2((const char*)user_Rank);
+            string friend_status_Name2((const char*)friend_status_Name);
+
+            nlohmann::json myJSON = nlohmann::json{ {"user_Id", user_Id},
+                                                    {"user_Name", user_Name2},
+                                                    {"user_Surname", user_Surname2},
+                                                    {"user_Birthday", user_Birthday2},
+                                                    {"user_Mail", user_Mail2},
+                                                    {"user_Points", user_Points},
+                                                    {"user_Rank", user_Rank2},
+                                                    {"friend_status_Name", friend_status_Name2}};
+            return myJSON;
         }
     };
 
