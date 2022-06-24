@@ -9,26 +9,19 @@
 
 #define DEFAULT_BUFLEN 4096
 
-void Server::Initiliaze() 
+Server::Server(mINI::INIStructure myINI)
+{
+	this->iniCFG = myINI;
+}
+
+void Server::Initiliaze()
 {
 	server_socket.InitializeSocket();
 
-	server_socket.BindSocket(8888);
+	server_socket.BindSocket(stoi(iniCFG["Options"]["PORT"]));
 
-	server_socket.Listen(10);
+	server_socket.Listen(stoi(iniCFG["Options"]["MAX_CLIENTS"]));
 }
-
-bool myCompare(char* first, char* second, int length) 
-{
-	for (int i = 0; i < length; i++) {
-		if (first[i] != second[i]) 
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
 
 void Server::RunSERVER() 
 {
@@ -52,7 +45,7 @@ void Server::RunSERVER()
 
     switch (SQLDriverConnect(sqlConnHandle,
         NULL,
-        (SQLWCHAR*)L"DRIVER={SQL Server};SERVER=mnkserver.database.windows.net, 1433;DATABASE=TodolistDB;UID=sanyok;PWD=!Politech;",
+        (SQLWCHAR*)GetWCharFromString(iniCFG["Options"]["DBConnectString"]),
         SQL_NTS,
         retconstring,
         1024,
@@ -82,25 +75,9 @@ void Server::RunSERVER()
     if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
         completedConnections();
 
-    //output
     cout << "\n";
     cout << "Executing query...";
     cout << "\n";
-
-	/*int userId = CRUD::Get<Users>("somethinf").GetCurrentUser().userID;
-	cout << userId;*/
-	auto data = CRUD::Get<TaskCategories>(1).GetData();
-	string result = "[";
-	for (int i = 0; i < data.size(); ++i)
-	{
-		result += data[i].JSON();
-		if (i != data.size() - 1)
-		{
-			result += ",";
-		}
-	}
-	result += "]";
-	cout << result;
 
 	Initiliaze();
 
@@ -139,7 +116,7 @@ void Server::RunSERVER()
 		}
 
 		// if some of client sockets sends something
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < stoi(iniCFG["Options"]["MAX_CLIENTS"]); i++)
 		{
 			SOCKET tempSocket = client_socket.GetClientArrayById(i);
 			// if client presend in read sockets

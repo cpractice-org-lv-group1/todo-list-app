@@ -1,5 +1,15 @@
 #include "Friendships.h"
 
+void Friendships::Delete(int id)
+{
+    string sqldelete = "Delete from Friendships where friendship_Id = ";
+    sqldelete += to_string(id);
+
+    wstring wsqldelete = GetWCharFromString(sqldelete);
+
+    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+}
+
 vector<Friendships::FriendshipsStruct> Friendships::GetData()
 {
     return AllFriendships;
