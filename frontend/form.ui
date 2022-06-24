@@ -579,7 +579,11 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 
 QLineEdit
 {
-border:   none;  /*1px solid black;*/
+border:   1px solid black;
+border-top:none;
+border-right:none;
+border-left:none;
+padding-top:2px;
 }</string>
      </property>
     </widget>
