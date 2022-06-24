@@ -36,7 +36,6 @@ void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, Q
     {
         //SKIP DELETED
         if(x.value("task_Status").toDouble() == 4) continue;
-        //MARE SURE THAT TEXT DOES NOT OVERFLOW
         QString TaskHeader, TaskBody;
         TaskHeader = x.value("task_Header").toString();
         TaskBody = x.value("task_Body").toString();
