@@ -1,5 +1,15 @@
 #include "FriendStatuses.h"
 
+void FriendStatuses::Delete(int id)
+{
+    string sqldelete = "Delete from FriendStatuses where friend_status_Id = ";
+    sqldelete += to_string(id);
+
+    wstring wsqldelete = GetWCharFromString(sqldelete);
+
+    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+}
+
 vector<FriendStatuses::FriendStatusesStruct> FriendStatuses::GetData()
 {
     return AllFriendStatuses;

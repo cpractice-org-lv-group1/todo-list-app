@@ -65,7 +65,7 @@ public:
     void Get();
     void Get(int userId);
     bool Put(nlohmann::json newObject) { return true; };
-    void Delete(int id) {};
+    void Delete(int id);
     vector<FriendshipsStruct> GetData();
     vector<FriendStruct> GetAllFriends();
 };
