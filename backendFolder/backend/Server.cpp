@@ -89,6 +89,18 @@ void Server::RunSERVER()
 
 	/*int userId = CRUD::Get<Users>("somethinf").GetCurrentUser().userID;
 	cout << userId;*/
+	auto data = CRUD::Get<TaskCategories>(1).GetData();
+	string result = "[";
+	for (int i = 0; i < data.size(); ++i)
+	{
+		result += data[i].JSON();
+		if (i != data.size() - 1)
+		{
+			result += ",";
+		}
+	}
+	result += "]";
+	cout << result;
 
 	Initiliaze();
 

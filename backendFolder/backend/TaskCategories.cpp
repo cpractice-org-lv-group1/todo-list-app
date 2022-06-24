@@ -61,8 +61,6 @@ void TaskCategories::Get(int userId)
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
-    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)L"SELECT * FROM TaskCategories", SQL_NTS);
-
     if (retcode == SQL_SUCCESS)
     {
         while (true)
