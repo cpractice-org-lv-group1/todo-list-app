@@ -11,14 +11,16 @@
 #include "config.h"
 #include "CRUD.h"
 
-#define FIELD_LEN 50
-
 using namespace std;
 
 int main() 
 {
+	mINI::INIFile file("cfg.ini");
+	mINI::INIStructure ini;
+	file.read(ini);
+
 	WSA_loader::Load();
-	Server my_server;
+	Server my_server(ini);
 	puts("Start server... DONE.");
 	puts("Server is waiting for incoming connections...\nPlease, start one or more client-side app.");
 	my_server.RunSERVER();
@@ -26,26 +28,3 @@ int main()
 
     return 0;
 }
-
-
-//void Delete(int id)
-//{
-//    string sqldelete = "Delete from Users where user_Id = ";
-//    sqldelete += to_string(id);
-//
-//    wstring wsqldelete = GetWCharFromString(sqldelete);
-//
-//    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
-//}
-//
-//void Update(string name, int id)
-//{
-//    string update = "update Users set user_Name = '";
-//    update += name;
-//    update += "' where user_id = ";
-//    update += to_string(id);
-//
-//    wstring wupdate = GetWCharFromString(update);
-//
-//    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wupdate.c_str(), SQL_NTS);
-//}
