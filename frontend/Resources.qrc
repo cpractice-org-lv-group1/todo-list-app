@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/Img">
+        <file>Img/LogoJpeg.jpg</file>
+        <file>Img/icon.jpg</file>
+        <file>Img/LogoJpeg2.jpg</file>
+        <file>TimeIcons/test1day.png</file>
+        <file>TimeIcons/test1h.png</file>
+        <file>TimeIcons/test3h.png</file>
+        <file>TimeIcons/test1w.png</file>
+        <file>TimeIcons/test3day.png</file>
+        <file>TimeIcons/test5day.png</file>
+        <file>TimeIcons/test6h.png</file>
+        <file>TimeIcons/test9h.png</file>
+        <file>TimeIcons/test1m.png</file>
+        <file>TimeIcons/test1y.png</file>
+        <file>TimeIcons/done.png</file>
+        <file>TimeIcons/late.png</file>
+        <file>TimeIcons/progress.png</file>
+        <file>TimeIcons/test2h.png</file>
+        <file>Ranks/diamond.png</file>
+        <file>Ranks/gold.png</file>
+        <file>Ranks/immortal.png</file>
+        <file>Ranks/platinum.png</file>
+        <file>Ranks/silver.png</file>
+        <file>TimeIcons/deleted.png</file>
+    </qresource>
+</RCC>
