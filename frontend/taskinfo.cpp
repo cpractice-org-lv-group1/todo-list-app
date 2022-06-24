@@ -9,6 +9,7 @@ TaskInfo::TaskInfo(QWidget *parent) :
 
     //STYLES
     ui->NoneLabel->hide();
+    this->setFixedSize(590,309);
 }
 
 TaskInfo::~TaskInfo()

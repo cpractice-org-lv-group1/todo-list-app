@@ -20,18 +20,24 @@ Form::Form(QWidget *parent) :
     this->setFixedSize(1049,645);
     font.setPointSize(16);
     ui->SearchDepth->setFont(font);
+    ui->Categorylabel->setAlignment(Qt::AlignCenter);
 
 
     //SIGNALS
     taskwindow = new TaskInfo;
+    categorywindow = new Categories;
     connect(ui->ToDo, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(ui->InProgress, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(ui->Done, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(this, &Form::SendTaskData, taskwindow, &TaskInfo::GetTaskData);
+    connect(this, &Form::SendCategoriesData, categorywindow, &Categories::GetCategoriesData);
+    connect(categorywindow, SIGNAL(ChangeCategory(QString)), this, SLOT(GetChangedCategory(QString)));
 
+    //LOG FILE
     log.setFileName("log.txt");
     log.open(QIODevice::WriteOnly | QIODevice::Append);
 
+    //HOURS DATA
     hoursSearch.setFileName("search.txt");
     hoursSearch.open(QIODevice::ReadWrite | QIODevice::Text);
     streamSearch.setDevice(&hoursSearch);
@@ -40,6 +46,9 @@ Form::Form(QWidget *parent) :
     ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
     ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
     ui->SearchDepth->setText(QString::number(hours));
+
+    //CATEGORY VALUE
+    CurrentCategory = "All Categories";
 }
 
 Form::~Form()
@@ -156,7 +165,7 @@ void Form::sockReady()
                             QJsonObject obj = v.toObject();
                             VectorData::Tasks.emplace_back(obj);
                         }
-                        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours);
+                        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
                         //CALL GET USER DATA
                         Operations::GetUserData(Id, socket);
                     }
@@ -204,24 +213,25 @@ void Form::on_ArchiveButton_clicked()
     if(ui->ArchiveButton->text() == "History")
     {
         ui->ArchiveButton->setText("Back");
-        ui->Categorylabel->setText("                          History                 Search:");
-
+        ui->Categorylabel->setText("History");
+        ui->SearchLabel->setText("Search      tasks");
         ui->AddTaskButton->setEnabled(false);
         ui->CategoriesButton->setEnabled(false);
         ui->SearchDepth->show();
         ui->SearchDepth->setFont(font);
-        ui->SearchDepth->setText("5");
+        ui->SearchDepth->setText("10");
         ui->SearchOk->show();
         ui->Donelabel->setText("DONE (ALL TIME)");
-        ui->InProgresslabel->setText("   DELETED");
+        ui->InProgresslabel->setText("    DELETED");
         ui->ToDolabel->setText("FASTEST COMPLETIONS");
-        DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, 5);
+        DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, 10);
     }
     else
     {
         ui->ArchiveButton->setText("History");
-        ui->Categorylabel->setText("                     All Categories                 Last      h");
-        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours);
+        ui->Categorylabel->setText(CurrentCategory);
+        ui->SearchLabel->setText("    Last      h");
+        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
         ui->AddTaskButton->setEnabled(true);
         ui->CategoriesButton->setEnabled(true);
         ui->SearchDepth->setText(QString::number(hours));
@@ -239,10 +249,24 @@ void Form::on_SearchOk_clicked()
     else
     {
         hours = ui->SearchDepth->text().toInt();
-        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours);
+        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
         ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
         ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
 
     }
+}
+
+//CATEGORIES LOGIC
+void Form::on_CategoriesButton_clicked()
+{
+    emit SendCategoriesData(VectorData::Categories, socket, CurrentCategory);
+    categorywindow->show();
+}
+
+void Form::GetChangedCategory(QString category)
+{
+    CurrentCategory = category;
+    DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
+    ui->Categorylabel->setText(CurrentCategory);
 }
 

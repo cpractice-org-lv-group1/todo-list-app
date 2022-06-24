@@ -48,9 +48,7 @@ private slots:
     void on_LoginButton_clicked();
     void on_GoToSign_clicked();
     void on_GoToLog_clicked();
-
     void on_SignUpButton_clicked();
-
     void on_SignUpBackButton_clicked();
 
 public slots:

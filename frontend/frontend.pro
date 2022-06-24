@@ -10,6 +10,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    categories.cpp \
     datafillhelper.cpp \
     form.cpp \
     logwriter.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
     vectordata.cpp
 
 HEADERS += \
+    categories.h \
     datafillhelper.h \
     form.h \
     logwriter.h \
@@ -29,6 +31,7 @@ HEADERS += \
     vectordata.h
 
 FORMS += \
+    categories.ui \
     form.ui \
     registration.ui \
     taskinfo.ui
