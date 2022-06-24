@@ -372,9 +372,9 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
     <widget class="QLabel" name="Categorylabel">
      <property name="geometry">
       <rect>
-       <x>173</x>
+       <x>248</x>
        <y>20</y>
-       <width>471</width>
+       <width>221</width>
        <height>41</height>
       </rect>
      </property>
@@ -390,7 +390,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
 }</string>
      </property>
      <property name="text">
-      <string>                     All Categories                 Last      h</string>
+      <string>All Categories</string>
      </property>
     </widget>
     <widget class="QPushButton" name="CategoriesButton">
@@ -568,19 +568,57 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
     <widget class="QLineEdit" name="SearchDepth">
      <property name="geometry">
       <rect>
-       <x>570</x>
+       <x>545</x>
        <y>20</y>
        <width>31</width>
        <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLineEdit
+      <string notr="true">
+
+QLineEdit
 {
-border: none;
+border:   none;  /*1px solid black;*/
 }</string>
      </property>
     </widget>
+    <widget class="QLabel" name="SearchLabel">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>30</y>
+       <width>151</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+	border: none;
+}</string>
+     </property>
+     <property name="text">
+      <string>    Last      h</string>
+     </property>
+    </widget>
+    <zorder>SearchLabel</zorder>
+    <zorder>AddTaskButton</zorder>
+    <zorder>Categorylabel</zorder>
+    <zorder>CategoriesButton</zorder>
+    <zorder>ToDo</zorder>
+    <zorder>InProgress</zorder>
+    <zorder>Done</zorder>
+    <zorder>ToDolabel</zorder>
+    <zorder>InProgresslabel</zorder>
+    <zorder>Donelabel</zorder>
+    <zorder>SearchOk</zorder>
+    <zorder>SearchDepth</zorder>
    </widget>
    <zorder>Img</zorder>
    <zorder>Img3</zorder>
