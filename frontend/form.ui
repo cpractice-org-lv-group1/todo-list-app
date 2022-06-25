@@ -47,7 +47,7 @@ QPushButton :hover { border: 1px solid green }
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QListWidget" name="listWidget_4">
+    <widget class="QListWidget" name="Friendlist">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -55,6 +55,11 @@ QPushButton :hover { border: 1px solid green }
        <width>201</width>
        <height>201</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
      </property>
      <property name="styleSheet">
       <string notr="true">QListWidget
@@ -458,7 +463,7 @@ QPushButton:hover { border: 1px solid darkgreen;}</string>
       <string notr="true"/>
      </property>
      <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
+      <enum>Qt::ScrollBarAsNeeded</enum>
      </property>
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
