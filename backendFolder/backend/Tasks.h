@@ -17,8 +17,8 @@ class Tasks : public iCrudOperations
         SQLCHAR task_Start_Time[FIELD_LEN];
         SQLCHAR task_Expected_End_Time[FIELD_LEN];
         SQLCHAR task_Real_End_Time[FIELD_LEN];
-        SQLINTEGER task_Status;
-        SQLINTEGER task_Category;
+        SQLCHAR task_Status[FIELD_LEN];
+        SQLCHAR task_Category[FIELD_LEN];
         SQLINTEGER task_User;
         SQLINTEGER task_Difficulty;
         
@@ -37,6 +37,8 @@ class Tasks : public iCrudOperations
             string task_Start_Time2((const char*)task_Start_Time);
             string task_Expected_End_Time2((const char*)task_Expected_End_Time);
             string task_Real_End_Time2((const char*)task_Real_End_Time);
+            string task_Status2((const char*)task_Status);
+            string task_Category2((const char*)task_Category);
 
             nlohmann::json myJSON = nlohmann::json{ {"task_Id", task_Id},
                                                     {"task_Header", task_Header2},
@@ -44,8 +46,8 @@ class Tasks : public iCrudOperations
                                                     {"task_Start_Time", task_Start_Time2},
                                                     {"task_Expected_End_Time", task_Expected_End_Time2},
                                                     {"task_Real_End_Time", task_Real_End_Time2},
-                                                    {"task_Status", task_Status},
-                                                    {"task_Category", task_Category},
+                                                    {"task_Status", task_Status2},
+                                                    {"task_Category", task_Category2},
                                                     {"task_User", task_User},
                                                     {"task_Difficulty", task_Difficulty}};
             return myJSON;

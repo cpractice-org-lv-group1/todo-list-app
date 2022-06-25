@@ -58,7 +58,7 @@ void Friendships::Get()
 
 void Friendships::Get(int userId)
 {
-    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name \
+    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name\
         from Friendships fr\
         left join Users u on(user_Id = fr.friendship_AdresserId and user_Id != ";
     put += to_string(userId); 
@@ -89,8 +89,8 @@ void Friendships::Get(int userId)
             {
                 FriendStruct userFriend;
                 SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &userFriend.user_Id, 0, &lenth);
-                SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, userFriend.user_Name, 0, &lenth);
-                SQLGetData(sqlStmtHandle, 3, SQL_C_CHAR, userFriend.user_Surname, 0, &lenth);
+                SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, userFriend.user_Name, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 3, SQL_C_CHAR, userFriend.user_Surname, FIELD_LEN, &lenth);
                 SQLGetData(sqlStmtHandle, 4, SQL_C_CHAR, userFriend.user_Birthday, FIELD_LEN, &lenth);
                 SQLGetData(sqlStmtHandle, 5, SQL_C_CHAR, userFriend.user_Mail, FIELD_LEN, &lenth);
                 SQLGetData(sqlStmtHandle, 6, SQL_C_ULONG, &userFriend.user_Points, 0, &lenth);
