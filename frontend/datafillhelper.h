@@ -16,6 +16,7 @@ public:
     static void FillWithHistoryTasks(QListWidget* Fastest, QListWidget* Deleted, QListWidget* Done, vector<QJsonObject> Tasks, int depth);
     static void FillUserData(QLabel * Name, QLabel * RankName, QLabel * Points, QLabel * Icon, QJsonObject User);
     static void FillFriends(QListWidget* List, vector<QJsonObject> Friends);
+    static void FillFriendRequests(QListWidget* List, vector<QJsonObject> Friends);
 };
 
 #endif // DATAFILLHELPER_H

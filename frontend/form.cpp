@@ -17,11 +17,11 @@ Form::Form(QWidget *parent) :
     ui->ToDo->setIconSize(QSize(70, 70));
     ui->InProgress->setIconSize(QSize(70, 70));
     ui->Done->setIconSize(QSize(70, 70));
+    ui->Friendlist->setIconSize(QSize(30, 30));
     this->setFixedSize(1049,645);
     font.setPointSize(16);
     ui->SearchDepth->setFont(font);
     ui->Categorylabel->setAlignment(Qt::AlignCenter);
-
 
     //SIGNALS
     taskwindow = new TaskInfo;
@@ -261,10 +261,28 @@ void Form::on_CategoriesButton_clicked()
     categorywindow->show();
 }
 
+//SLOT WHICH REACTS TO CHANGE OF CATEGORY
 void Form::GetChangedCategory(QString category)
 {
     CurrentCategory = category;
     DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
     ui->Categorylabel->setText(CurrentCategory);
+}
+
+//SHOW FRIEND REQUEST
+void Form::on_FriendRequests_clicked()
+{
+    if(ui->FriendRequests->text() == "Friend requests")
+    {
+        ui->FriendRequests->setText("Friends");
+        DataFillHelper::FillFriendRequests(ui->Friendlist, VectorData::Friends);
+        ui->friendlabel->setText("Friend requests");
+    }
+    else
+    {
+        ui->FriendRequests->setText("Friend requests");
+        DataFillHelper::FillFriends(ui->Friendlist, VectorData::Friends);
+        ui->friendlabel->setText("       Friends");
+    }
 }
 

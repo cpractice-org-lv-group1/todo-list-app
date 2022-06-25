@@ -57,6 +57,8 @@ private slots:
     void on_SearchOk_clicked();
     void on_CategoriesButton_clicked();
 
+    void on_FriendRequests_clicked();
+
 public slots:
     void slot(int id, QTcpSocket *sock, QTextStream *sendlogstream);
     void sockReady();

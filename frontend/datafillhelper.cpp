@@ -304,8 +304,7 @@ void DataFillHelper::FillUserData(QLabel * Name, QLabel * RankName, QLabel * Poi
     }
 }
 
-
-//FULL FRIENDLIST
+//FILL FRIENDLIST
 void DataFillHelper::FillFriends(QListWidget* List, vector<QJsonObject> Friends)
 {
     List->clear();
@@ -315,7 +314,47 @@ void DataFillHelper::FillFriends(QListWidget* List, vector<QJsonObject> Friends)
         if(x.value("friend_status_Name").toString() == "added")
         {
             QListWidgetItem *newItem = new QListWidgetItem;
-            newItem->setText(x.value("user_Name").toString() + " " + x.value("user_Surname").toString());
+            newItem->setText(x.value("user_Name").toString() + " " + x.value("user_Surname").toString() + "                                    " + QString::number(x.value("user_Id").toDouble()));
+            if(x.value("user_Rank").toString() == "Novice")
+            {
+                newItem->setIcon(QIcon(":/Img/Ranks/silver.png"));
+                List->addItem(newItem);
+            }
+            else if(x.value("user_Rank").toString() == "Gold")
+            {
+                newItem->setIcon(QIcon(":/Img/Ranks/gold.png"));
+                List->addItem(newItem);
+            }
+            else if(x.value("user_Rank").toString() == "Platinum")
+            {
+                newItem->setIcon(QIcon(":/Img/Ranks/platinum.png"));
+                List->addItem(newItem);
+            }
+            else if(x.value("user_Rank").toString() == "Diamomd")
+            {
+                newItem->setIcon(QIcon(":/Img/Ranks/diamond.png"));
+                List->addItem(newItem);
+            }
+            else
+            {
+                newItem->setIcon(QIcon(":/Img/Ranks/immortal.png"));
+                List->addItem(newItem);
+            }
+        }
+    }
+}
+
+//FILL FRIEND REQUESTS
+void DataFillHelper::FillFriendRequests(QListWidget* List, vector<QJsonObject> Friends)
+{
+    List->clear();
+
+    for(const auto &x : Friends)
+    {
+        if(x.value("friend_status_Name").toString() == "waiting for responce")
+        {
+            QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setText(x.value("user_Name").toString() + " " + x.value("user_Surname").toString() + "                                    " + QString::number(x.value("user_Id").toDouble()));
             if(x.value("user_Rank").toString() == "Novice")
             {
                 newItem->setIcon(QIcon(":/Img/Ranks/silver.png"));
