@@ -17,7 +17,7 @@ TaskInfo::~TaskInfo()
     delete ui;
 }
 
-void TaskInfo::GetTaskData(QJsonObject *obj, QTcpSocket *sock)
+void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categories, QTcpSocket *sock)
 {
     socket = sock;
     currentTask = *obj;
@@ -50,33 +50,37 @@ void TaskInfo::GetTaskData(QJsonObject *obj, QTcpSocket *sock)
         ui->TaskEnd->hide();
     }
     ui->TaskStatus->setText(currentTask.value("task_Status").toString());
-    ui->TaskCategory->setText(currentTask.value("task_Category").toString());
     ui->TaskDifficulty->setText(QString::number(currentTask.value("task_Difficulty").toDouble()));
 
+    ui->comboBox->clear();
+    for(auto &x : categories)
+    {
+        ui->comboBox->addItem(x.value("taskCategories_Name").toString());
+    }
+
     //SET STYLE
+    ui->comboBox->setFont(font);
+    ui->comboBox->setEnabled(false);
+    ui->comboBox->setStyleSheet ("QComboBox::drop-down {border-width: 0px;} QComboBox::down-arrow {image: url(noimg); border-width: 0px;} QComboBox:!enabled{color:black}");
     ui->EditButton->setEnabled(true);
     ui->DoneButton->setEnabled(true);
     ui->DeleteButton->setEnabled(true);
-    this->setStyleSheet("QMainWindow{background-color: white;} QTextEdit {border: none; } QDateEdit {border: none; }");
+    this->setStyleSheet("QMainWindow{background-color: white;} QTextEdit {border: none; } QDateTimeEdit {border: none; } QComboBox{border: none;}");
     ui->TaskHeader->setReadOnly(true);
     ui->TaskHeader->setFont(font);
     ui->TaskDescription->setReadOnly(true);
     ui->TaskDescription->setFont(font);
     ui->TaskStartTime->setReadOnly(true);
     ui->TaskStartTime->setFont(font);
-    ui->TaskStartTime->setStyleSheet("QDateEdit{spacing: 0 px; padding-left: 0px; padding-bottom:3px;}");
     ui->TaskExpEnd->setReadOnly(true);
     ui->TaskExpEnd->setFont(font);
-    ui->TaskExpEnd->setStyleSheet("QDateEdit{spacing: 0 px; padding-left: 0px; padding-bottom:3px;}");
     ui->TaskEnd->setReadOnly(true);
     ui->TaskEnd->setFont(font);
-    ui->TaskEnd->setStyleSheet("QDateEdit{spacing: 0 px; padding-left: 0px; padding-bottom:3px;}");
     ui->TaskStatus->setReadOnly(true);
     ui->TaskStatus->setFont(font);
-    ui->TaskCategory->setReadOnly(true);
-    ui->TaskCategory->setFont(font);
     ui->TaskDifficulty->setReadOnly(true);
     ui->TaskDifficulty->setFont(font);
+    ui->EditButton->setText("Edit");
 
     //DIFFERENT CASES FOR STATUSES
     if(currentTask.value("task_Status").toString() == "Completed")
@@ -96,6 +100,7 @@ void TaskInfo::on_EditButton_clicked()
 {
     if(ui->EditButton->text() == "Edit")
     {
+        ui->comboBox->setEnabled(true);
         ui->TaskHeader->setReadOnly(false);
         ui->TaskDescription->setReadOnly(false);
         ui->TaskStartTime->setReadOnly(false);
@@ -104,9 +109,13 @@ void TaskInfo::on_EditButton_clicked()
         ui->TaskDifficulty->setReadOnly(false);
         ui->EditButton->setText("Ok");
         ui->EditButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
+        this->setStyleSheet("QMainWindow{background-color: white;} QTextEdit {border: 1px solid black; } QDateTimeEdit {border: 1px solid black; } QComboBox{border: 1px solid black;}");
+        ui->TaskStatus->setStyleSheet("QTextEdit {border: none; }");
+        ui->TaskEnd->setStyleSheet("QDateTimeEdit {border: none; }");
     }
     else
     {
+        ui->comboBox->setEnabled(false);
         ui->TaskHeader->setReadOnly(true);
         ui->TaskDescription->setReadOnly(true);
         ui->TaskStartTime->setReadOnly(true);
@@ -115,6 +124,7 @@ void TaskInfo::on_EditButton_clicked()
         ui->TaskDifficulty->setReadOnly(true);
         ui->EditButton->setText("Edit");
         ui->EditButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid blue;}");
+        this->setStyleSheet("QMainWindow{background-color: white;} QTextEdit {border: none; } QDateTimeEdit {border: none; } QComboBox{border: none;}");
 
         //TODO MAKE EDIT OPERATION
     }

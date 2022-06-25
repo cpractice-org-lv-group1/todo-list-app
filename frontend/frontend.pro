@@ -13,6 +13,7 @@ SOURCES += \
     categories.cpp \
     datafillhelper.cpp \
     form.cpp \
+    friendinfo.cpp \
     logwriter.cpp \
     main.cpp \
     operations.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     categories.h \
     datafillhelper.h \
     form.h \
+    friendinfo.h \
     logwriter.h \
     operations.h \
     registration.h \
@@ -33,6 +35,7 @@ HEADERS += \
 FORMS += \
     categories.ui \
     form.ui \
+    friendinfo.ui \
     registration.ui \
     taskinfo.ui
 

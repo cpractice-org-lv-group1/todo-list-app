@@ -9,6 +9,7 @@
 #include <QTcpSocket>
 #include <vector>
 #include "logwriter.h"
+using namespace std;
 
 namespace Ui {
 class TaskInfo;
@@ -24,13 +25,11 @@ public:
     QFont font;
     QTcpSocket* socket;
     QByteArray Data;
-
     QJsonDocument doc;
     QJsonParseError docError;
-    QTextStream logstream;
 
 public slots:
-    void GetTaskData(QJsonObject *obj, QTcpSocket *sock);
+    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories, QTcpSocket *sock);
 
 private slots:
     void on_EditButton_clicked();
