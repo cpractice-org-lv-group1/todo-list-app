@@ -144,6 +144,7 @@ void Form::sockReady()
                     if(obj.value("Operation").toString() == "GetUserData")
                     {
                         VectorData::User = obj;
+                        //FILL USER DATA
                         DataFillHelper::FillUserData(ui->labelName, ui->labelRankName, ui->labelPoints, ui->RankImg, VectorData::User);
                         Operations::GetCategories(Id, socket);
                     }
@@ -161,8 +162,8 @@ void Form::sockReady()
                             QJsonObject obj = v.toObject();
                             VectorData::Tasks.emplace_back(obj);
                         }
+                        //FILL TASKS
                         DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
-                        //CALL GET USER DATA
                         Operations::GetUserData(Id, socket);
                     }
                     //IF IT IS FRIENDS
@@ -174,7 +175,8 @@ void Form::sockReady()
                             QJsonObject obj = v.toObject();
                             VectorData::Friends.emplace_back(obj);
                         }
-                        //TODO SOME FILL ON FRIENDS
+                        //FILL FRIENDLIST
+                        DataFillHelper::FillFriends(ui->Friendlist, VectorData::Friends);
                     }
                     //IF IT IS CATEGORIES
                     else if(array[0].toObject().value("taskCategories_Id").toDouble() != 0)
@@ -186,7 +188,6 @@ void Form::sockReady()
                             VectorData::Categories.emplace_back(obj);
                         }
                         Operations::GetFriends(Id, socket);
-                        //TODO SOME LOGIC WITH CATEGORIES
                     }
                     else
                     {
