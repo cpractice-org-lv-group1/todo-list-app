@@ -21,9 +21,10 @@ class TaskStatuses : public iCrudOperations
     };
     vector<TaskStatusesStruct> AllTaskStatuses;
 public:
-    void Get();
-    bool Put(nlohmann::json newObject) { return true; };
-    void Delete(int id);
+    void Get() override;
+    bool Post(nlohmann::json newObject) override { return true; };
+    bool Put(nlohmann::json newObject) override { return true; };
+    void Delete(int id) override;
     vector<TaskStatusesStruct> GetData();
 };
 

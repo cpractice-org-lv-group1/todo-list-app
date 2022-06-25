@@ -61,17 +61,16 @@ void Friendships::Get(int userId)
     string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name\
         from Friendships fr\
         left join Users u on(user_Id = fr.friendship_AdresserId and user_Id != ";
-    put += to_string(userId); 
-    put += ") or user_Id = fr.friendship_RequesterId\
+    put += to_string(userId) + ") or (user_Id = fr.friendship_RequesterId and user_Id !=";
+    put += to_string(userId) + ")\
         left join FriendStatuses fs on fr.friendship_Status = fs.friend_status_Id\
         where(fr.friendship_AdresserId = ";
-    put += to_string(userId); 
-    put +=" and fs.friend_status_Name = 'waiting for responce')\
+    put += to_string(userId) + " and fs.friend_status_Name = 'waiting for responce')\
         or (fr.friendship_RequesterId = ";
-    put += to_string(userId); 
-    put += " and fs.friend_status_Name = 'added')\
+    put += to_string(userId) + " and fs.friend_status_Name = 'added') or (fr.friendship_AdresserId = ";
+    put += to_string(userId) + " and fs.friend_status_Name = 'added')\
         and user_Id != ";
-    put += to_string(userId);
+    put += to_string(userId); 
     wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);

@@ -1,4 +1,43 @@
 #include "Tasks.h"
+#include "CRUD.h"
+#include "TaskStatuses.h"
+
+bool Tasks::Put(nlohmann::json newObject)
+{
+    auto taskStatuses = CRUD::Get<TaskStatuses>().GetData();
+    int statusId;
+
+    for(auto x: taskStatuses) 
+    {
+        string sStatusName((const char*)x.task_status_Name);
+        if (sStatusName == newObject["task_Status"].get<string>()) 
+        {
+            statusId = x.task_status_Id;
+        }
+    }
+
+    string put = "UPDATE Tasks SET ";
+    put += "task_Header = '" + newObject["task_Header"].get<string>() + "'," +
+           "task_Body = '" + newObject["task_Body"].get<string>() + "'," +
+            "task_Start_Time = '" + newObject["task_Start_Time"].get<string>() + "'," +
+            "task_Expected_End_Time = '" + newObject["task_Expected_End_Time"].get<string>() + "'," +
+            "task_Real_End_Time = '" + newObject["task_Real_End_Time"].get<string>() + "'," +
+            "task_Status = '" + to_string(statusId) + "'," +
+            "task_Difficulty = '" + to_string(newObject["task_Difficulty"].get<int>()) + "' " +
+            "where task_Id = " + to_string(newObject["task_Id"].get<int>());
+
+    wstring wput = GetWCharFromString(put);
+
+
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 void Tasks::Delete(int id)
 {
