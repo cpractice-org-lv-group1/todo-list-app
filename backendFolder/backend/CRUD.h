@@ -25,10 +25,10 @@ public:
 		  return obj;
 	  }
 	  template <class T>
-	  static bool Put(nlohmann::json object)
+	  static bool Post(nlohmann::json object)
 	  {
 		  T obj;
-		  return obj.Put(object);
+		  return obj.Post(object);
 	  }
 	  template <class T>
 	  static void Delete(int deleteID)

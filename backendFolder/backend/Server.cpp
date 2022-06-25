@@ -75,10 +75,6 @@ void Server::RunSERVER()
     if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
         completedConnections();
 
-    cout << "\n";
-    cout << "Executing query...";
-    cout << "\n";
-
 	Initiliaze();
 
 	while (true) {
@@ -204,7 +200,7 @@ void Server::RunSERVER()
 					{
 						nlohmann::json result;
 						result["Operation"] = "SignUp";
-						bool bSignUpSucces = CRUD::Put<Users>(myJSON);
+						bool bSignUpSucces = CRUD::Post<Users>(myJSON);
 						if(bSignUpSucces == true)
 						{
 							result["Result"] = "Success SignUp";
