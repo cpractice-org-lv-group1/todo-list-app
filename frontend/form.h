@@ -12,11 +12,14 @@
 #include "operations.h"
 #include <vector>
 #include <QFile>
+#include <QInputDialog>
+#include <QDialogButtonBox>
 #include "datafillhelper.h"
 #include "vectordata.h"
 #include "taskinfo.h"
 #include "logwriter.h"
 #include "categories.h"
+#include "friendinfo.h"
 
 namespace Ui {
 class Form;
@@ -47,7 +50,8 @@ public:
 
 signals:
      void backSignal();
-     void SendTaskData(QJsonObject *obj, QTcpSocket *sock);
+     void SendTaskData(QJsonObject *obj, vector<QJsonObject> categories,QTcpSocket *sock);
+     void SendFriendData(QJsonObject *obj, QTcpSocket *sock);
      void SendCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category);
 
 private slots:
@@ -56,18 +60,23 @@ private slots:
     void on_ArchiveButton_clicked();
     void on_SearchOk_clicked();
     void on_CategoriesButton_clicked();
+    void on_FriendRequests_clicked();
+
+    void on_AddFriendButton_clicked();
 
 public slots:
     void slot(int id, QTcpSocket *sock, QTextStream *sendlogstream);
     void sockReady();
     void sockDisc();
     void onTaskClicked(QListWidgetItem* item);
+    void onFriendClicked(QListWidgetItem* item);
     void GetChangedCategory(QString category);
 
 private:
     Ui::Form *ui;
     TaskInfo *taskwindow;
     Categories *categorywindow;
+    FriendInfo *friendwindow;
 };
 
 #endif // FORM_H

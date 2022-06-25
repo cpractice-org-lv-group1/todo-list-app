@@ -150,7 +150,7 @@ void Registration::sockReady()
                         this->hide();
                         form->show();
                         ifOpen = false;
-                        //Write remember me to file
+                        //WRITE REMEMBER ME TO FILE
                         if(ui->RememberMe->isChecked())
                         {
                             QFile file;

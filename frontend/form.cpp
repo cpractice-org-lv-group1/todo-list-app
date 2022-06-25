@@ -17,19 +17,23 @@ Form::Form(QWidget *parent) :
     ui->ToDo->setIconSize(QSize(70, 70));
     ui->InProgress->setIconSize(QSize(70, 70));
     ui->Done->setIconSize(QSize(70, 70));
+    ui->Friendlist->setIconSize(QSize(30, 30));
     this->setFixedSize(1049,645);
     font.setPointSize(16);
     ui->SearchDepth->setFont(font);
     ui->Categorylabel->setAlignment(Qt::AlignCenter);
 
-
-    //SIGNALS
+    //CREATING WINDOWS WE NEED
     taskwindow = new TaskInfo;
     categorywindow = new Categories;
+    friendwindow = new FriendInfo;
+    //SIGNALS
     connect(ui->ToDo, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(ui->InProgress, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(ui->Done, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
+    connect(ui->Friendlist, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onFriendClicked(QListWidgetItem*)));
     connect(this, &Form::SendTaskData, taskwindow, &TaskInfo::GetTaskData);
+    connect(this, &Form::SendFriendData, friendwindow, &FriendInfo::GetFriendData);
     connect(this, &Form::SendCategoriesData, categorywindow, &Categories::GetCategoriesData);
     connect(categorywindow, SIGNAL(ChangeCategory(QString)), this, SLOT(GetChangedCategory(QString)));
 
@@ -98,7 +102,7 @@ void Form::onTaskClicked(QListWidgetItem* item)
             break;
         }
     }
-    emit SendTaskData(&chosen, socket);
+    emit SendTaskData(&chosen, VectorData::Categories, socket);
     taskwindow->show();
 }
 
@@ -261,10 +265,70 @@ void Form::on_CategoriesButton_clicked()
     categorywindow->show();
 }
 
+//SLOT WHICH REACTS TO CHANGE OF CATEGORY
 void Form::GetChangedCategory(QString category)
 {
     CurrentCategory = category;
     DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
     ui->Categorylabel->setText(CurrentCategory);
+}
+
+//SHOW FRIEND REQUEST
+void Form::on_FriendRequests_clicked()
+{
+    if(ui->FriendRequests->text() == "Friend requests")
+    {
+        ui->FriendRequests->setText("Friends");
+        DataFillHelper::FillFriendRequests(ui->Friendlist, VectorData::Friends);
+        ui->friendlabel->setText("Friend requests");
+    }
+    else
+    {
+        ui->FriendRequests->setText("Friend requests");
+        DataFillHelper::FillFriends(ui->Friendlist, VectorData::Friends);
+        ui->friendlabel->setText("       Friends");
+    }
+}
+
+//SHOW FRIEND DATA
+void Form::onFriendClicked(QListWidgetItem* item)
+{
+    QString data = item->text();
+    double id;
+    int index = data.length() - 1;
+    //FINDING ID WHICH IS AT THE END OF STRING
+    while(1)
+    {
+        if(data[index].isDigit())
+        {
+            --index;
+        }
+        else
+        {
+            break;
+        }
+    }
+    index ++;
+    id = data.sliced(index, data.length() - index).toDouble();
+    QJsonObject chosen;
+    //FINDING OBJECT WHITH THAT ID
+    for(const auto& x : VectorData::Friends)
+    {
+        if(id == x.value("user_Id").toDouble())
+        {
+            chosen = x;
+            break;
+        }
+    }
+    emit SendFriendData(&chosen, socket);
+    friendwindow->show();
+}
+
+
+void Form::on_AddFriendButton_clicked()
+{
+    QInputDialog d;
+    QString result = d.getText(this, "Add friend", "Enter friend email:");
+
 }
 
