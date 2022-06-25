@@ -51,7 +51,7 @@ void Users::Get(string email)
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
-bool Users::Put(nlohmann::json newObject)
+bool Users::Post(nlohmann::json newObject)
 {  
     string put = "INSERT INTO Users VALUES('";
     put += newObject["userNameArr"].get<string>() + "', '" +

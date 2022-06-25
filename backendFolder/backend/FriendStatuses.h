@@ -21,9 +21,10 @@ class FriendStatuses : public iCrudOperations
     };
     vector<FriendStatusesStruct> AllFriendStatuses;
 public:
-    void Get();
-    bool Put(nlohmann::json newObject) {};
-    void Delete(int id);
+    void Get() override;
+    bool Post(nlohmann::json newObject) override { return true; };
+    bool Put(nlohmann::json newObject) override { return true; };
+    void Delete(int id) override;
     vector<FriendStatusesStruct> GetData();
 };
 

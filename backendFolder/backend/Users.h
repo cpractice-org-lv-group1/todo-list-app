@@ -48,11 +48,12 @@ class Users : public iCrudOperations
     UsersStruct currentUser;
     UsersStruct currentData;
 public: 
-    void Get();
+    void Get() override;
     void Get(int id);
     void Get(string email);
-    bool Put(nlohmann::json newObject);
-    void Delete(int id);
+    bool Post(nlohmann::json newObject) override;
+    bool Put(nlohmann::json newObject) override { return true; };
+    void Delete(int id) override;
     vector<UsersStruct> GetData();
     UsersStruct GetCurrentUser();
     UsersStruct GetCurrentData();

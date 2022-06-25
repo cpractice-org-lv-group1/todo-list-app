@@ -66,10 +66,11 @@ class Friendships : public iCrudOperations
     vector<FriendshipsStruct> AllFriendships;
     vector<FriendStruct> AllFriends;
 public:
-    void Get();
+    void Get() override;
     void Get(int userId);
-    bool Put(nlohmann::json newObject) { return true; };
-    void Delete(int id);
+    bool Post(nlohmann::json newObject) override { return true; };
+    bool Put(nlohmann::json newObject) override { return true; };
+    void Delete(int id) override;
     vector<FriendshipsStruct> GetData();
     vector<FriendStruct> GetAllFriends();
 };
