@@ -49,8 +49,8 @@ void TaskInfo::GetTaskData(QJsonObject *obj, QTcpSocket *sock)
         ui->NoneLabel->setFont(font);
         ui->TaskEnd->hide();
     }
-    ui->TaskStatus->setText(QString::number(currentTask.value("task_Status").toDouble()));
-    ui->TaskCategory->setText(QString::number(currentTask.value("task_Category").toDouble()));
+    ui->TaskStatus->setText(currentTask.value("task_Status").toString());
+    ui->TaskCategory->setText(currentTask.value("task_Category").toString());
     ui->TaskDifficulty->setText(QString::number(currentTask.value("task_Difficulty").toDouble()));
 
     //SET STYLE
@@ -79,12 +79,12 @@ void TaskInfo::GetTaskData(QJsonObject *obj, QTcpSocket *sock)
     ui->TaskDifficulty->setFont(font);
 
     //DIFFERENT CASES FOR STATUSES
-    if(currentTask.value("task_Status").toDouble() == 3)
+    if(currentTask.value("task_Status").toString() == "Completed")
     {
         ui->EditButton->setEnabled(false);
         ui->DoneButton->setEnabled(false);
     }
-    else if(currentTask.value("task_Status").toDouble() == 4)
+    else if(currentTask.value("task_Status").toString() == "Deleted")
     {
         ui->EditButton->setEnabled(false);
         ui->DoneButton->setEnabled(false);
@@ -101,8 +101,6 @@ void TaskInfo::on_EditButton_clicked()
         ui->TaskStartTime->setReadOnly(false);
         ui->TaskExpEnd->setReadOnly(false);
         ui->TaskEnd->setReadOnly(false);
-        ui->TaskStatus->setReadOnly(false);
-        ui->TaskCategory->setReadOnly(false);
         ui->TaskDifficulty->setReadOnly(false);
         ui->EditButton->setText("Ok");
         ui->EditButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
@@ -114,8 +112,6 @@ void TaskInfo::on_EditButton_clicked()
         ui->TaskStartTime->setReadOnly(true);
         ui->TaskExpEnd->setReadOnly(true);
         ui->TaskEnd->setReadOnly(true);
-        ui->TaskStatus->setReadOnly(true);
-        ui->TaskCategory->setReadOnly(true);
         ui->TaskDifficulty->setReadOnly(true);
         ui->EditButton->setText("Edit");
         ui->EditButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid blue;}");
