@@ -58,7 +58,7 @@ void Friendships::Get()
 
 void Friendships::Get(int userId)
 {
-    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name\
+    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name, fr.friendship_ResponceTime\
         from Friendships fr\
         left join Users u on(user_Id = fr.friendship_AdresserId and user_Id != ";
     put += to_string(userId) + ") or (user_Id = fr.friendship_RequesterId and user_Id !=";
@@ -95,6 +95,7 @@ void Friendships::Get(int userId)
                 SQLGetData(sqlStmtHandle, 6, SQL_C_ULONG, &userFriend.user_Points, 0, &lenth);
                 SQLGetData(sqlStmtHandle, 7, SQL_C_CHAR, userFriend.user_Rank, FIELD_LEN, &lenth);
                 SQLGetData(sqlStmtHandle, 8, SQL_C_CHAR, userFriend.friend_status_Name, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 9, SQL_C_CHAR, userFriend.friendship_ResponceTime, FIELD_LEN, &lenth);
 
                 AllFriends.emplace_back(userFriend);
             }
@@ -106,4 +107,26 @@ void Friendships::Get(int userId)
         cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
+}
+
+bool Friendships::Post(nlohmann::json newObject)
+{
+    string put = "INSERT INTO Friendships VALUES('";
+    put += newObject["friendship_RequesterId"].get<string>() + "', '" +
+        newObject["friendship_AdresserId"].get<string>() + "', '" +
+        newObject["friendship_RequestTime"].get<string>() + "', '" +
+        newObject["friendship_ResponceTime"].get<string>() + "'," +
+        to_string(newObject["friendship_Status"].get<int>())+"); ";
+
+    wstring wput = GetWCharFromString(put);
+
+
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

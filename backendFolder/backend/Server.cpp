@@ -39,7 +39,6 @@ void Server::RunSERVER()
     if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, sqlEnvHandle, &sqlConnHandle))
         completedConnections();
 
-    //output
     cout << "Attempting connection to SQL Server...";
     cout << "\n";
 
@@ -260,7 +259,8 @@ void Server::RunSERVER()
 						cout << "Unknown command";
 					}
 				}
-				else {
+				else 
+				{
 					printf("Client has been disconected ip is: %s, port: %d\n",inet_ntop(AF_INET, &address.sin_addr, client_message, 512), ntohs(address.sin_port));
 					client_socket.clearSocker(i);
 				}

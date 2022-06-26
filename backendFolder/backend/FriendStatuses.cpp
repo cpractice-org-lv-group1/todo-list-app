@@ -47,3 +47,21 @@ void FriendStatuses::Get()
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
+
+bool FriendStatuses::Post(nlohmann::json newObject)
+{
+    string put = "INSERT INTO FriendStatuses VALUES('";
+    put += newObject["friend_status_Name"].get<string>() + "', '" +
+        newObject["friend_status_Description"].get<string>() + "');";
+
+    wstring wput = GetWCharFromString(put);
+
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
