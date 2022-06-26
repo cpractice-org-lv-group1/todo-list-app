@@ -12,7 +12,7 @@ int Tasks::takeCategoryId_FromString(nlohmann::json newObject)
     for (const auto& x : taskCategories)
     {
         string sCategoryName((const char*)x.taskCategories_Name);
-        if (sCategoryName == newObject["task_Status"].get<string>())
+        if (sCategoryName == newObject["task_Category"].get<string>())
         {
             categoryId = x.taskCategories_Id;
         }
