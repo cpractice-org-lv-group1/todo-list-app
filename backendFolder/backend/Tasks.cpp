@@ -87,8 +87,8 @@ bool Tasks::Post(nlohmann::json newObject)
     put += newObject["task_Header"].get<string>() + "', '" +
         newObject["task_Body"].get<string>() + "', '" +
         newObject["task_Start_Time"].get<string>() + "', '" +
-        newObject["task_Expected_End_Time"].get<string>() + "', '" +
-        newObject["task_Real_End_Time"].get<string>() + "'," + 
+        newObject["task_Expected_End_Time"].get<string>() + "'," +
+        newObject["task_Real_End_Time"].get<string>() + "," + 
         to_string(takeTaskStatusId_FromString(newObject)) + "," +
         to_string(takeCategoryId_FromString(newObject)) + "," +
         to_string(newObject["task_User"].get<int>()) + "," +
