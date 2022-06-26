@@ -10,9 +10,12 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addfriend.cpp \
+    addtask.cpp \
     categories.cpp \
     datafillhelper.cpp \
     form.cpp \
+    friendinfo.cpp \
     logwriter.cpp \
     main.cpp \
     operations.cpp \
@@ -21,9 +24,12 @@ SOURCES += \
     vectordata.cpp
 
 HEADERS += \
+    addfriend.h \
+    addtask.h \
     categories.h \
     datafillhelper.h \
     form.h \
+    friendinfo.h \
     logwriter.h \
     operations.h \
     registration.h \
@@ -31,8 +37,11 @@ HEADERS += \
     vectordata.h
 
 FORMS += \
+    addfriend.ui \
+    addtask.ui \
     categories.ui \
     form.ui \
+    friendinfo.ui \
     registration.ui \
     taskinfo.ui
 
