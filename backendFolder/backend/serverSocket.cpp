@@ -15,10 +15,9 @@ bool serverSocket::InitializeSocket()
 {
 	if ((this->server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET) 
 	{
-		Logger("{serverSocket.cpp//serverSocket::InitializeSocket} Could not create socket: %d" + WSAGetLastError());	
+		Logger("{serverSocket.cpp//serverSocket::InitializeSocket} Could not create socket: " +std::to_string(WSAGetLastError()));	
 		return false;
 	}
-
 	return true;
 }
 
@@ -53,7 +52,7 @@ bool serverSocket::BindSocket(unsigned short uhSinPort)
 	// bind socket
 	if (bind(server_socket, (sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) 
 	{
-		Logger("{serverSocket.cpp//serverSocket::BindSocket} Bind failed with error code: " + WSAGetLastError());
+		Logger("{serverSocket.cpp//serverSocket::BindSocket} Bind failed with error code: " +std::to_string(WSAGetLastError()));
 		CloseServerSocket();
 		return false;
 	}

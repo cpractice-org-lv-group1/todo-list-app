@@ -114,7 +114,7 @@ void Server::RunSERVER()
 			
 			string str(inet_ntop(AF_INET, &address.sin_addr, buf, 512));
 			string outputLog = "New connection, socket fd is " + new_socket;
-			outputLog += "IP is: " + str + "PORT: " + to_string(ntohs(address.sin_port));
+			outputLog += "IP is: " + str + " PORT: " + to_string(ntohs(address.sin_port));
 			Logger(outputLog);
 
 			client_socket.AddNewClientToArray(new_socket);
@@ -188,7 +188,7 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetTasks") //GET TASKS
 					{
 						auto tempIt = myJSON.find("Id");
-						Logger("Get Tasks for userId = " + tempIt.value().get<int>());
+						Logger(" Get Tasks for userId = " + to_string(tempIt.value().get<int>()));
 
 						int Id = tempIt.value().get<int>();
 						auto data = CRUD::Get<Tasks>(Id).GetData();
@@ -240,7 +240,7 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetUserFriends") // GET FRIENDS
 					{
 						auto data = CRUD::Get<Friendships>(myJSON["Id"].get<int>()).GetAllFriends();
-						Logger("Getting friends for userId = " + myJSON["Id"].get<int>());
+						Logger(" Getting friends for userId = " + to_string(myJSON["Id"].get<int>()));
 
 						if (data.empty())
 						{
@@ -264,7 +264,7 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetCategories") //GET CATEGORIES
 					{
 						auto data = CRUD::Get<TaskCategories>(myJSON["Id"].get<int>()).GetData();
-						Logger("Getting Categories for userId = " + myJSON["Id"].get<int>());
+						Logger(" Getting Categories for userId = " + to_string(myJSON["Id"].get<int>()));
 
 						string result = "[";
 						for (int i = 0; i < data.size(); ++i)
@@ -278,10 +278,17 @@ void Server::RunSERVER()
 						result += "]";
 						SendMSG(result, i);
 					}
-					else if (jsonIterator.value() == "PostTask") //GET CATEGORIES
+					else if (jsonIterator.value() == "PostTask") //NEW TASK
 					{
-						
-					}
+						auto result = CRUD::Post<Tasks>(myJSON);
+						if (result == true) 
+						{
+							SendMSG("Success", i);
+						}
+						else 
+						{
+							SendMSG("Error", i);
+						}
 					else 
 					{
 						cout << "Unknown command";
@@ -291,7 +298,7 @@ void Server::RunSERVER()
 				{
 					printf("Client has been disconected ip is: %s, port: %d\n",inet_ntop(AF_INET, &address.sin_addr, client_message, 512), ntohs(address.sin_port));
 					string str(inet_ntop(AF_INET, &address.sin_addr, client_message, 512));
-					string outputLog = "Client has been disconected IP is:" + str + "PORT: " + to_string(ntohs(address.sin_port));
+					string outputLog = "Client has been disconected IP is: " + str + " PORT: " + to_string(ntohs(address.sin_port));
 					Logger(outputLog);
 
 					client_socket.clearSocker(i);
