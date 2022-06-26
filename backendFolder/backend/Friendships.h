@@ -33,6 +33,7 @@ class Friendships : public iCrudOperations
         SQLINTEGER user_Points;
         SQLCHAR user_Rank[FIELD_LEN];
         SQLCHAR friend_status_Name[FIELD_LEN];
+        SQLCHAR friendship_ResponceTime[FIELD_LEN];
 
         void Print()
         {
@@ -50,6 +51,7 @@ class Friendships : public iCrudOperations
             string user_Mail2((const char*)user_Mail);
             string user_Rank2((const char*)user_Rank);
             string friend_status_Name2((const char*)friend_status_Name);
+            string friendship_ResponceTime2((const char*)friendship_ResponceTime);
 
             nlohmann::json myJSON = nlohmann::json{ {"user_Id", user_Id},
                                                     {"user_Name", user_Name2},
@@ -58,7 +60,8 @@ class Friendships : public iCrudOperations
                                                     {"user_Mail", user_Mail2},
                                                     {"user_Points", user_Points},
                                                     {"user_Rank", user_Rank2},
-                                                    {"friend_status_Name", friend_status_Name2}};
+                                                    {"friend_status_Name", friend_status_Name2},
+                                                    {"friendship_ResponceTime", friendship_ResponceTime2}};
             return myJSON;
         }
     };
@@ -68,7 +71,7 @@ class Friendships : public iCrudOperations
 public:
     void Get() override;
     void Get(int userId);
-    bool Post(nlohmann::json newObject) override { return true; };
+    bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override { return true; };
     void Delete(int id) override;
     vector<FriendshipsStruct> GetData();

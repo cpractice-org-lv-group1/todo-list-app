@@ -112,3 +112,22 @@ void TaskCategories::Get(int userId)
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
+
+bool TaskCategories::Post(nlohmann::json newObject)
+{
+    string put = "INSERT INTO TaskCategories VALUES('";
+    put += newObject["taskCategories_Name"].get<string>() + "', '" +
+        newObject["taskCategories_User"].get<string>() + "');";
+
+    wstring wput = GetWCharFromString(put);
+
+
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
