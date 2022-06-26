@@ -15,7 +15,7 @@ bool serverSocket::InitializeSocket()
 {
 	if ((this->server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET) 
 	{
-		printf("Could not create socket: %d", WSAGetLastError());
+		Logger("{serverSocket.cpp//serverSocket::InitializeSocket} Could not create socket: %d" + WSAGetLastError());	
 		return false;
 	}
 
@@ -53,7 +53,7 @@ bool serverSocket::BindSocket(unsigned short uhSinPort)
 	// bind socket
 	if (bind(server_socket, (sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) 
 	{
-		printf("Bind failed with error code: %d", WSAGetLastError());
+		Logger("{serverSocket.cpp//serverSocket::BindSocket} Bind failed with error code: " + WSAGetLastError());
 		CloseServerSocket();
 		return false;
 	}
@@ -69,7 +69,8 @@ bool serverSocket::Listen(int MAX_CLIENTS)
 bool serverSocket::Accept(SOCKET &new_socket, sockaddr_in &address, int addrlen)
 {
 	if ((new_socket = accept(server_socket, (sockaddr*)&address, &addrlen)) < 0) {  //=============*ACCEPT*======================
-		perror("accept function error");
+		perror("Accept function error");
+		Logger("{serverSocket.cpp//serverSocket::Accept} Accept function error");
 		return false;
 	}
 	return true;

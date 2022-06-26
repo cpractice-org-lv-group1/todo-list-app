@@ -28,6 +28,12 @@
     <Filter Include="Header Files\CRUD">
       <UniqueIdentifier>{c655de34-fcf0-4289-a96f-7f3127863908}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Logger">
+      <UniqueIdentifier>{545e9d79-9361-4451-a192-4fdb305e3cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logger">
+      <UniqueIdentifier>{4b5e6446-fb86-44f2-abc4-b733dea08ed0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="backend.cpp">
@@ -62,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Source Files\SOCKETS</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Header Files\SOCKETS</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files\Logger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
