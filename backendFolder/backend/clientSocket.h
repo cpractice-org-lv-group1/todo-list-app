@@ -1,5 +1,6 @@
 #pragma once
 #include <WS2tcpip.h>
+#include "Logger.h"
 
 class clientSocket
 {

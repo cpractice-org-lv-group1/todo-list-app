@@ -22,7 +22,7 @@ int main()
 	WSA_loader::Load();
 	Server my_server(ini);
 	puts("Start server... DONE.");
-	puts("Server is waiting for incoming connections...\nPlease, start one or more client-side app.");
+	Logger("Server Started. Waiting for incoming connections...");
 	my_server.RunSERVER();
 	WSA_loader::Clean();
 
