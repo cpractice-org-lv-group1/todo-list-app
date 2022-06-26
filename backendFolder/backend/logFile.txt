@@ -26,3 +26,14 @@ IP is: 127.0.0.1PORT: 65112
 [Sun Jun 26 21:27:06 2022]   etting Categories for userId = 
 [Sun Jun 26 21:27:06 2022]   etting friends for userId = 
 [Sun Jun 26 21:28:51 2022]   Client has been disconected IP is:127.0.0.1PORT: 65116
+[Sun Jun 26 22:10:34 2022]   Server Started. Waiting for incoming connections...
+[Sun Jun 26 22:10:34 2022]   Attempting connection to SQL Server...
+[Sun Jun 26 22:10:34 2022]   Successfully connected to SQL Server
+[Sun Jun 26 22:10:46 2022]   IP is: 127.0.0.1 PORT: 62617
+[Sun Jun 26 22:10:46 2022]   Adding to list of sockets at index 0
+[Sun Jun 26 22:10:47 2022]   Login User Mailivanglina@gmail.com
+[Sun Jun 26 22:10:47 2022]   User LOGIN SUCCESFULL
+[Sun Jun 26 22:10:47 2022]    Get Tasks for userId = 1
+[Sun Jun 26 22:10:47 2022]   Getting UserData
+[Sun Jun 26 22:10:47 2022]    Getting Categories for userId = 1
+[Sun Jun 26 22:10:47 2022]    Getting friends for userId = 1

@@ -281,14 +281,15 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "PostTask") //NEW TASK
 					{
 						auto result = CRUD::Post<Tasks>(myJSON);
-						if (result == true) 
+						if (result == true)
 						{
-							SendMSG("Success", i);
+							SendMSG("{ \"Operation\":\"PostTaskResult\", \"Result\" : \"Success\" }", i);
 						}
-						else 
+						else
 						{
-							SendMSG("Error", i);
+							SendMSG("{ \"Operation\":\"PostTaskResult\", \"Result\" : \"Error\" }", i);
 						}
+					}
 					else 
 					{
 						cout << "Unknown command";

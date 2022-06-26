@@ -167,7 +167,7 @@ void Form::sockReady()
                         if(obj.value("Result").toString() == "Success")
                         {
                             addtaskwindow->hide();
-                            QMessageBox::information(0,QString("Sucess!"),QString("Task added sucesfully!"));
+                            QMessageBox::information(0,QString("Success!"),QString("Task added sucesfully!"));
                             Operations::GetTasks(Id, socket);
                         }
                         else
