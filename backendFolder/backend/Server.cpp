@@ -278,6 +278,10 @@ void Server::RunSERVER()
 						result += "]";
 						SendMSG(result, i);
 					}
+					else if (jsonIterator.value() == "PostTask") //GET CATEGORIES
+					{
+						
+					}
 					else 
 					{
 						cout << "Unknown command";
