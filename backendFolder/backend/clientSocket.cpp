@@ -40,6 +40,7 @@ bool clientSocket::AddNewClientToArray(SOCKET &new_socket)
 		if (client_socketArray[i] == 0) {
 			client_socketArray[i] = new_socket;
 			printf("Adding to list of sockets at index %d\n", i);
+			Logger("Adding to list of sockets at index " + std::to_string(i));
 			break;
 		}
 	}

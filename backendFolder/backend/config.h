@@ -12,6 +12,7 @@
 #include "WSA_loader.h"
 #include "Server.h"
 #include <mini/ini.h>
+#include "Logger.h"
 
 __declspec(selectany)SQLHANDLE sqlConnHandle;
 __declspec(selectany)SQLHANDLE sqlStmtHandle;
@@ -39,6 +40,7 @@ inline void completedConnections()
     SQLDisconnect(sqlConnHandle);
     SQLFreeHandle(SQL_HANDLE_DBC, sqlConnHandle);
     SQLFreeHandle(SQL_HANDLE_ENV, sqlEnvHandle);
+    Logger("Exit function completedConnections");
 
     std::cout << "\nPress any key to exit...";
     getchar();

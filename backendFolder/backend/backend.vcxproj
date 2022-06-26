@@ -146,6 +146,7 @@
     <ClCompile Include="clientSocket.cpp" />
     <ClCompile Include="Friendships.cpp" />
     <ClCompile Include="FriendStatuses.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="serverSocket.cpp" />
     <ClCompile Include="TaskCategories.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="clientSocket.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="iCrudOperations.h" />
     <ClInclude Include="Friendships.h" />
     <ClInclude Include="FriendStatuses.h" />

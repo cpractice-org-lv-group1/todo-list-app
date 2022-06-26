@@ -41,6 +41,7 @@ void Server::RunSERVER()
 
     cout << "Attempting connection to SQL Server...";
     cout << "\n";
+	Logger("Attempting connection to SQL Server...");
 
     switch (SQLDriverConnect(sqlConnHandle,
         NULL,
@@ -54,16 +55,19 @@ void Server::RunSERVER()
     case SQL_SUCCESS || SQL_SUCCESS_WITH_INFO :
         cout << "Successfully connected to SQL Server";
         cout << "\n";
+		Logger("Successfully connected to SQL Server");
         break;
 
     case SQL_INVALID_HANDLE:
         cout << "Could not connect to SQL Server";
         cout << "\n";
+		Logger("Could not connect to SQL Server");
         completedConnections();
 
     case SQL_ERROR:
         cout << "Could not connect to SQL Server";
         cout << "\n";
+		Logger("Could not connect to SQL Server");
         completedConnections();
 
     default:
@@ -88,7 +92,7 @@ void Server::RunSERVER()
 		// wait for an activity on any of the sockets, timeout is NULL, so wait indefinitely
 		if (select(0, client_socket.GetFD_SET(), NULL, NULL, NULL) == SOCKET_ERROR) 
 		{
-			printf("select function call failed with error code : %d", WSAGetLastError());
+			Logger("Select function call failed with error code :" + WSAGetLastError());
 			return;
 		} 
 
@@ -101,11 +105,17 @@ void Server::RunSERVER()
 		{
 			if (!server_socket.Accept(new_socket, address, addrlen)) 
 			{
-				std::cout << "Exiting from server: ACCEPT error";
+				Logger("Exiting from server: ACCEPT error");
+				cout << "Exit";
 				return;
 			};
 			char buf[512];
-			printf("New connection, socket fd is %d, ip is: %s, port: %d\n", new_socket,inet_ntop(AF_INET, &address.sin_addr,buf,512), ntohs(address.sin_port));
+			printf("New connection, socket fd is %I64u, ip is: %s, port: %d\n", new_socket, inet_ntop(AF_INET, &address.sin_addr,buf,512), ntohs(address.sin_port));
+			
+			string str(inet_ntop(AF_INET, &address.sin_addr, buf, 512));
+			string outputLog = "New connection, socket fd is " + new_socket;
+			outputLog += "IP is: " + str + "PORT: " + to_string(ntohs(address.sin_port));
+			Logger(outputLog);
 
 			client_socket.AddNewClientToArray(new_socket);
 		}
@@ -146,6 +156,8 @@ void Server::RunSERVER()
 						string userPass((const char*)user.GetCurrentUser().userPassword);
 						userPass[userPass.length()] = '\0';
 
+						Logger("Login User Mail" + tempIt.value().get<string>());
+
 						nlohmann::json result;
 
 						if (userId == 0) //UNKNOWN USER
@@ -154,6 +166,7 @@ void Server::RunSERVER()
 							result["Result"] = "Erorr Email";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
+							Logger("User Email Error");
 						}
 						else if (myJSON["Password"].get<string>() != userPass) //UNCORRECT USER password
 						{
@@ -161,6 +174,7 @@ void Server::RunSERVER()
 							result["Result"] = "Erorr Password";
 							result["userID"] = 0;
 							SendMSG(result.dump(), i);
+							Logger("User Password Error");
 						}
 						else                                //SUCCES login
 						{
@@ -168,11 +182,13 @@ void Server::RunSERVER()
 							result["Result"] = "Success Login";
 							result["userID"] = userId;
 							SendMSG(result.dump(), i);
+							Logger("User LOGIN SUCCESFULL");
 						}
 					}
 					else if (jsonIterator.value() == "GetTasks") //GET TASKS
 					{
 						auto tempIt = myJSON.find("Id");
+						Logger("Get Tasks for userId = " + tempIt.value().get<int>());
 
 						int Id = tempIt.value().get<int>();
 						auto data = CRUD::Get<Tasks>(Id).GetData();
@@ -200,6 +216,8 @@ void Server::RunSERVER()
 						nlohmann::json result;
 						result["Operation"] = "SignUp";
 						bool bSignUpSucces = CRUD::Post<Users>(myJSON);
+						Logger("SignUp new User function");
+
 						if(bSignUpSucces == true)
 						{
 							result["Result"] = "Success SignUp";
@@ -207,12 +225,14 @@ void Server::RunSERVER()
 						else 
 						{
 							result["Result"] = "Erorr SignUp";
+							Logger("Erorr SignUp");
 						}
 						SendMSG(result.dump(), i);
 					}
 					else if (jsonIterator.value() == "GetUserData")
 					{
 						auto data = CRUD::Get<Users>(myJSON["Id"].get<int>()).GetCurrentData();
+						Logger("Getting UserData");
 						nlohmann::json tempJson = nlohmann::json::parse(data.JSON());
 						tempJson["Operation"] = "GetUserData";
 						SendMSG(tempJson.dump(), i);
@@ -220,6 +240,8 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetUserFriends") // GET FRIENDS
 					{
 						auto data = CRUD::Get<Friendships>(myJSON["Id"].get<int>()).GetAllFriends();
+						Logger("Getting friends for userId = " + myJSON["Id"].get<int>());
+
 						if (data.empty())
 						{
 							SendMSG("No friends", i);
@@ -242,6 +264,8 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetCategories") //GET CATEGORIES
 					{
 						auto data = CRUD::Get<TaskCategories>(myJSON["Id"].get<int>()).GetData();
+						Logger("Getting Categories for userId = " + myJSON["Id"].get<int>());
+
 						string result = "[";
 						for (int i = 0; i < data.size(); ++i)
 						{
@@ -262,6 +286,10 @@ void Server::RunSERVER()
 				else 
 				{
 					printf("Client has been disconected ip is: %s, port: %d\n",inet_ntop(AF_INET, &address.sin_addr, client_message, 512), ntohs(address.sin_port));
+					string str(inet_ntop(AF_INET, &address.sin_addr, client_message, 512));
+					string outputLog = "Client has been disconected IP is:" + str + "PORT: " + to_string(ntohs(address.sin_port));
+					Logger(outputLog);
+
 					client_socket.clearSocker(i);
 				}
 			}
