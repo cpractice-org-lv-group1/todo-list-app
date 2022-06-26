@@ -173,7 +173,7 @@ void Form::sockReady()
                         else
                         {
                             addtaskwindow->hide();
-                            QMessageBox::information(0,QString("Error!"),QString("Failed to add task!"));
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to add task!"));
                         }
                     }
                 }

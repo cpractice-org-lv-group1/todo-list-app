@@ -195,6 +195,7 @@ void Server::RunSERVER()
 						if (data.empty())
 						{
 							SendMSG("Error", i);
+							Logger("Error getting tasks");
 						}
 						else 
 						{

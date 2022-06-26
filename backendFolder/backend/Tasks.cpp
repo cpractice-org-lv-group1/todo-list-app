@@ -117,6 +117,7 @@ void Tasks::Get(int id)
     where task_User = ";
     put += to_string(id);
     wstring wput = GetWCharFromString(put);
+    CurrentTasks.clear();
 
     SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
@@ -131,7 +132,7 @@ void Tasks::Get(int id)
             }
             if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
             {
-                TasksStruct newTask;
+                TasksStruct newTask = {};
 
                 SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &newTask.task_Id, 0, &lenth);
                 SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, newTask.task_Header, FIELD_LEN, &lenth);
@@ -154,6 +155,7 @@ void Tasks::Get(int id)
                     newTask.task_Real_End_Time[3] = none[3];
                     newTask.task_Real_End_Time[4] = '\0';
                 }
+                cout << newTask.JSON().dump() << endl;
                 CurrentTasks.emplace_back(newTask);
             }
             else break;

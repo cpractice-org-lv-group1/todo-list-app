@@ -45,7 +45,7 @@ void DataFillHelper::FillWithTasks(QListWidget* Todo, QListWidget* InProgress, Q
         TaskBody = x.value("task_Body").toString();
 
         //I HIDE TASK ID IN THIS STRING TO USE IT LATER FOR LOGIC, BUT IT CANNOT BE SEEN BT USER
-        QString stringresult = TaskHeader + "\n" + TaskBody + "                          " + QString::number(x.value("task_Id").toDouble());
+        QString stringresult = TaskHeader + "\n" + TaskBody + "                                " + QString::number(x.value("task_Id").toDouble());
         QListWidgetItem *newItem = new QListWidgetItem;
         newItem->setText(stringresult);
 

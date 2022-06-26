@@ -65,8 +65,8 @@ void AddTask::on_AddButton_clicked()
         ui->EndTimeError->hide();
         //POST METHOD
 
-        Operations::PostTask(Id, socket,ui->Header->text(), ui->Body->toPlainText(), ui->StartTime->dateTime().toString(),
-                             ui->ExpEndTime->dateTime().toString(), ui->Category->currentText(), ui->Difficulty->currentText().toInt());
+        Operations::PostTask(Id, socket,ui->Header->text(), ui->Body->toPlainText(), ui->StartTime->dateTime().toString("yyyy-MM-dd hh:mm:ss"),
+                             ui->ExpEndTime->dateTime().toString("yyyy-MM-dd hh:mm:ss"), ui->Category->currentText(), ui->Difficulty->currentText().toInt());
 
     }
     else

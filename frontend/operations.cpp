@@ -102,7 +102,7 @@ void Operations::PostTask(int id, QTcpSocket *socket, QString header, QString bo
         {"task_Body", body},
         {"task_Start_Time", starttime},
         {"task_Expected_End_Time", endtime},
-        {"task_Real_End_Time", NULL},
+        {"task_Real_End_Time", "NULL"},
         {"task_Status", "Not Started"},
         {"task_Category", Category},
         {"task_User", id},
