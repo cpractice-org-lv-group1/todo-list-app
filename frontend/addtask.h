@@ -1,5 +1,5 @@
-#ifndef TASKINFO_H
-#define TASKINFO_H
+#ifndef ADDTASK_H
+#define ADDTASK_H
 
 #include <QMainWindow>
 #include <QJsonDocument>
@@ -11,33 +11,31 @@
 using namespace std;
 
 namespace Ui {
-class TaskInfo;
+class AddTask;
 }
 
-class TaskInfo : public QMainWindow
+class AddTask : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit TaskInfo(QWidget *parent = nullptr);
-    ~TaskInfo();
+    explicit AddTask(QWidget *parent = nullptr);
+    ~AddTask();
     QFont font;
     QTcpSocket* socket;
     QByteArray Data;
     QJsonDocument doc;
     QJsonParseError docError;
-    int points;
+    int Id;
 
 public slots:
-    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories, QTcpSocket *sock);
+    void GetToAddTask(QTcpSocket *sock, int id, const vector<QJsonObject> &categories);
 
 private slots:
-    void on_EditButton_clicked();
+    void on_AddButton_clicked();
 
 private:
-    Ui::TaskInfo *ui;
-    QJsonObject currentTask;
-
+    Ui::AddTask *ui;
 };
 
-#endif // TASKINFO_H
+#endif // ADDTASK_H

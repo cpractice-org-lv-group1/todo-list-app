@@ -20,6 +20,8 @@
 #include "logwriter.h"
 #include "categories.h"
 #include "friendinfo.h"
+#include "addtask.h"
+#include "addfriend.h"
 
 namespace Ui {
 class Form;
@@ -53,6 +55,8 @@ signals:
      void SendTaskData(QJsonObject *obj, vector<QJsonObject> categories,QTcpSocket *sock);
      void SendFriendData(QJsonObject *obj, QTcpSocket *sock);
      void SendCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category);
+     void SendToAddTask(QTcpSocket *sock, int id, const vector<QJsonObject> &categories);
+     void SendToAddFriend(QTcpSocket *sock, int id);
 
 private slots:
 
@@ -61,8 +65,8 @@ private slots:
     void on_SearchOk_clicked();
     void on_CategoriesButton_clicked();
     void on_FriendRequests_clicked();
-
     void on_AddFriendButton_clicked();
+    void on_AddTaskButton_clicked();
 
 public slots:
     void slot(int id, QTcpSocket *sock, QTextStream *sendlogstream);
@@ -77,6 +81,8 @@ private:
     TaskInfo *taskwindow;
     Categories *categorywindow;
     FriendInfo *friendwindow;
+    AddTask *addtaskwindow;
+    AddFriend *addfriendwindow;
 };
 
 #endif // FORM_H

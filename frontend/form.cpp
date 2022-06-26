@@ -27,6 +27,9 @@ Form::Form(QWidget *parent) :
     taskwindow = new TaskInfo;
     categorywindow = new Categories;
     friendwindow = new FriendInfo;
+    addtaskwindow = new AddTask;
+    addfriendwindow = new AddFriend;
+
     //SIGNALS
     connect(ui->ToDo, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
     connect(ui->InProgress, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onTaskClicked(QListWidgetItem*)));
@@ -35,6 +38,8 @@ Form::Form(QWidget *parent) :
     connect(this, &Form::SendTaskData, taskwindow, &TaskInfo::GetTaskData);
     connect(this, &Form::SendFriendData, friendwindow, &FriendInfo::GetFriendData);
     connect(this, &Form::SendCategoriesData, categorywindow, &Categories::GetCategoriesData);
+    connect(this, &Form::SendToAddTask, addtaskwindow, &AddTask::GetToAddTask);
+    connect(this, &Form::SendToAddFriend, addfriendwindow, &AddFriend::GetToAddFriend);
     connect(categorywindow, SIGNAL(ChangeCategory(QString)), this, SLOT(GetChangedCategory(QString)));
 
     //LOG FILE
@@ -62,6 +67,11 @@ Form::~Form()
     hoursSearch.resize(0);
     streamSearch << hours;
     hoursSearch.close();
+    delete taskwindow;
+    delete categorywindow;
+    delete friendwindow;
+    delete addtaskwindow;
+    delete addfriendwindow;
 }
 
 //GET BACK TO REGISTRATION
@@ -72,7 +82,7 @@ void Form::on_SignOutButton_clicked()
     emit backSignal();
 }
 
-//PASS NEEDED INFO TO INFO WINDOW
+//ON TASK CLICKED
 void Form::onTaskClicked(QListWidgetItem* item)
 {
     QString data = item->text();
@@ -324,11 +334,17 @@ void Form::onFriendClicked(QListWidgetItem* item)
     friendwindow->show();
 }
 
-
+//ADD FRIEND
 void Form::on_AddFriendButton_clicked()
 {
-    QInputDialog d;
-    QString result = d.getText(this, "Add friend", "Enter friend email:");
+    emit SendToAddFriend(socket, Id);
+    addfriendwindow->show();
+}
 
+//ADD TASK
+void Form::on_AddTaskButton_clicked()
+{
+    emit SendToAddTask(socket, Id, VectorData::Categories);
+    addtaskwindow->show();
 }
 
