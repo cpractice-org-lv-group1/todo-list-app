@@ -1,5 +1,5 @@
-#ifndef TASKINFO_H
-#define TASKINFO_H
+#ifndef ADDFRIEND_H
+#define ADDFRIEND_H
 
 #include <QMainWindow>
 #include <QJsonDocument>
@@ -11,33 +11,31 @@
 using namespace std;
 
 namespace Ui {
-class TaskInfo;
+class AddFriend;
 }
 
-class TaskInfo : public QMainWindow
+class AddFriend : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit TaskInfo(QWidget *parent = nullptr);
-    ~TaskInfo();
+    explicit AddFriend(QWidget *parent = nullptr);
+    ~AddFriend();
     QFont font;
     QTcpSocket* socket;
     QByteArray Data;
     QJsonDocument doc;
     QJsonParseError docError;
-    int points;
+    int Id;
 
 public slots:
-    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories, QTcpSocket *sock);
+    void GetToAddFriend(QTcpSocket *sock, int id);
 
 private slots:
-    void on_EditButton_clicked();
+    void on_pushButton_clicked();
 
 private:
-    Ui::TaskInfo *ui;
-    QJsonObject currentTask;
-
+    Ui::AddFriend *ui;
 };
 
-#endif // TASKINFO_H
+#endif // ADDFRIEND_H
