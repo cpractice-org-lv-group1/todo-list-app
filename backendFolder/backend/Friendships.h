@@ -71,7 +71,7 @@ class Friendships : public iCrudOperations
 public:
     void Get() override;
     void Get(int userId);
-    bool Post(nlohmann::json newObject) override { return true; };
+    bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override { return true; };
     void Delete(int id) override;
     vector<FriendshipsStruct> GetData();

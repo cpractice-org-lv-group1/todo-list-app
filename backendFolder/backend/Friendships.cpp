@@ -108,3 +108,25 @@ void Friendships::Get(int userId)
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
+
+bool Friendships::Post(nlohmann::json newObject)
+{
+    string put = "INSERT INTO Friendships VALUES('";
+    put += newObject["friendship_RequesterId"].get<string>() + "', '" +
+        newObject["friendship_AdresserId"].get<string>() + "', '" +
+        newObject["friendship_RequestTime"].get<string>() + "', '" +
+        newObject["friendship_ResponceTime"].get<string>() + "'," +
+        to_string(newObject["friendship_Status"].get<int>())+"); ";
+
+    wstring wput = GetWCharFromString(put);
+
+
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
