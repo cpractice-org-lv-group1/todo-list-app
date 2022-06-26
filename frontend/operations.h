@@ -16,6 +16,7 @@ public:
     static void GetFriends(int id, QTcpSocket *socket);
     static void GetUserData(int id, QTcpSocket *socket);
     static void GetCategories(int id, QTcpSocket *socket);
+    static void PostTask(int id, QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty);
 };
 
 #endif // OPERATIONS_H

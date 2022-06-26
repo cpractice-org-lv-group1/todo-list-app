@@ -289,7 +289,6 @@ void Server::RunSERVER()
 						{
 							SendMSG("Error", i);
 						}
-					}
 					else 
 					{
 						cout << "Unknown command";

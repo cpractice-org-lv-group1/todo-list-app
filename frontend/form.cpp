@@ -162,6 +162,20 @@ void Form::sockReady()
                         DataFillHelper::FillUserData(ui->labelName, ui->labelRankName, ui->labelPoints, ui->RankImg, VectorData::User);
                         Operations::GetCategories(Id, socket);
                     }
+                    else if(obj.value("Operation").toString() == "PostTaskResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            addtaskwindow->hide();
+                            QMessageBox::information(0,QString("Sucess!"),QString("Task added sucesfully!"));
+                            Operations::GetTasks(Id, socket);
+                        }
+                        else
+                        {
+                            addtaskwindow->hide();
+                            QMessageBox::information(0,QString("Error!"),QString("Failed to add task!"));
+                        }
+                    }
                 }
                 else
                 {
