@@ -354,9 +354,42 @@ void Server::RunSERVER()
 							Logger("DELETE Task failed");
 						}
 					}
+					else if (jsonIterator.value() == "DeleteCategory") //DELETE CATEGORY
+					{
+						int id = myJSON["taskCategories_Id"].get<int>();
+						auto result = CRUD::Delete<TaskCategories>(id);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"DeleteCategoryResult\", \"Result\" : \"Success\" }", i);
+							Logger("DELETE Category success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"DeleteCategoryResult\", \"Result\" : \"Error\" }", i);
+							Logger("DELETE Category failed");
+						}
+					}
+					else if (jsonIterator.value() == "DeleteFriend") //DELETE FRIENDSHIP
+					{
+						int id = myJSON["friendship_Id"].get<int>();
+						auto result = CRUD::Delete<Friendships>(id);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"DeleteFriendResult\", \"Result\" : \"Success\" }", i);
+							Logger("DELETE Friendships success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"DeleteFriendResult\", \"Result\" : \"Error\" }", i);
+							Logger("DELETE Friendships failed");
+						}
+					}
 					else 
 					{
 						cout << "Unknown command";
+						Logger("Unknown command");
 					}
 				}
 				else 

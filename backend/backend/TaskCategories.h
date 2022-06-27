@@ -34,7 +34,7 @@ class TaskCategories : public iCrudOperations
     vector<TaskCategoriesStruct> AllTaskCategories;
 public:
     void Get() override;
-    void Get(int userId);
+    void Get(int userId) override;
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override;
     bool Delete(int id) override;

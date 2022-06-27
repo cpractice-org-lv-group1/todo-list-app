@@ -49,7 +49,7 @@ class Users : public iCrudOperations
     UsersStruct currentData;
 public: 
     void Get() override;
-    void Get(int id);
+    void Get(int id) override;
     void Get(string email);
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override { return true; };

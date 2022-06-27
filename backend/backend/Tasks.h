@@ -55,7 +55,7 @@ class Tasks : public iCrudOperations
     };
     vector<TasksStruct> CurrentTasks;
 public:
-    void Get(int id);
+    void Get(int id) override;
     void Get() override;
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override;
