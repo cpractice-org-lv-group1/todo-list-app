@@ -34,12 +34,13 @@ class Friendships : public iCrudOperations
         SQLCHAR user_Rank[FIELD_LEN];
         SQLCHAR friend_status_Name[FIELD_LEN];
         SQLCHAR friendship_ResponceTime[FIELD_LEN];
+        SQLINTEGER friendship_Id;
 
         void Print()
         {
             cout << this->user_Id << "\t" << this->user_Name << "\t" << this->user_Surname
                 << "\t" << this->user_Birthday << "\t" << this->user_Mail << "\t" << this->user_Points << "\t" 
-                << this->user_Rank << "\t" << this->friend_status_Name;
+                << this->user_Rank << "\t" << this->friend_status_Name<<"\t"<<this->friendship_ResponceTime<<"\t" << this->friendship_Id;
             cout << endl;
         }
 
@@ -61,7 +62,8 @@ class Friendships : public iCrudOperations
                                                     {"user_Points", user_Points},
                                                     {"user_Rank", user_Rank2},
                                                     {"friend_status_Name", friend_status_Name2},
-                                                    {"friendship_ResponceTime", friendship_ResponceTime2}};
+                                                    {"friendship_ResponceTime", friendship_ResponceTime2},
+                                                    {"friendship_Id", friendship_Id} };
             return myJSON;
         }
     };

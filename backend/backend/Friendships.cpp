@@ -65,7 +65,8 @@ void Friendships::Get()
 
 void Friendships::Get(int userId)
 {
-    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name, fr.friendship_ResponceTime\
+    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name, fr.friendship_ResponceTime,\
+        fr.friendship_Id\
         from Friendships fr\
         left join Users u on(user_Id = fr.friendship_AdresserId and user_Id != ";
     put += to_string(userId) + ") or (user_Id = fr.friendship_RequesterId and user_Id !=";
@@ -103,6 +104,7 @@ void Friendships::Get(int userId)
                 SQLGetData(sqlStmtHandle, 7, SQL_C_CHAR, userFriend.user_Rank, FIELD_LEN, &lenth);
                 SQLGetData(sqlStmtHandle, 8, SQL_C_CHAR, userFriend.friend_status_Name, FIELD_LEN, &lenth);
                 SQLGetData(sqlStmtHandle, 9, SQL_C_CHAR, userFriend.friendship_ResponceTime, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 10, SQL_C_ULONG, &userFriend.friendship_Id, 0, &lenth);
 
                 AllFriends.emplace_back(userFriend);
             }
