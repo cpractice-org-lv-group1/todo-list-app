@@ -7,7 +7,7 @@ bool FriendStatuses::Delete(int id)
 
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
         return true;
     }

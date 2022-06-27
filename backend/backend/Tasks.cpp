@@ -62,12 +62,14 @@ bool Tasks::Put(nlohmann::json newObject)
 
 bool Tasks::Delete(int id)
 {
-    string sqldelete = "Delete from Tasks where task_Id = ";
-    sqldelete += to_string(id);
-    cout << endl << id;
+    string sqldelete = "Delete from Tasks\
+                        where task_Id = ";
+    sqldelete += to_string(id)+";";
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+
+    if (retcode == SQL_SUCCESS)
     {
         return true;
     }

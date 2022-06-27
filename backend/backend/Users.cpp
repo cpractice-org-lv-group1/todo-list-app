@@ -79,7 +79,9 @@ bool Users::Delete(int id)
 
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+
+    if (retcode == SQL_SUCCESS)
     {
         return true;
     }
