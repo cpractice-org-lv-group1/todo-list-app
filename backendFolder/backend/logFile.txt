@@ -215,3 +215,79 @@ IP is: 127.0.0.1PORT: 65112
 [Sun Jun 26 23:12:54 2022]    Get Tasks for userId = 1
 [Sun Jun 26 23:12:54 2022]   Error getting tasks
 [Sun Jun 26 23:12:54 2022]   Client has been disconected IP is: 127.0.0.1 PORT: 64333
+[Mon Jun 27 10:30:38 2022]   Server Started. Waiting for incoming connections...
+[Mon Jun 27 10:30:38 2022]   Attempting connection to SQL Server...
+[Mon Jun 27 10:30:39 2022]   Successfully connected to SQL Server
+[Mon Jun 27 10:30:51 2022]   IP is: 127.0.0.1 PORT: 57077
+[Mon Jun 27 10:30:51 2022]   Adding to list of sockets at index 0
+[Mon Jun 27 10:30:53 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 10:30:53 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 10:30:53 2022]    Get Tasks for userId = 1
+[Mon Jun 27 10:30:53 2022]   Getting UserData
+[Mon Jun 27 10:30:53 2022]    Getting Categories for userId = 1
+[Mon Jun 27 10:30:53 2022]    Getting friends for userId = 1
+[Mon Jun 27 10:34:12 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 10:34:12 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 10:34:12 2022]    Get Tasks for userId = 1
+[Mon Jun 27 10:34:12 2022]   Getting UserData
+[Mon Jun 27 10:34:13 2022]    Getting Categories for userId = 1
+[Mon Jun 27 10:34:13 2022]    Getting friends for userId = 1
+[Mon Jun 27 10:34:21 2022]   Client has been disconected IP is: 127.0.0.1 PORT: 57077
+[Mon Jun 27 10:35:07 2022]   IP is: 127.0.0.1 PORT: 57084
+[Mon Jun 27 10:35:07 2022]   Adding to list of sockets at index 0
+[Mon Jun 27 10:35:08 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 10:35:08 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 10:35:08 2022]    Get Tasks for userId = 1
+[Mon Jun 27 10:35:08 2022]   Getting UserData
+[Mon Jun 27 10:35:08 2022]    Getting Categories for userId = 1
+[Mon Jun 27 10:35:08 2022]    Getting friends for userId = 1
+[Mon Jun 27 10:35:17 2022]   Client has been disconected IP is: 127.0.0.1 PORT: 57084
+[Mon Jun 27 10:35:19 2022]   IP is: 127.0.0.1 PORT: 57085
+[Mon Jun 27 10:35:19 2022]   Adding to list of sockets at index 0
+[Mon Jun 27 10:35:20 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 10:35:20 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 10:35:20 2022]    Get Tasks for userId = 1
+[Mon Jun 27 10:35:20 2022]   Getting UserData
+[Mon Jun 27 10:35:20 2022]    Getting Categories for userId = 1
+[Mon Jun 27 10:35:20 2022]    Getting friends for userId = 1
+[Mon Jun 27 10:37:26 2022]    Get Tasks for userId = 1
+[Mon Jun 27 10:37:26 2022]   Error getting tasks
+[Mon Jun 27 10:37:43 2022]   Client has been disconected IP is: 127.0.0.1 PORT: 57085
+[Mon Jun 27 10:37:45 2022]   IP is: 127.0.0.1 PORT: 57087
+[Mon Jun 27 10:37:45 2022]   Adding to list of sockets at index 0
+[Mon Jun 27 10:37:46 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 10:37:46 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 10:37:46 2022]    Get Tasks for userId = 1
+[Mon Jun 27 10:37:46 2022]   Getting UserData
+[Mon Jun 27 10:37:46 2022]    Getting Categories for userId = 1
+[Mon Jun 27 10:37:46 2022]    Getting friends for userId = 1
+[Mon Jun 27 10:38:48 2022]   Client has been disconected IP is: 127.0.0.1 PORT: 57087
+[Mon Jun 27 12:35:23 2022]   Server Started. Waiting for incoming connections...
+[Mon Jun 27 12:35:23 2022]   Attempting connection to SQL Server...
+[Mon Jun 27 12:35:23 2022]   Successfully connected to SQL Server
+[Mon Jun 27 12:35:25 2022]   askResult", "Result" : "Success" }IP is: 127.0.0.1 PORT: 62884
+[Mon Jun 27 12:35:25 2022]   Adding to list of sockets at index 0
+[Mon Jun 27 12:35:26 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 12:35:26 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 12:35:26 2022]    Get Tasks for userId = 1
+[Mon Jun 27 12:35:27 2022]   Getting UserData
+[Mon Jun 27 12:35:27 2022]    Getting Categories for userId = 1
+[Mon Jun 27 12:35:27 2022]    Getting friends for userId = 1
+[Mon Jun 27 12:35:50 2022]    Get Tasks for userId = 1
+[Mon Jun 27 12:35:50 2022]   Error getting tasks
+[Mon Jun 27 12:39:01 2022]   Server Started. Waiting for incoming connections...
+[Mon Jun 27 12:39:01 2022]   Attempting connection to SQL Server...
+[Mon Jun 27 12:39:01 2022]   Successfully connected to SQL Server
+[Mon Jun 27 12:39:04 2022]   Success" }IP is: 127.0.0.1 PORT: 62889
+[Mon Jun 27 12:39:04 2022]   Adding to list of sockets at index 0
+[Mon Jun 27 12:39:04 2022]   Login User Mailivanglina@gmail.com
+[Mon Jun 27 12:39:04 2022]   User LOGIN SUCCESFULL
+[Mon Jun 27 12:39:04 2022]    Get Tasks for userId = 1
+[Mon Jun 27 12:39:05 2022]   Getting UserData
+[Mon Jun 27 12:39:05 2022]    Getting Categories for userId = 1
+[Mon Jun 27 12:39:05 2022]    Getting friends for userId = 1
+[Mon Jun 27 12:39:29 2022]    Get Tasks for userId = 1
+[Mon Jun 27 12:39:29 2022]   Getting UserData
+[Mon Jun 27 12:39:29 2022]    Getting Categories for userId = 1
+[Mon Jun 27 12:39:29 2022]    Getting friends for userId = 1
+[Mon Jun 27 12:40:00 2022]   Client has been disconected IP is: 127.0.0.1 PORT: 62889

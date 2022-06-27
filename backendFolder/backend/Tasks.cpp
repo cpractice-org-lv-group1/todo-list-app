@@ -119,7 +119,7 @@ void Tasks::Get(int id)
     wstring wput = GetWCharFromString(put);
     CurrentTasks.clear();
 
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
     if (retcode == SQL_SUCCESS)
     {

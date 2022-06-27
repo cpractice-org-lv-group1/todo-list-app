@@ -141,7 +141,6 @@ void Server::RunSERVER()
 					string s_client_message(client_message);
 					s_client_message.erase(std::remove(s_client_message.begin(), s_client_message.end(), '['), s_client_message.end());
 					s_client_message.erase(std::remove(s_client_message.begin(), s_client_message.end(), ']'), s_client_message.end());
-					cout << s_client_message << endl << endl;
 
 					nlohmann::json myJSON = nlohmann::json::parse(s_client_message);
 					auto jsonIterator = myJSON.find("Operation");
