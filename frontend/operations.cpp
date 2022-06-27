@@ -125,7 +125,7 @@ void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QStr
 {
     QJsonObject EditTask
     {
-        {"Operation", "EditTask"},
+        {"Operation", "PutTask"},
         {"task_Header", header},
         {"task_Body", body},
         {"task_Start_Time", starttime},

@@ -161,7 +161,6 @@ void Tasks::Get(int id)
                     newTask.task_Real_End_Time[3] = none[3];
                     newTask.task_Real_End_Time[4] = '\0';
                 }
-                cout << newTask.JSON().dump() << endl;
                 CurrentTasks.emplace_back(newTask);
             }
             else break;
