@@ -40,6 +40,12 @@ public slots:
 private slots:
     void on_SetButton_clicked();
 
+    void on_EditButton_clicked();
+
+    void on_DeleteButton_clicked();
+
+    void on_AddNewButton_clicked();
+
 private:
     Ui::Categories *ui;
 };

@@ -16,6 +16,7 @@ Categories::~Categories()
     delete ui;
 }
 
+//SLOT ON WINDOW SHOW
 void Categories::GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category)
 {
     //FILL WITH DATA
@@ -37,6 +38,7 @@ void Categories::GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, Q
         ui->listWidget->addItem(newItem);
     }
     ui->listWidget->setCurrentRow(0);
+    ui->EditButton->setText("Edit");
 
     //STYLES
     this->setStyleSheet("QMainWindow{background-color: white;} QPushButton {border: 1px solid black; } QLineEdit {border: 1px solid black; } QListWidget {border: 1px solid black; } ");
@@ -75,5 +77,37 @@ void Categories::onItemSelected(QListWidgetItem* item)
             }
         }
     }
+}
+
+
+void Categories::on_EditButton_clicked()
+{
+    if(ui->EditButton->text() == "Edit")
+    {
+        QListWidgetItem *item = ui->listWidget->currentItem();
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+        ui->listWidget->editItem(item);
+        ui->EditButton->setText("Ok");
+    }
+    else
+    {
+        if(ui->listWidget->currentItem()->text() != "")
+        {
+            ui->EditButton->setText("Edit");
+            //EDIT OPERATION
+        }
+    }
+}
+
+
+void Categories::on_DeleteButton_clicked()
+{
+
+}
+
+
+void Categories::on_AddNewButton_clicked()
+{
+
 }
 
