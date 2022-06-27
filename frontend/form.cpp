@@ -176,6 +176,31 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to add task!"));
                         }
                     }
+                    else if(obj.value("Operation").toString() == "PutTaskResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            QMessageBox::information(0,QString("Success!"),QString("Task edited sucesfully!"));
+                            Operations::GetTasks(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to edit task!"));
+                        }
+                    }
+                    else if(obj.value("Operation").toString() == "DeleteTaskResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            taskwindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Task deleted sucesfully!"));
+                            Operations::GetTasks(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to delete task!"));
+                        }
+                    }
                 }
                 else
                 {

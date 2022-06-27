@@ -8,6 +8,8 @@
 #include <QJsonArray>
 #include <QTcpSocket>
 #include <vector>
+#include <QMessageBox>
+#include "operations.h"
 using namespace std;
 
 namespace Ui {
@@ -33,6 +35,8 @@ public slots:
 
 private slots:
     void on_EditButton_clicked();
+
+    void on_DeleteButton_clicked();
 
 private:
     Ui::TaskInfo *ui;

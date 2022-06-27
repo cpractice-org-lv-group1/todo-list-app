@@ -121,6 +121,51 @@ void Operations::PostTask(int id, QTcpSocket *socket, QString header, QString bo
     }
 }
 
+void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty)
+{
+    QJsonObject EditTask
+    {
+        {"Operation", "EditTask"},
+        {"task_Header", header},
+        {"task_Body", body},
+        {"task_Start_Time", starttime},
+        {"task_Expected_End_Time", endtime},
+        {"task_Category", Category},
+        {"task_Difficulty", difficulty},
+    };
+
+    QJsonArray jsarray {EditTask};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
+void Operations::DeleteTask(QTcpSocket *socket, int id)
+{
+    QJsonObject DeleteTask
+    {
+        {"Operation", "DeleteTask"},
+        {"task_Id", id},
+    };
+
+    QJsonArray jsarray {DeleteTask};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
 
 
 

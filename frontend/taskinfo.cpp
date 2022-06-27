@@ -183,6 +183,8 @@ void TaskInfo::on_EditButton_clicked()
 
 
             //TODO MAKE EDIT OPERATION
+            Operations::EditTask(socket, ui->TaskHeader->toPlainText(), ui->TaskDescription->toPlainText(), ui->TaskStartTime->dateTime().toString("yyyy-MM-dd hh:mm:ss"),
+                                ui->TaskExpEnd->dateTime().toString("yyyy-MM-dd hh:mm:ss"),ui->TaskCategory->currentText(), ui->TaskDifficulty->currentText().toInt());
         }
         else
         {
@@ -203,6 +205,18 @@ void TaskInfo::on_EditButton_clicked()
             if(ifTimeError) ui->TimeError->show();
         }
 
+    }
+}
+
+
+void TaskInfo::on_DeleteButton_clicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete", "Are you sure you want to delete this task?",
+                                    QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes)
+    {
+        Operations::DeleteTask(socket, currentTask.value("task_Id").toDouble());
     }
 }
 
