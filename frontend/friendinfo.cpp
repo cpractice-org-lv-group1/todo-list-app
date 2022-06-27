@@ -19,7 +19,6 @@ void FriendInfo::GetFriendData(QJsonObject *obj, QTcpSocket *sock)
     currentUser = *obj;
     font.setPointSize(16);
 
-    //ui->label->setText(currentUser.value("user_Name").toString());
     //STYLES
     this->setStyleSheet("QMainWindow{background-color: white;}");
     ui->Accept->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
@@ -35,6 +34,7 @@ void FriendInfo::GetFriendData(QJsonObject *obj, QTcpSocket *sock)
         ui->Delete->show();
         this->setFixedSize(267,215);
         ui->FriendsSince->show();
+        ui->FriendsSince->setText("Friends since: " + currentUser.value("friendship_ResponceTime").toString("yyyy-MM-dd").sliced(0, 10));
     }
     else
     {

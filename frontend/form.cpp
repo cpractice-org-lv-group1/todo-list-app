@@ -154,7 +154,7 @@ void Form::sockReady()
                 {
                     //CASE FOR NOT ARRAYS
                     QJsonObject obj = doc.object();
-                    //IF IT IS USER DATA
+                    //USER DATA
                     if(obj.value("Operation").toString() == "GetUserData")
                     {
                         VectorData::User = obj;
@@ -162,6 +162,7 @@ void Form::sockReady()
                         DataFillHelper::FillUserData(ui->labelName, ui->labelRankName, ui->labelPoints, ui->RankImg, VectorData::User);
                         Operations::GetCategories(Id, socket);
                     }
+                    //POST TASK
                     else if(obj.value("Operation").toString() == "PostTaskResult")
                     {
                         if(obj.value("Result").toString() == "Success")
@@ -176,6 +177,7 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to add task!"));
                         }
                     }
+                    //PUT TASK
                     else if(obj.value("Operation").toString() == "PutTaskResult")
                     {
                         if(obj.value("Result").toString() == "Success")
@@ -190,6 +192,7 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to edit task!"));
                         }
                     }
+                    //DELETE TASK
                     else if(obj.value("Operation").toString() == "DeleteTaskResult")
                     {
                         if(obj.value("Result").toString() == "Success")
@@ -203,6 +206,7 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to delete task!"));
                         }
                     }
+                    //DELETE FRIEND
                     else if(obj.value("Operation").toString() == "DeleteFriendResult")
                     {
                         if(obj.value("Result").toString() == "Success")
@@ -216,13 +220,16 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to delete friend!"));
                         }
                     }
+                    //PUT CATEGORY
                     else if(obj.value("Operation").toString() == "PutCategoryResult")
                     {
                         if(obj.value("Result").toString() == "Success")
                         {
                             //categorywindow->hide();
                             QMessageBox::information(0,QString("Success!"),QString("Category edited sucesfully!"));
-                            Operations::GetCategories(Id, socket);
+                            CurrentCategory = "All Categories";
+                            ui->Categorylabel->setText("All Categories");
+                            Operations::GetTasks(Id, socket);
                         }
                         else
                         {
@@ -238,7 +245,7 @@ void Form::sockReady()
                 {
                     //IF DATA IS ARRAY
                     QJsonArray array = doc.array();
-                    //IF IT IS TASKS
+                    //TASKS
                     if(array[0].toObject().value("task_Id").toDouble() != 0)
                     {
                         VectorData::Tasks.clear();
@@ -251,7 +258,7 @@ void Form::sockReady()
                         DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
                         Operations::GetUserData(Id, socket);
                     }
-                    //IF IT IS FRIENDS
+                    //FRIENDS
                     else if(array[0].toObject().value("user_Id").toDouble() != 0)
                     {
                         VectorData::Friends.clear();
@@ -263,7 +270,7 @@ void Form::sockReady()
                         //FILL FRIENDLIST
                         DataFillHelper::FillFriends(ui->Friendlist, VectorData::Friends);
                     }
-                    //IF IT IS CATEGORIES
+                    //CATEGORIES
                     else if(array[0].toObject().value("taskCategories_Id").toDouble() != 0)
                     {
                         VectorData::Categories.clear();
