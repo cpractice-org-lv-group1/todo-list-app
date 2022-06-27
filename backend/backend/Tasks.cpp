@@ -64,7 +64,7 @@ bool Tasks::Delete(int id)
 {
     string sqldelete = "Delete from Tasks where task_Id = ";
     sqldelete += to_string(id);
-
+    cout << endl << id;
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)

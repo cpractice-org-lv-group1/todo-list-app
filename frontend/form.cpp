@@ -180,7 +180,7 @@ void Form::sockReady()
                     {
                         if(obj.value("Result").toString() == "Success")
                         {
-                            taskwindow->hide();
+                            //taskwindow->hide();
                             QMessageBox::information(0,QString("Success!"),QString("Task edited sucesfully!"));
                             Operations::GetTasks(Id, socket);
                         }
@@ -203,7 +203,37 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to delete task!"));
                         }
                     }
+                    else if(obj.value("Operation").toString() == "DeleteFriendResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            friendwindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Friend deleted sucesfully!"));
+                            Operations::GetFriends(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to delete friend!"));
+                        }
+                    }
+                    else if(obj.value("Operation").toString() == "PutCategoryResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            //categorywindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Category edited sucesfully!"));
+                            Operations::GetCategories(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to edit category!"));
+                            categorywindow->hide();
+                        }
+                    }
                 }
+
+
+//---------------------------------------------------------------------ARRAY DATA---------------------------------------------------------//
                 else
                 {
                     //IF DATA IS ARRAY

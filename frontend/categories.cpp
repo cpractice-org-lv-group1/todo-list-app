@@ -88,6 +88,15 @@ void Categories::on_EditButton_clicked()
         item->setFlags(item->flags() | Qt::ItemIsEditable);
         ui->listWidget->editItem(item);
         ui->EditButton->setText("Ok");
+
+        for(const auto &x: categories)
+        {
+            if(x.value("taskCategories_Name") == ui->listWidget->currentItem()->text())
+            {
+                chosenid = x.value("taskCategories_Id").toDouble();
+                break;
+            }
+        }
     }
     else
     {
@@ -95,6 +104,7 @@ void Categories::on_EditButton_clicked()
         {
             ui->EditButton->setText("Edit");
             //EDIT OPERATION
+            Operations::EditCategory(socket, chosenid, ui->listWidget->currentItem()->text());
         }
     }
 }

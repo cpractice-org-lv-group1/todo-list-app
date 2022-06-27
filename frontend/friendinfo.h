@@ -8,7 +8,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTcpSocket>
+#include <QMessageBox>
 #include <vector>
+#include "operations.h"
 
 namespace Ui {
 class FriendInfo;
@@ -31,6 +33,9 @@ public:
 public slots:
     void GetFriendData(QJsonObject *obj, QTcpSocket *sock);
 
+
+private slots:
+    void on_Delete_clicked();
 
 private:
     Ui::FriendInfo *ui;

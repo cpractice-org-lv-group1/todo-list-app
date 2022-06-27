@@ -10,6 +10,7 @@
 #include <QTcpSocket>
 #include <QListWidgetItem>
 #include <vector>
+#include "operations.h"
 using namespace std;
 
 namespace Ui {
@@ -29,6 +30,7 @@ public:
     QJsonParseError docError;
     QString CurrentCategory;
     vector<QJsonObject> categories;
+    int chosenid;
 
 signals:
     void ChangeCategory(QString category);

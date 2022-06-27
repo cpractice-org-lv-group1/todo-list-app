@@ -21,7 +21,7 @@ void FriendInfo::GetFriendData(QJsonObject *obj, QTcpSocket *sock)
 
     //ui->label->setText(currentUser.value("user_Name").toString());
     //STYLES
-    this->setStyleSheet("QMainWindow{background-color: white;} QPushButton {border: 1px solid black; }");
+    this->setStyleSheet("QMainWindow{background-color: white;}");
     ui->Accept->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
     ui->Reject->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid red;}");
     ui->Delete->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid red;}");
@@ -76,3 +76,17 @@ void FriendInfo::GetFriendData(QJsonObject *obj, QTcpSocket *sock)
     ui->Email->setText("Email: " + currentUser.value("user_Mail").toString());
     ui->Birthday->setText("Birthday: " + currentUser.value("user_Birthday").toString());
 }
+
+void FriendInfo::on_Delete_clicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete", "Are you sure you want to delete this task?",
+                                    QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes)
+    {
+        Operations::DeleteFriend(socket, currentUser.value("friendship_Id").toDouble());
+    }
+
+
+}
+
