@@ -281,13 +281,77 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "PostTask") //NEW TASK
 					{
 						auto result = CRUD::Post<Tasks>(myJSON);
+						
 						if (result == true)
 						{
 							SendMSG("{ \"Operation\":\"PostTaskResult\", \"Result\" : \"Success\" }", i);
+							Logger("New Task added");
 						}
 						else
 						{
 							SendMSG("{ \"Operation\":\"PostTaskResult\", \"Result\" : \"Error\" }", i);
+							Logger("New Task failed add");
+						}
+					}
+					else if (jsonIterator.value() == "PostCategory") //NEW CATEGORY
+					{
+						auto result = CRUD::Post<TaskCategories>(myJSON);
+						
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"PostCategoryResult\", \"Result\" : \"Success\" }", i);
+							Logger("New Category added");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"PostCategoryResult\", \"Result\" : \"Error\" }", i);
+							Logger("New Category failed add");
+						}
+					}
+					else if (jsonIterator.value() == "PutTask") //EDIT TASK
+					{
+						auto result = CRUD::Put<Tasks>(myJSON);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"PutTaskResult\", \"Result\" : \"Success\" }", i);
+							Logger("Edited Task success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"PutTaskResult\", \"Result\" : \"Error\" }", i);
+							Logger("Edited Task failed");
+						}
+					}
+					else if (jsonIterator.value() == "PutCategory") //EDIT CATEGORY
+					{
+					auto result = CRUD::Put<TaskCategories>(myJSON);
+
+					if (result == true)
+					{
+						SendMSG("{ \"Operation\":\"PutCategoryResult\", \"Result\" : \"Success\" }", i);
+						Logger("Edited Category success");
+					}
+					else
+					{
+						SendMSG("{ \"Operation\":\"PutCategoryResult\", \"Result\" : \"Error\" }", i);
+						Logger("Edited Category failed");
+					}
+					}
+					else if (jsonIterator.value() == "DeleteTask") //DELETE TASK
+					{
+						int id = myJSON["task_Id"].get<int>();
+						auto result = CRUD::Delete<Tasks>(id);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"DeleteTaskResult\", \"Result\" : \"Success\" }", i);
+							Logger("DELETE Task success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"DeleteTaskResult\", \"Result\" : \"Error\" }", i);
+							Logger("DELETE Task failed");
 						}
 					}
 					else 

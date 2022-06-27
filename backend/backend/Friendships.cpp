@@ -1,13 +1,20 @@
 #include "Friendships.h"
 
-void Friendships::Delete(int id)
+bool Friendships::Delete(int id)
 {
     string sqldelete = "Delete from Friendships where friendship_Id = ";
     sqldelete += to_string(id);
 
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 vector<Friendships::FriendshipsStruct> Friendships::GetData()

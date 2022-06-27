@@ -1,13 +1,20 @@
 #include "TaskStatuses.h"
 
-void TaskStatuses::Delete(int id)
+bool TaskStatuses::Delete(int id)
 {
     string sqldelete = "Delete from TaskStatuses where task_status_Id = ";
     sqldelete += to_string(id);
 
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 vector<TaskStatuses::TaskStatusesStruct> TaskStatuses::GetData()

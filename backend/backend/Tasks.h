@@ -59,7 +59,7 @@ public:
     void Get() override;
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override;
-    void Delete(int id) override;
+    bool Delete(int id) override;
     vector<TasksStruct> GetData();
     int takeCategoryId_FromString(nlohmann::json newObject);
     int takeTaskStatusId_FromString(nlohmann::json newObject);

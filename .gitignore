@@ -6,6 +6,7 @@
 # User-specific files
 
 build-frontend-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/
+logFile.txt
 
 *.rsuser
 *.suo

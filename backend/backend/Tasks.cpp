@@ -43,9 +43,8 @@ bool Tasks::Put(nlohmann::json newObject)
            "task_Body = '" + newObject["task_Body"].get<string>() + "'," +
             "task_Start_Time = '" + newObject["task_Start_Time"].get<string>() + "'," +
             "task_Expected_End_Time = '" + newObject["task_Expected_End_Time"].get<string>() + "'," +
-            "task_Real_End_Time = '" + newObject["task_Real_End_Time"].get<string>() + "'," +
-            "task_Status = " + to_string(takeTaskStatusId_FromString(newObject)) + "," +
-            "task_Difficulty = " + to_string(newObject["task_Difficulty"].get<int>()) +
+            "task_Difficulty = " + to_string(newObject["task_Difficulty"].get<int>()) +","+
+            to_string(takeCategoryId_FromString(newObject)) + "," +
             "where task_Id = " + to_string(newObject["task_Id"].get<int>());
 
     wstring wput = GetWCharFromString(put);
@@ -61,14 +60,21 @@ bool Tasks::Put(nlohmann::json newObject)
     }
 }
 
-void Tasks::Delete(int id)
+bool Tasks::Delete(int id)
 {
     string sqldelete = "Delete from Tasks where task_Id = ";
     sqldelete += to_string(id);
 
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 vector<Tasks::TasksStruct> Tasks::GetData()

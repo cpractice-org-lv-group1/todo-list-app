@@ -37,7 +37,7 @@ public:
     void Get(int userId);
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override;
-    void Delete(int id) override;
+    bool Delete(int id) override;
     vector<TaskCategoriesStruct> GetData();
 };
 

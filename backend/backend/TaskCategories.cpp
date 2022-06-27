@@ -19,14 +19,21 @@ bool TaskCategories::Put(nlohmann::json newObject)
     }
 }
 
-void TaskCategories::Delete(int id)
+bool TaskCategories::Delete(int id)
 {
     string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";
     sqldelete += to_string(id);
 
     wstring wsqldelete = GetWCharFromString(sqldelete);
 
-    SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)sqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 vector<TaskCategories::TaskCategoriesStruct> TaskCategories::GetData()
