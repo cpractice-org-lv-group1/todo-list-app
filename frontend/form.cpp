@@ -180,11 +180,13 @@ void Form::sockReady()
                     {
                         if(obj.value("Result").toString() == "Success")
                         {
+                            taskwindow->hide();
                             QMessageBox::information(0,QString("Success!"),QString("Task edited sucesfully!"));
                             Operations::GetTasks(Id, socket);
                         }
                         else
                         {
+                            taskwindow->hide();
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to edit task!"));
                         }
                     }

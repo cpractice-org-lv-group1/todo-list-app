@@ -121,7 +121,7 @@ void Operations::PostTask(int id, QTcpSocket *socket, QString header, QString bo
     }
 }
 
-void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty)
+void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty, int taskid)
 {
     QJsonObject EditTask
     {
@@ -132,6 +132,7 @@ void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QStr
         {"task_Expected_End_Time", endtime},
         {"task_Category", Category},
         {"task_Difficulty", difficulty},
+        {"task_Id", taskid},
     };
 
     QJsonArray jsarray {EditTask};
@@ -146,12 +147,12 @@ void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QStr
     }
 }
 
-void Operations::DeleteTask(QTcpSocket *socket, int id)
+void Operations::DeleteTask(QTcpSocket *socket, int taskid)
 {
     QJsonObject DeleteTask
     {
         {"Operation", "DeleteTask"},
-        {"task_Id", id},
+        {"task_Id", taskid},
     };
 
     QJsonArray jsarray {DeleteTask};

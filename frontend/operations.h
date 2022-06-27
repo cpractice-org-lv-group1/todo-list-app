@@ -17,8 +17,8 @@ public:
     static void GetUserData(int id, QTcpSocket *socket);
     static void GetCategories(int id, QTcpSocket *socket);
     static void PostTask(int id, QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty);
-    static void EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty);
-    static void DeleteTask(QTcpSocket *socket, int id);
+    static void EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty, int taskid);
+    static void DeleteTask(QTcpSocket *socket, int taskid);
 };
 
 #endif // OPERATIONS_H
