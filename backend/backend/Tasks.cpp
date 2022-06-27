@@ -44,8 +44,8 @@ bool Tasks::Put(nlohmann::json newObject)
             "task_Start_Time = '" + newObject["task_Start_Time"].get<string>() + "'," +
             "task_Expected_End_Time = '" + newObject["task_Expected_End_Time"].get<string>() + "'," +
             "task_Difficulty = " + to_string(newObject["task_Difficulty"].get<int>()) +","+
-            to_string(takeCategoryId_FromString(newObject)) + "," +
-            "where task_Id = " + to_string(newObject["task_Id"].get<int>());
+            "task_Category = " + to_string(takeCategoryId_FromString(newObject)) + " " +
+            "where task_Id = " + to_string(newObject["task_Id"].get<int>())+";";
 
     wstring wput = GetWCharFromString(put);
 
