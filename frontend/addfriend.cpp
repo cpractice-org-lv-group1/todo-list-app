@@ -6,6 +6,7 @@ AddFriend::AddFriend(QWidget *parent) :
     ui(new Ui::AddFriend)
 {
     ui->setupUi(this);
+    this->setFixedSize(243,130);
 }
 
 AddFriend::~AddFriend()

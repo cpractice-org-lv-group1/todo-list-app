@@ -6,6 +6,7 @@ AddTask::AddTask(QWidget *parent) :
     ui(new Ui::AddTask)
 {
     ui->setupUi(this);
+    this->setFixedSize(240,409);
 }
 
 AddTask::~AddTask()

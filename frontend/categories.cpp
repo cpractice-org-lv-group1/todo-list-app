@@ -9,6 +9,7 @@ Categories::Categories(QWidget *parent) :
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onItemSelected(QListWidgetItem*)));
     ui->DeleteButton->setEnabled(false);
     ui->EditButton->setEnabled(false);
+    this->setFixedSize(369,278);
 }
 
 Categories::~Categories()
@@ -131,7 +132,27 @@ void Categories::on_AddNewButton_clicked()
 {
     if(!ui->lineEdit->text().isEmpty())
     {
+        bool ifFound = false;
+        for(const auto &x: categories)
+        {
+            if(x.value("taskCategories_Name").toString() == ui->lineEdit->text())
+            {
+                ifFound = true;
+                break;
+            }
+        }
+        if(ifFound)
+        {
+            QMessageBox::warning(0,QString("Warning!"),QString("There is already a category with this name!"));
+            return;
+        }
+
+        //POST METHOD
         Operations::AddCategory(socket, currentuserid, ui->lineEdit->text());
+    }
+    else
+    {
+        QMessageBox::warning(0,QString("Warning!"),QString("Field cannot be empty!"));
     }
 }
 

@@ -137,7 +137,7 @@ void Form::sockDisc()
     socket->deleteLater();
 }
 
-//FUNCTION THAT HANDLES INCOMING DATA FROM SERVER
+//------------------------------------------------------------FUNCTION THAT HANDLES INCOMING DATA FROM SERVER--------------------------------------------------------//
 void Form::sockReady()
 {
     if(ifOpen)

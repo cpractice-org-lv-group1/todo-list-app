@@ -10,6 +10,7 @@
 #include <QTcpSocket>
 #include <QListWidgetItem>
 #include <vector>
+#include <QMessageBox>
 #include "operations.h"
 using namespace std;
 
