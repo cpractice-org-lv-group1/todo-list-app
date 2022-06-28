@@ -28,15 +28,20 @@ public:
     QByteArray Data;
     QJsonDocument doc;
     QJsonParseError docError;
-    int points;
+    int currentpoints;
+    int userpoints;
 
 public slots:
-    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories, QTcpSocket *sock);
+    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories, QTcpSocket *sock, int points);
 
 private slots:
     void on_EditButton_clicked();
 
     void on_DeleteButton_clicked();
+
+    void on_DoneButton_clicked();
+
+    void on_DoneButton_2_clicked();
 
 private:
     Ui::TaskInfo *ui;

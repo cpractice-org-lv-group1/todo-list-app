@@ -52,9 +52,9 @@ public:
 
 signals:
      void backSignal();
-     void SendTaskData(QJsonObject *obj, vector<QJsonObject> categories,QTcpSocket *sock);
+     void SendTaskData(QJsonObject *obj, vector<QJsonObject> categories,QTcpSocket *sock, int points);
      void SendFriendData(QJsonObject *obj, QTcpSocket *sock);
-     void SendCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category);
+     void SendCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category, int userid);
      void SendToAddTask(QTcpSocket *sock, int id, const vector<QJsonObject> &categories);
      void SendToAddFriend(QTcpSocket *sock, int id);
 

@@ -62,7 +62,7 @@ bool Tasks::Put(nlohmann::json newObject)
 bool Tasks::Delete(int id)
 {
     string sTasksUpdate = "UPDATE Tasks SET ";
-    sTasksUpdate += "task_Status = " + to_string(4) + ","
+    sTasksUpdate += "task_Status = " + to_string(4) + 
         "where task_Id = " + to_string(id) + ";";
 
     wstring wTasksUpdate = GetWCharFromString(sTasksUpdate);

@@ -23,7 +23,7 @@ bool TaskCategories::Delete(int id)
 {
     string put = "UPDATE Tasks SET ";
     put += "task_Category = 1\
-    where taskCategories_Id = " + to_string(id);
+    where task_Category = " + to_string(id);
     wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);

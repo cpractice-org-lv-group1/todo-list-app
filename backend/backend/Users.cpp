@@ -109,7 +109,8 @@ bool Users::Post(nlohmann::json newObject)
 bool Users::Put(nlohmann::json newObject)
 {
     string sTasksUpdate = "UPDATE Tasks SET ";
-    sTasksUpdate += "task_Status = " + to_string(3) + ","
+    sTasksUpdate += "task_Status = " + to_string(3) + "," + 
+        "task_Real_End_Time = GETDATE() " + 
         "where task_Id = " + to_string(newObject["task_Id"].get<int>()) + ";";
 
     wstring wTasksUpdate = GetWCharFromString(sTasksUpdate);

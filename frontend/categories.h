@@ -31,12 +31,13 @@ public:
     QString CurrentCategory;
     vector<QJsonObject> categories;
     int chosenid;
+    int currentuserid;
 
 signals:
     void ChangeCategory(QString category);
 
 public slots:
-    void GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category);
+    void GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category, int userid);
     void onItemSelected(QListWidgetItem* item);
 
 private slots:

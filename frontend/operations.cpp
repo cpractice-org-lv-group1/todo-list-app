@@ -208,6 +208,69 @@ void Operations::DeleteFriend(QTcpSocket *socket, int friendshipid)
     }
 }
 
+void Operations::ComleteTask(QTcpSocket *socket, int userid, int newpoints, int taskid)
+{
+    QJsonObject ComleteTask
+    {
+        {"Operation", "CompleteTask"},
+        {"user_Id", userid},
+        {"user_Points", newpoints},
+        {"task_Id", taskid},
+    };
+
+    QJsonArray jsarray {ComleteTask};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
+void Operations::AddCategory(QTcpSocket *socket, int userid, QString name)
+{
+    QJsonObject AddCategory
+    {
+        {"Operation", "PostCategory"},
+        {"taskCategories_User", userid},
+        {"taskCategories_Name", name},
+    };
+
+    QJsonArray jsarray {AddCategory};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
+void Operations::DeleteCategory(QTcpSocket *socket, int id)
+{
+    QJsonObject DeleteCategory
+    {
+        {"Operation", "DeleteCategory"},
+        {"taskCategories_Id", id},
+    };
+
+    QJsonArray jsarray {DeleteCategory};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
 
 
 

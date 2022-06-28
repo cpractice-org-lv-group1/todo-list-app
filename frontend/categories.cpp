@@ -17,18 +17,20 @@ Categories::~Categories()
 }
 
 //SLOT ON WINDOW SHOW
-void Categories::GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category)
+void Categories::GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category, int userid)
 {
     //FILL WITH DATA
     socket = sock;
     categories = vect;
     CurrentCategory = Category;
+    currentuserid = userid;
 
     //LIST WIDGET FILL
     ui->listWidget->clear();
     QListWidgetItem *newItem = new QListWidgetItem;
     newItem->setText("All Categories");
     newItem->setTextAlignment(Qt::AlignCenter);
+    ui->lineEdit->clear();
     ui->listWidget->addItem(newItem);
     for(const auto &x: categories)
     {
@@ -112,12 +114,24 @@ void Categories::on_EditButton_clicked()
 
 void Categories::on_DeleteButton_clicked()
 {
+    for(const auto &x: categories)
+    {
+        if(x.value("taskCategories_Name") == ui->listWidget->currentItem()->text())
+        {
+            chosenid = x.value("taskCategories_Id").toDouble();
+            break;
+        }
+    }
 
+    Operations::DeleteCategory(socket, chosenid);
 }
 
 
 void Categories::on_AddNewButton_clicked()
 {
-
+    if(!ui->lineEdit->text().isEmpty())
+    {
+        Operations::AddCategory(socket, currentuserid, ui->lineEdit->text());
+    }
 }
 

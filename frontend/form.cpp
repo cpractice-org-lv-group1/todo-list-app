@@ -112,7 +112,7 @@ void Form::onTaskClicked(QListWidgetItem* item)
             break;
         }
     }
-    emit SendTaskData(&chosen, VectorData::Categories, socket);
+    emit SendTaskData(&chosen, VectorData::Categories, socket, VectorData::User.value("userPoints").toDouble());
     taskwindow->show();
 }
 
@@ -237,6 +237,51 @@ void Form::sockReady()
                             categorywindow->hide();
                         }
                     }
+                    //MASK TASK AS DONE
+                    else if(obj.value("Operation").toString() == "CompleteTaskResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            taskwindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Task finished succesfully!"));
+                            Operations::GetTasks(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to finish task!"));
+                            categorywindow->hide();
+                        }
+                    }
+                    //POST CATEGORY
+                    else if(obj.value("Operation").toString() == "PostCategoryResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            categorywindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Category added sucesfully!"));
+                            Operations::GetCategories(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to add category!"));
+                        }
+                    }
+                    //DELETE CATEGORY
+                    else if(obj.value("Operation").toString() == "DeleteCategoryResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            categorywindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Category deleted sucesfully!"));
+                            CurrentCategory = "All Categories";
+                            ui->Categorylabel->setText("All Categories");
+                            Operations::GetTasks(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Failed to delete category!"));
+                        }
+                    }
                 }
 
 
@@ -349,7 +394,7 @@ void Form::on_SearchOk_clicked()
 //CATEGORIES LOGIC
 void Form::on_CategoriesButton_clicked()
 {
-    emit SendCategoriesData(VectorData::Categories, socket, CurrentCategory);
+    emit SendCategoriesData(VectorData::Categories, socket, CurrentCategory, Id);
     categorywindow->show();
 }
 

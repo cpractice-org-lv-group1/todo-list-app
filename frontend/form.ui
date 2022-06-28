@@ -157,7 +157,7 @@ QPushButton :hover { border: 1px solid green }
       <rect>
        <x>185</x>
        <y>80</y>
-       <width>61</width>
+       <width>71</width>
        <height>16</height>
       </rect>
      </property>

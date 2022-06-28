@@ -17,11 +17,12 @@ TaskInfo::~TaskInfo()
     delete ui;
 }
 
-void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categories, QTcpSocket *sock)
+void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categories, QTcpSocket *sock, int points)
 {
     socket = sock;
     currentTask = *obj;
     font.setPointSize(14);
+    userpoints = points;
 
     //SET DATA
     ui->TaskHeader->setText(currentTask.value("task_Header").toString());
@@ -67,12 +68,12 @@ void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categorie
     if ( index != -1 ) ui->TaskDifficulty->setCurrentIndex(index);
 
     //LOGIC FOR POINTS
-    points = (QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch() -
+    currentpoints = (QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch() -
                 QDateTime::fromString(currentTask.value("task_Start_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch()) *
-             currentTask.value("task_Difficulty").toDouble() / 3600;
+             currentTask.value("task_Difficulty").toDouble() / (3600*10);
 
     if(QDateTime::currentDateTime() > QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm"))
-        points = points/2;
+        currentpoints = currentpoints/2;
 
     //SET STYLE
     ui->HeaderError->setStyleSheet("color: red");
@@ -105,8 +106,8 @@ void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categorie
     ui->TaskStatus->setReadOnly(true);
     ui->TaskStatus->setFont(font);
     ui->EditButton->setText("Edit");
-    ui->DonePoints->setText("Points:\n+ " + QString::number(points));
-    ui->DonePoints_2->setText("Points:\n+ " + QString::number(points/2));
+    ui->DonePoints->setText("Points:\n+ " + QString::number(currentpoints));
+    ui->DonePoints_2->setText("Points:\n+ " + QString::number(currentpoints/2));
 
     //DIFFERENT CASES FOR STATUSES
     if(currentTask.value("task_Status").toString() == "Completed")
@@ -172,14 +173,15 @@ void TaskInfo::on_EditButton_clicked()
             this->setStyleSheet("QMainWindow{background-color: white;} QTextEdit {border: none; } QDateTimeEdit {border: none; } QComboBox{border: none;}");
 
             //COUNT NEW POINTS
-            points = (QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch() -
-                        QDateTime::fromString(currentTask.value("task_Start_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch()) *
-                     currentTask.value("task_Difficulty").toDouble() / 3600;
+            currentpoints = (ui->TaskExpEnd->dateTime().toSecsSinceEpoch() -
+                        ui->TaskStartTime->dateTime().toSecsSinceEpoch()) *
+                    ui->TaskDifficulty->currentText().toInt() / (3600*10);
 
-            if(QDateTime::currentDateTime() > QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm"))
-                points = points/2;
-            ui->DonePoints->setText("Points:\n+ " + QString::number(points));
-            ui->DonePoints_2->setText("Points:\n+ " + QString::number(points/2));
+            if(QDateTime::currentDateTime() > ui->TaskExpEnd->dateTime())
+                currentpoints = currentpoints/2;
+
+            ui->DonePoints->setText("Points:\n+ " + QString::number(currentpoints));
+            ui->DonePoints_2->setText("Points:\n+ " + QString::number(currentpoints/2));
 
 
             //TODO MAKE EDIT OPERATION
@@ -219,5 +221,17 @@ void TaskInfo::on_DeleteButton_clicked()
     {
         Operations::DeleteTask(socket, currentTask.value("task_Id").toDouble());
     }
+}
+
+
+void TaskInfo::on_DoneButton_clicked()
+{
+    Operations::ComleteTask(socket, currentTask.value("task_User").toDouble(), (userpoints + currentpoints), currentTask.value("task_Id").toDouble());
+}
+
+
+void TaskInfo::on_DoneButton_2_clicked()
+{
+    Operations::ComleteTask(socket, currentTask.value("task_User").toDouble(), (userpoints + (currentpoints/2)), currentTask.value("task_Id").toDouble());
 }
 
