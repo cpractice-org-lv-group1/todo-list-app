@@ -54,7 +54,7 @@ void Users::Get(string email)
 bool Users::Post(nlohmann::json newObject)
 {  
     string put = "SELECT user_Id FROM USERS where user_Mail ='"; //CHECK VALID EMAIL
-    put += newObject["user_Mail"].get<string>() + "'";
+    put += newObject["userMail"].get<string>() + "'";
     wstring wput = GetWCharFromString(put);
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
