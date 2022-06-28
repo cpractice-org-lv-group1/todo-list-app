@@ -74,7 +74,7 @@ public:
     void Get() override;
     void Get(int userId) override;
     bool Post(nlohmann::json newObject) override;
-    bool Put(nlohmann::json newObject) override { return true; };
+    bool Put(nlohmann::json newObject) override;
     bool Delete(int id) override;
     vector<FriendshipsStruct> GetData();
     vector<FriendStruct> GetAllFriends();

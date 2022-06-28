@@ -6,6 +6,7 @@
 #include "CRUD.h"
 #include <algorithm>
 #include "nlohmann/json.hpp"
+#include <time.h>
 
 #define DEFAULT_BUFLEN 4096
 
@@ -80,6 +81,9 @@ void Server::RunSERVER()
 
 	Initiliaze();
 
+	time_t start;
+	start = time(0);
+	int interval = 3;
 	while (true) {
 		// clear the socket fdset
 		FD_ZERO(client_socket.GetFD_SET());
@@ -119,6 +123,7 @@ void Server::RunSERVER()
 
 			client_socket.AddNewClientToArray(new_socket);
 		}
+		
 
 		// if some of client sockets sends something
 		for (int i = 0; i < stoi(iniCFG["Options"]["MAX_CLIENTS"]); i++)
@@ -384,6 +389,66 @@ void Server::RunSERVER()
 						{
 							SendMSG("{ \"Operation\":\"DeleteFriendResult\", \"Result\" : \"Error\" }", i);
 							Logger("DELETE Friendships failed");
+						}
+					}
+					else if (jsonIterator.value() == "PostCategory") //POST CATEGORY
+					{
+						auto result = CRUD::Post<TaskCategories>(myJSON);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"PostCategoryResult\", \"Result\" : \"Success\" }", i);
+							Logger("New Category success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"PostCategoryResult\", \"Result\" : \"Error\" }", i);
+							Logger("New Category failed");
+						}
+					}
+					else if (jsonIterator.value() == "AddFriend") //POST FRIENDSHIP
+					{
+						auto result = CRUD::Post<Friendships>(myJSON);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"AddFriendResult\", \"Result\" : \"Success\" }", i);
+							Logger("Add Friendships success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"AddFriendResult\", \"Result\" : \"Error\" }", i);
+							Logger("Add Friendships failed");
+						}
+					}
+					else if (jsonIterator.value() == "FriendRequestAnswer") //ACCEPT FRIENDSHIP
+					{
+						auto result = CRUD::Put<Friendships>(myJSON);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"FriendRequestAnswerResult\", \"Result\" : \"Success\" }", i);
+							Logger("FriendRequestAnswer success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"FriendRequestAnswerResult\", \"Result\" : \"Error\" }", i);
+							Logger("FriendRequestAnswer failed");
+						}
+					}
+					else if (jsonIterator.value() == "CompleteTask") //COMPLETE TASK
+					{
+						auto result = CRUD::Put<Users>(myJSON);
+
+						if (result == true)
+						{
+							SendMSG("{ \"Operation\":\"CompleteTaskResult\", \"Result\" : \"Success\" }", i);
+							Logger("CompleteTask success");
+						}
+						else
+						{
+							SendMSG("{ \"Operation\":\"CompleteTaskResult\", \"Result\" : \"Error\" }", i);
+							Logger("CompleteTask failed");
 						}
 					}
 					else 

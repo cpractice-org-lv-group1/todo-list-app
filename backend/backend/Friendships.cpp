@@ -120,15 +120,76 @@ void Friendships::Get(int userId)
 
 bool Friendships::Post(nlohmann::json newObject)
 {
-    string put = "INSERT INTO Friendships VALUES('";
-    put += newObject["friendship_RequesterId"].get<string>() + "', '" +
-        newObject["friendship_AdresserId"].get<string>() + "', '" +
-        newObject["friendship_RequestTime"].get<string>() + "', '" +
-        newObject["friendship_ResponceTime"].get<string>() + "'," +
-        to_string(newObject["friendship_Status"].get<int>())+"); ";
+    string put = "SELECT user_Id FROM USERS where user_Mail ='"; //CHECK VALID EMAIL
+    put += newObject["user_Mail"].get<string>() + "'";
+    wstring wput = GetWCharFromString(put);
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+
+    int addresserId = 0;
+
+    if (retcode == SQL_SUCCESS)
+    {
+        retcode = SQLFetch(sqlStmtHandle);
+        if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
+        {
+            cout << "Error reading query!\n";
+            Logger("{Friendships.cpp//Friendships::Post} Error reading query to add new friend!");
+            return false;
+        }
+        if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
+        {
+            SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &addresserId, 0, &lenth);
+        }
+    }
+    else 
+    {
+        Logger("{Friendships.cpp//Friendships::Post} Query is failed!");
+        return false;
+    }
+
+    //POST FRIEND
+    if (addresserId != 0) 
+    {
+        string put = "INSERT INTO Friendships VALUES('";
+        put += to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
+            to_string(addresserId) + ", '" +
+            getCurrentTime() + "', NULL, " +
+            to_string(1) + "); ";
+
+        wstring wput = GetWCharFromString(put);
+
+        if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else 
+    {
+        Logger("{Friendships.cpp//Friendships::Post} User Email did not find!");
+        return false;
+    }
+}
+
+bool Friendships::Put(nlohmann::json newObject)
+{
+    int friendship_Status;
+    if (newObject["Answer"].get<string>() == "yes") 
+    {
+        friendship_Status = 2;
+    }
+    else
+    {
+        friendship_Status = 3;
+    }
+    string put = "UPDATE Friendships SET ";
+    put += "friendship_Status = " + to_string(friendship_Status) + 
+        " where friendship_Id = " + to_string(newObject["friendship_Id"].get<int>()) ;
 
     wstring wput = GetWCharFromString(put);
-
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
     {

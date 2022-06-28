@@ -21,19 +21,34 @@ bool TaskCategories::Put(nlohmann::json newObject)
 
 bool TaskCategories::Delete(int id)
 {
-    string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";
-    sqldelete += to_string(id);
+    string put = "UPDATE Tasks SET ";
+    put += "task_Category = 1\
+    where taskCategories_Id = " + to_string(id);
+    wstring wput = GetWCharFromString(put);
 
-    wstring wsqldelete = GetWCharFromString(sqldelete);
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
-    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+    if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
     {
-        return true;
+        string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";
+        sqldelete += to_string(id);
+
+        wstring wsqldelete = GetWCharFromString(sqldelete);
+
+        if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     else
     {
         return false;
     }
+   
 }
 
 vector<TaskCategories::TaskCategoriesStruct> TaskCategories::GetData()
@@ -123,8 +138,8 @@ void TaskCategories::Get(int userId)
 bool TaskCategories::Post(nlohmann::json newObject)
 {
     string put = "INSERT INTO TaskCategories VALUES('";
-    put += newObject["taskCategories_Name"].get<string>() + "', '" +
-        newObject["taskCategories_User"].get<string>() + "');";
+    put += newObject["taskCategories_Name"].get<string>() + "', " +
+       to_string(newObject["taskCategories_User"].get<int>()) + ");";
 
     wstring wput = GetWCharFromString(put);
 

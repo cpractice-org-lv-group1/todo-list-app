@@ -52,7 +52,7 @@ public:
     void Get(int id) override;
     void Get(string email);
     bool Post(nlohmann::json newObject) override;
-    bool Put(nlohmann::json newObject) override { return true; };
+    bool Put(nlohmann::json newObject) override;
     bool Delete(int id) override;
     vector<UsersStruct> GetData();
     UsersStruct GetCurrentUser();

@@ -49,7 +49,6 @@ bool Tasks::Put(nlohmann::json newObject)
 
     wstring wput = GetWCharFromString(put);
 
-
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
         return true;
