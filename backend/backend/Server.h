@@ -12,6 +12,8 @@ class Server
 	mINI::INIStructure iniCFG;
 public:
 	Server(mINI::INIStructure myINI);
+	static void UpdateStatusesTask();
+	static void fUpdateTaskStatusTimer(int timeInterval);
 	void Initiliaze();
 	void RunSERVER();
 	void SendMSG(std::string MESSAGE, int SocketNum);

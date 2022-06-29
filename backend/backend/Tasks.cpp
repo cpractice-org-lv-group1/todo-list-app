@@ -55,6 +55,7 @@ bool Tasks::Put(nlohmann::json newObject)
     }
     else
     {
+        Logger("{Tasks.cpp//Tasks::Post} Error Put Tasks!");
         return false;
     }
 }
@@ -84,9 +85,67 @@ vector<Tasks::TasksStruct> Tasks::GetData()
     return CurrentTasks;
 }
 
+vector<Tasks::TasksStruct> Tasks::GetAllNotStartedTasks()
+{
+    return AllNotStartedTasks;
+}
+
 void Tasks::Get()
 {
+    string put = "SELECT t.task_Id, t.task_Header, t.task_Body, t.task_Start_Time,\
+        t.task_Expected_End_Time, t.task_Real_End_Time, ts.task_status_Name, tc.taskCategories_Name, t.task_User, task_Difficulty\
+        FROM Tasks t\
+        left join TaskCategories tc on tc.taskCategories_Id = t.task_Category\
+        left join TaskStatuses ts on t.task_Status = ts.task_status_Id where t.task_Status = 1";
+    wstring wput = GetWCharFromString(put);
+    AllNotStartedTasks.clear();
 
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+
+    if (retcode == SQL_SUCCESS)
+    {
+        while (true)
+        {
+            retcode = SQLFetch(sqlStmtHandle);
+            if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
+            {
+                cout << "Error reading query!\n";
+            }
+            if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
+            {
+                TasksStruct newTask = {};
+
+                SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &newTask.task_Id, 0, &lenth);
+                SQLGetData(sqlStmtHandle, 2, SQL_C_CHAR, newTask.task_Header, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 3, SQL_C_CHAR, newTask.task_Body, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 4, SQL_C_CHAR, newTask.task_Start_Time, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 5, SQL_C_CHAR, newTask.task_Expected_End_Time, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 6, SQL_C_CHAR, newTask.task_Real_End_Time, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 7, SQL_C_CHAR, newTask.task_Status, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 8, SQL_C_CHAR, newTask.task_Category, FIELD_LEN, &lenth);
+                SQLGetData(sqlStmtHandle, 9, SQL_C_ULONG, &newTask.task_User, 0, &lenth);
+                SQLGetData(sqlStmtHandle, 10, SQL_C_ULONG, &newTask.task_Difficulty, 0, &lenth);
+
+                auto first = newTask.task_Real_End_Time[0];
+                if (!isdigit(first))
+                {
+                    string none = "None";
+                    newTask.task_Real_End_Time[0] = none[0];
+                    newTask.task_Real_End_Time[1] = none[1];
+                    newTask.task_Real_End_Time[2] = none[2];
+                    newTask.task_Real_End_Time[3] = none[3];
+                    newTask.task_Real_End_Time[4] = '\0';
+                }
+                AllNotStartedTasks.emplace_back(newTask);
+            }
+            else break;
+        }
+    }
+    else
+    {
+        cout << "Error getting data!";
+    }
+    SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
 bool Tasks::Post(nlohmann::json newObject)

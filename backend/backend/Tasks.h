@@ -54,13 +54,15 @@ class Tasks : public iCrudOperations
         }
     };
     vector<TasksStruct> CurrentTasks;
+    vector<TasksStruct>AllNotStartedTasks;
 public:
     void Get(int id) override;
-    void Get() override;
+    void Get() override; //NotStarted Tasks
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override;
     bool Delete(int id) override;
     vector<TasksStruct> GetData();
+    vector<TasksStruct> GetAllNotStartedTasks();
     int takeCategoryId_FromString(nlohmann::json newObject);
     int takeTaskStatusId_FromString(nlohmann::json newObject);
 };

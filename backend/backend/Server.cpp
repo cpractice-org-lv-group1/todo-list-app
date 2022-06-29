@@ -7,12 +7,48 @@
 #include <algorithm>
 #include "nlohmann/json.hpp"
 #include <time.h>
+#include <thread>
 
 #define DEFAULT_BUFLEN 4096
 
 Server::Server(mINI::INIStructure myINI)
 {
 	this->iniCFG = myINI;
+}
+
+void Server::UpdateStatusesTask()
+{
+	auto aTasks = CRUD::Get<Tasks>().GetAllNotStartedTasks();
+
+	for(int i = 0; i < aTasks.size(); ++i)
+	{
+		string taskTime((const char*)aTasks[i].task_Start_Time);
+		if (taskTime <= getCurrentTime()) 
+		{
+			string put = "UPDATE Tasks SET ";
+			put += "task_Status = 2\
+                    where task_Id = " + to_string(aTasks[i].task_Id) + ";";
+			wstring wput = GetWCharFromString(put);
+			SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+		}
+	}
+}
+
+void Server::fUpdateTaskStatusTimer(int timeInterval)
+{
+    time_t start;
+	start = time(0);
+	int interval = timeInterval;
+
+	while (1) 
+	{
+		if (time(0) - start == interval) 
+		{
+			cout << "yes\n";
+			UpdateStatusesTask();
+			start = start + interval;
+		}
+	}
 }
 
 void Server::Initiliaze()
@@ -81,9 +117,11 @@ void Server::RunSERVER()
 
 	Initiliaze();
 
-	time_t start;
-	start = time(0);
-	int interval = 3;
+	//--------------------UPDATE STATUS TASK THREAD-----------------------------------------------
+	thread thUpdateStatusTask(fUpdateTaskStatusTimer, stoi(iniCFG["Options"]["SECONDS_OF_UPDATING_TASKSTATUS"]));
+	thUpdateStatusTask.detach();
+	//--------------------------------------------------------------------------------------------
+
 	while (true) {
 		// clear the socket fdset
 		FD_ZERO(client_socket.GetFD_SET());
