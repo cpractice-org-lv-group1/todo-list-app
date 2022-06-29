@@ -17,6 +17,53 @@ bool Friendships::Delete(int id)
     }
 }
 
+bool Friendships::checkAlreadyFriend(int friendship_RequesterId, int addresserId)
+{
+    //------------------------CHECK ALREADY BE FRIEND---------------------------
+    string put = "SELECT friendship_Id FROM Friendships\
+                  where friendship_RequesterId =";
+    put += to_string(friendship_RequesterId) +
+        " and friendship_AdresserId =";
+    put += to_string(addresserId) + " and (friendship_Status = 1 or friendship_Status = 2)";
+        wstring wput = GetWCharFromString(put);
+    retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+
+    int friendshipId = 0;
+
+    if (retcode == SQL_SUCCESS)
+    {
+        retcode = SQLFetch(sqlStmtHandle);
+        if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
+        {
+            cout << "Error reading query!\n";
+            Logger("{Friendships.cpp//Friendships::checkAlreadyFriend} Error reading query to add new friend!");
+            return false;
+        }
+        if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
+        {
+            SQLGetData(sqlStmtHandle, 1, SQL_C_ULONG, &friendshipId, 0, &lenth);
+        }
+    }
+    else
+    {
+        Logger("{Friendships.cpp//Friendships::checkAlreadyFriend} Query is failed!");
+        return false;
+    }
+
+    if (friendshipId != 0) 
+    {
+        string str = "This userId: " + to_string(friendship_RequesterId) + " ALREADY has a requst/friend #"+ to_string(addresserId);
+        Logger(str);
+        SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
+        return true;
+    }
+    else
+    {
+        SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
+        return false;
+    }
+}
+
 vector<Friendships::FriendshipsStruct> Friendships::GetData()
 {
     return AllFriendships;
@@ -120,7 +167,8 @@ void Friendships::Get(int userId)
 
 bool Friendships::Post(nlohmann::json newObject)
 {
-    string put = "SELECT user_Id FROM USERS where user_Mail ='"; //CHECK VALID EMAIL
+    //----------------------CHECK VALID EMAIL-------------------------------------
+    string put = "SELECT user_Id FROM USERS where user_Mail ='"; 
     put += newObject["user_Mail"].get<string>() + "'";
     wstring wput = GetWCharFromString(put);
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
@@ -148,19 +196,17 @@ bool Friendships::Post(nlohmann::json newObject)
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 
-    //POST FRIEND
-    if (addresserId != 0) 
+
+    //--------------------------POST FRIEND----------------------------------------
+    if (addresserId != 0 && checkAlreadyFriend(newObject["friendship_RequesterId"].get<int>(), addresserId) == false)
     {
         string put = "INSERT INTO Friendships VALUES(";
         put += to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
             to_string(addresserId) + ", GETDATE()" + ", NULL, " +
             to_string(1) + ");";
 
-        cout << endl << put;
-
         wstring wput = GetWCharFromString(put);
         retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
-        cout << retcode;
 
         if (retcode == SQL_SUCCESS)
         {

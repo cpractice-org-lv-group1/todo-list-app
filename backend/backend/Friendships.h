@@ -76,6 +76,7 @@ public:
     bool Post(nlohmann::json newObject) override;
     bool Put(nlohmann::json newObject) override;
     bool Delete(int id) override;
+    bool checkAlreadyFriend(int friendship_RequesterId, int addresserId);
     vector<FriendshipsStruct> GetData();
     vector<FriendStruct> GetAllFriends();
 };
