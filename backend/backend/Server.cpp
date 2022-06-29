@@ -44,7 +44,6 @@ void Server::fUpdateTaskStatusTimer(int timeInterval)
 	{
 		if (time(0) - start == interval) 
 		{
-			cout << "yes\n";
 			UpdateStatusesTask();
 			start = start + interval;
 		}

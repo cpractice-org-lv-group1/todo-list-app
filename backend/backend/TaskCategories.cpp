@@ -27,28 +27,22 @@ bool TaskCategories::Delete(int id)
     wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+    cout << retcode << endl;
 
-    if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
+    
+    string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";
+    sqldelete += to_string(id);
+
+    wstring wsqldelete = GetWCharFromString(sqldelete);
+
+    if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
-        string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";
-        sqldelete += to_string(id);
-
-        wstring wsqldelete = GetWCharFromString(sqldelete);
-
-        if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return true;
     }
     else
     {
-        return false;
+        return false;           
     }
-   
 }
 
 vector<TaskCategories::TaskCategoriesStruct> TaskCategories::GetData()
