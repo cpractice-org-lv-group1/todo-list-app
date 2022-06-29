@@ -14,6 +14,7 @@
 #include <QRegularExpression>
 #include <QFile>
 #include <QMessageBox>
+#include <QSettings>
 #include "logwriter.h"
 
 QT_BEGIN_NAMESPACE

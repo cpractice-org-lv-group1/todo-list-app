@@ -58,6 +58,17 @@ Form::Form(QWidget *parent) :
 
     //CATEGORY VALUE
     CurrentCategory = "All Categories";
+
+    //TIMER TO REFRESH DATA
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(Refresh()));
+    timer->start(60000);
+
+    //THIS WINDOW IS CLOSED AT THE START
+    ifOpen = false;
+
+    //VARIABLE TO CONNECT SIGNAL ONLY ONCE
+    ifFirstTime = true;
 }
 
 Form::~Form()
@@ -73,6 +84,14 @@ Form::~Form()
     delete addtaskwindow;
     delete addfriendwindow;
 }
+
+//SLOT WHICH GETS CALLED EVERY 1 MINUTE
+void Form::Refresh()
+{
+    if(ifOpen)
+    Operations::GetTasks(Id, socket);
+}
+
 
 //GET BACK TO REGISTRATION
 void Form::on_SignOutButton_clicked()
@@ -120,8 +139,13 @@ void Form::onTaskClicked(QListWidgetItem* item)
 void Form::slot(int id, QTcpSocket *sock, QTextStream *sendlogstream)
 {
     socket = sock;
-    connect(socket,SIGNAL(readyRead()),this,SLOT(sockReady()));
-    connect(socket,SIGNAL(disconnected()),this,SLOT(sockDisc()));
+    //THIS TRIGGERS ONLY FIRST TIME
+    if(ifFirstTime)
+    {
+        connect(socket,SIGNAL(readyRead()),this,SLOT(sockReady()));
+        connect(socket,SIGNAL(disconnected()),this,SLOT(sockDisc()));
+        ifFirstTime = false;
+    }
     ifOpen = true;
 
     Id = id;

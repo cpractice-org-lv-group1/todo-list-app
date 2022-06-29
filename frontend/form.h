@@ -12,6 +12,7 @@
 #include "operations.h"
 #include <vector>
 #include <QFile>
+#include <QTimer>
 #include <QInputDialog>
 #include <QDialogButtonBox>
 #include "datafillhelper.h"
@@ -49,6 +50,7 @@ public:
     QTextStream streamSearch;
     int hours;
     QString CurrentCategory;
+    bool ifFirstTime;
 
 signals:
      void backSignal();
@@ -75,6 +77,7 @@ public slots:
     void onTaskClicked(QListWidgetItem* item);
     void onFriendClicked(QListWidgetItem* item);
     void GetChangedCategory(QString category);
+    void Refresh();
 
 private:
     Ui::Form *ui;

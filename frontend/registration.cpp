@@ -17,11 +17,29 @@ Registration::Registration(QWidget *parent)
     connect(socket,SIGNAL(disconnected()),this,SLOT(sockDisc()));
     connect(this, &Registration::ShowLogIn, this, &Registration::ShowLogInSlot);
     connect(this, &Registration::ShowSignUp, this, &Registration::ShowSignUpSlot);
-    socket->connectToHost("127.0.0.1", 8888);
     ifOpen = true;
     log.setFileName("log.txt");
     log.open(QIODevice::WriteOnly | QIODevice::Append);
     logstream.setDevice(&log);
+
+    //INI FILE INITIALIZATION
+
+    if(QFile::exists("settings.ini"))
+    {
+        QSettings sett("settings.ini", QSettings::IniFormat);
+        socket->connectToHost(sett.value("IP", "127.0.0.1").toString(), sett.value("PORT", 8888).toInt());
+    }
+    //DEFAULT VALUE IF INI DOES NOT YET EXIST
+    else
+    {
+        QSettings* settings = new QSettings("settings.ini", QSettings::IniFormat);
+        settings->setValue("IP", "127.0.0.1");
+        settings->setValue("PORT", 8888);
+        settings->sync();
+        socket->connectToHost(settings->value("IP", "127.0.0.1").toString(), settings->value("PORT", 8888).toInt());
+    }
+
+    //socket->connectToHost("127.0.0.1", 8888);
 
     //UI STYLES
     ui->LoginButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
