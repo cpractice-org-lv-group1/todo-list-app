@@ -37,6 +37,10 @@ public slots:
 private slots:
     void on_Delete_clicked();
 
+    void on_Reject_clicked();
+
+    void on_Accept_clicked();
+
 private:
     Ui::FriendInfo *ui;
     QJsonObject currentUser;

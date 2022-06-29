@@ -282,6 +282,33 @@ void Form::sockReady()
                             QMessageBox::warning(0,QString("Error!"),QString("Failed to delete category!"));
                         }
                     }
+                    //FRIEND REQUEST SEND RESULT
+                    else if(obj.value("Operation").toString() == "AddFriendResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            addfriendwindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Friend request sent sucesfully!"));
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("User is already your friend/There is no user with this email. Check your friendlist"));
+                        }
+                    }
+                    //REACTION TO ACCEPT OR DECLINE FRIEND REQUEST
+                    else if(obj.value("Operation").toString() == "FriendRequestAnswerResult")
+                    {
+                        if(obj.value("Result").toString() == "Success")
+                        {
+                            friendwindow->hide();
+                            QMessageBox::information(0,QString("Success!"),QString("Friend request answered!"));
+                            Operations::GetTasks(Id, socket);
+                        }
+                        else
+                        {
+                            QMessageBox::warning(0,QString("Error!"),QString("Error with answering friend request!"));
+                        }
+                    }
                 }
 
 
@@ -293,27 +320,42 @@ void Form::sockReady()
                     //TASKS
                     if(array[0].toObject().value("task_Id").toDouble() != 0)
                     {
-                        VectorData::Tasks.clear();
-                        for(const auto &v : array)
+                        if(array[0].toObject().value("IsEmpty").toDouble() == 1)
                         {
-                            QJsonObject obj = v.toObject();
-                            VectorData::Tasks.emplace_back(obj);
+                            VectorData::Tasks.clear();
+                            Operations::GetUserData(Id, socket);
                         }
-                        //FILL TASKS
-                        DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
-                        Operations::GetUserData(Id, socket);
+                        else
+                        {
+                            VectorData::Tasks.clear();
+                            for(const auto &v : array)
+                            {
+                                QJsonObject obj = v.toObject();
+                                VectorData::Tasks.emplace_back(obj);
+                            }
+                            //FILL TASKS
+                            DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
+                            Operations::GetUserData(Id, socket);
+                        }
                     }
                     //FRIENDS
                     else if(array[0].toObject().value("user_Id").toDouble() != 0)
                     {
-                        VectorData::Friends.clear();
-                        for(const auto &v : array)
+                        if(array[0].toObject().value("IsEmpty").toDouble() == 1)
                         {
-                            QJsonObject obj = v.toObject();
-                            VectorData::Friends.emplace_back(obj);
+                            VectorData::Friends.clear();
                         }
-                        //FILL FRIENDLIST
-                        DataFillHelper::FillFriends(ui->Friendlist, VectorData::Friends);
+                        else
+                        {
+                            VectorData::Friends.clear();
+                            for(const auto &v : array)
+                            {
+                                QJsonObject obj = v.toObject();
+                                VectorData::Friends.emplace_back(obj);
+                            }
+                            //FILL FRIENDLIST
+                            DataFillHelper::FillFriends(ui->Friendlist, VectorData::Friends);
+                        }
                     }
                     //CATEGORIES
                     else if(array[0].toObject().value("taskCategories_Id").toDouble() != 0)

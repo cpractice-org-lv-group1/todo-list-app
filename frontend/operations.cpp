@@ -271,6 +271,49 @@ void Operations::DeleteCategory(QTcpSocket *socket, int id)
     }
 }
 
+void Operations::SendFriendRequest(QTcpSocket *socket, QString email, int myid)
+{
+    QJsonObject SendFriendRequest
+    {
+        {"Operation", "AddFriend"},
+        {"user_Mail", email},
+        {"friendship_RequesterId", myid},
+    };
+
+    QJsonArray jsarray {SendFriendRequest};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
+void Operations::AnswerFriendRequest(QTcpSocket *socket, QString answer, int friendshipid)
+{
+    QJsonObject AnswerFriendRequest
+    {
+        {"Operation", "FriendRequestAnswer"},
+        {"Answer", answer},
+        {"friendship_Id", friendshipid},
+    };
+
+    QJsonArray jsarray {AnswerFriendRequest};
+    QJsonDocument jsDoc(jsarray);
+    QString jsString = QString::fromLatin1(jsDoc.toJson());
+    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
+    QString formatted = doc.toJson(QJsonDocument::Compact);
+
+    if(socket->isOpen())
+    {
+        socket-> write(jsString.toLatin1());
+    }
+}
+
+
 
 
 

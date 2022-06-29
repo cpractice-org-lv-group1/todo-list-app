@@ -146,19 +146,23 @@ bool Friendships::Post(nlohmann::json newObject)
         Logger("{Friendships.cpp//Friendships::Post} Query is failed!");
         return false;
     }
+    SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 
     //POST FRIEND
     if (addresserId != 0) 
     {
-        string put = "INSERT INTO Friendships VALUES('";
+        string put = "INSERT INTO Friendships VALUES(";
         put += to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
-            to_string(addresserId) + ", '" +
-            getCurrentTime() + "', NULL, " +
-            to_string(1) + "); ";
+            to_string(addresserId) + ", GETDATE()" + ", NULL, " +
+            to_string(1) + ");";
+
+        cout << endl << put;
 
         wstring wput = GetWCharFromString(put);
+        retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+        cout << retcode;
 
-        if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+        if (retcode == SQL_SUCCESS)
         {
             return true;
         }
@@ -186,7 +190,7 @@ bool Friendships::Put(nlohmann::json newObject)
         friendship_Status = 3;
     }
     string put = "UPDATE Friendships SET ";
-    put += "friendship_Status = " + to_string(friendship_Status) + 
+    put += "friendship_Status = " + to_string(friendship_Status) + ", friendship_ResponceTime = GETDATE()" 
         " where friendship_Id = " + to_string(newObject["friendship_Id"].get<int>()) ;
 
     wstring wput = GetWCharFromString(put);

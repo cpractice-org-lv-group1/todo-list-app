@@ -40,6 +40,7 @@ void AddFriend::on_pushButton_clicked()
     {
         ui->Error->hide();
         //SEARCH FOR THAT FRIEND
+        Operations::SendFriendRequest(socket,ui->lineEdit->text(), Id);
     }
 }
 

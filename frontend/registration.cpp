@@ -170,6 +170,9 @@ void Registration::sockReady()
                             stream << "";
                             file.close();
                         }
+                        //WRITE LOG
+                        logstream << LogWriter::Send("User " + ui->LogEmail->toPlainText() + " with id " + QString::number(doc.object().value("userID").toInt()) +
+                                                     " just loged in");
                         //GO TO MAIN WINDOW
                         emit mySignal(doc.object().value("userID").toInt(), socket, &logstream);
                     }
@@ -215,7 +218,8 @@ void Registration::sockReady()
                     //SIGNUP NOT SUCCSESSFUL
                     else if(doc.object().value("Result").toString() == "Erorr SignUp")
                     {
-                        logstream << LogWriter::Send("Error signup!");
+                        //logstream << LogWriter::Send("Error signup!");
+                        QMessageBox::information(0,QString("Failed to sign up!"),QString("There is already a user with this email!"));
                         return;
                     }
                     //WRONG RESULT VALUE

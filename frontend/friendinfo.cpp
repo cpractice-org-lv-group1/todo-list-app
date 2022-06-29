@@ -90,3 +90,14 @@ void FriendInfo::on_Delete_clicked()
 
 }
 
+void FriendInfo::on_Reject_clicked()
+{
+    Operations::AnswerFriendRequest(socket, "no", currentUser.value("friendship_Id").toDouble());
+}
+
+
+void FriendInfo::on_Accept_clicked()
+{
+    Operations::AnswerFriendRequest(socket, "yes", currentUser.value("friendship_Id").toDouble());
+}
+

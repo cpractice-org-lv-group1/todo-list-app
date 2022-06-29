@@ -24,6 +24,8 @@ public:
     static void ComleteTask(QTcpSocket *socket, int userid, int newpoints, int taskid);
     static void AddCategory(QTcpSocket *socket, int userid, QString name);
     static void DeleteCategory(QTcpSocket *socket, int id);
+    static void SendFriendRequest(QTcpSocket *socket, QString email, int myid);
+    static void AnswerFriendRequest(QTcpSocket *socket, QString answer, int friendshipid);
 };
 
 #endif // OPERATIONS_H

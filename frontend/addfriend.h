@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include <QTcpSocket>
 #include <vector>
+#include "operations.h"
 using namespace std;
 
 namespace Ui {

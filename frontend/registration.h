@@ -13,6 +13,7 @@
 #include <QPixmap>
 #include <QRegularExpression>
 #include <QFile>
+#include <QMessageBox>
 #include "logwriter.h"
 
 QT_BEGIN_NAMESPACE

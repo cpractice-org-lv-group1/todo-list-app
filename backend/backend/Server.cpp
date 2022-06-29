@@ -198,8 +198,8 @@ void Server::RunSERVER()
 						auto data = CRUD::Get<Tasks>(Id).GetData();
 						if (data.empty())
 						{
-							SendMSG("Error", i);
-							Logger("Error getting tasks");
+							SendMSG("[{\"IsEmpty\":1,\"task_Id\": 1}]", i);
+							Logger("There is no tasks for this user");
 						}
 						else 
 						{
@@ -249,7 +249,8 @@ void Server::RunSERVER()
 
 						if (data.empty())
 						{
-							SendMSG("No friends", i);
+							SendMSG("[{\"IsEmpty\":1,\"user_Id\": 1}]", i);
+							Logger("There are no friends for this user");
 						}
 						else 
 						{
