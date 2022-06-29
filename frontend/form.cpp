@@ -170,7 +170,7 @@ void Form::sockReady()
         {
             socket->waitForReadyRead(10);
             Data = socket->readAll();
-            qDebug() << Data;
+            //qDebug() << Data;
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
