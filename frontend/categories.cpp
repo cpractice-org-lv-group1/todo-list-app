@@ -18,7 +18,7 @@ Categories::~Categories()
 }
 
 //SLOT ON WINDOW SHOW
-void Categories::GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category, int userid)
+void Categories::GetCategoriesData(const vector<QJsonObject> &vect, QTcpSocket *sock, const QString &Category, const int &userid)
 {
     //FILL WITH DATA
     socket = sock;

@@ -32,7 +32,7 @@ public:
     int userpoints;
 
 public slots:
-    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories, QTcpSocket *sock, int points);
+    void GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories,QTcpSocket *sock, const int &points);
 
 private slots:
     void on_EditButton_clicked();

@@ -7,7 +7,7 @@ class LogWriter
 {
 public:
     LogWriter();
-    static QString Send(QString data);
+    static QString Send(const QString &data);
 };
 
 #endif // LOGWRITER_H

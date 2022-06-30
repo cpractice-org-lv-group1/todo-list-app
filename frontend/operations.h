@@ -12,20 +12,20 @@ class Operations
 {
 public:
     Operations();
-    static void GetTasks(int id, QTcpSocket *socket);
-    static void GetFriends(int id, QTcpSocket *socket);
-    static void GetUserData(int id, QTcpSocket *socket);
-    static void GetCategories(int id, QTcpSocket *socket);
-    static void PostTask(int id, QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty);
-    static void EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty, int taskid);
-    static void DeleteTask(QTcpSocket *socket, int taskid);
-    static void EditCategory(QTcpSocket *socket, int id, QString newvalue);
-    static void DeleteFriend(QTcpSocket *socket, int friendshipid);
-    static void ComleteTask(QTcpSocket *socket, int userid, int newpoints, int taskid);
-    static void AddCategory(QTcpSocket *socket, int userid, QString name);
-    static void DeleteCategory(QTcpSocket *socket, int id);
-    static void SendFriendRequest(QTcpSocket *socket, QString email, int myid);
-    static void AnswerFriendRequest(QTcpSocket *socket, QString answer, int friendshipid);
+    static void GetTasks(const int &id, QTcpSocket *socket);
+    static void GetFriends(const int &id, QTcpSocket *socket);
+    static void GetUserData(const int &id, QTcpSocket *socket);
+    static void GetCategories(const int &id, QTcpSocket *socket);
+    static void PostTask(const int &id, QTcpSocket *socket, const QString &header, const QString &body, const QString &starttime, const QString &endtime, const QString &Category, const int &difficulty);
+    static void EditTask(QTcpSocket *socket, const QString &header, const QString &body, const QString &starttime,  const QString &endtime, const QString &Category, const int &difficulty, const int &taskid);
+    static void DeleteTask(QTcpSocket *socket, const int &taskid);
+    static void EditCategory(QTcpSocket *socket, const int &id, const QString &newvalue);
+    static void DeleteFriend(QTcpSocket *socket, const int &friendshipid);
+    static void ComleteTask(QTcpSocket *socket, const int &userid, const int &newpoints, const int &taskid);
+    static void AddCategory(QTcpSocket *socket, const int &userid, const QString &name);
+    static void DeleteCategory(QTcpSocket *socket, const int &id);
+    static void SendFriendRequest(QTcpSocket *socket, const QString &email, const int &myid);
+    static void AnswerFriendRequest(QTcpSocket *socket, const QString &answer, const int &friendshipid);
 };
 
 #endif // OPERATIONS_H

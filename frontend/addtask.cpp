@@ -15,7 +15,7 @@ AddTask::~AddTask()
 }
 
 //SLOT ON WINDOW SHOW
-void AddTask::GetToAddTask(QTcpSocket *sock, int id, const vector<QJsonObject> &categories)
+void AddTask::GetToAddTask(QTcpSocket *sock, const int &id, const vector<QJsonObject> &categories)
 {
     socket = sock;
     Id = id;

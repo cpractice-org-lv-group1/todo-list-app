@@ -5,7 +5,7 @@ Operations::Operations()
 
 }
 
-void Operations::GetTasks(int id, QTcpSocket *socket)
+void Operations::GetTasks(const int &id, QTcpSocket *socket)
 {
     QJsonObject GetById
     {
@@ -16,18 +16,14 @@ void Operations::GetTasks(int id, QTcpSocket *socket)
     QJsonArray jsarray {GetById};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
         socket-> write(jsString.toLatin1());
     }
-
-   // qDebug() << formatted;
 }
 
-void Operations::GetFriends(int id, QTcpSocket *socket)
+void Operations::GetFriends(const int &id, QTcpSocket *socket)
 {
     QJsonObject GetById
     {
@@ -38,18 +34,14 @@ void Operations::GetFriends(int id, QTcpSocket *socket)
     QJsonArray jsarray {GetById};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
         socket-> write(jsString.toLatin1());
     }
-
-    //qDebug() << formatted;
 }
 
-void Operations::GetCategories(int id, QTcpSocket *socket)
+void Operations::GetCategories(const int &id, QTcpSocket *socket)
 {
     QJsonObject GetById
     {
@@ -60,18 +52,14 @@ void Operations::GetCategories(int id, QTcpSocket *socket)
     QJsonArray jsarray {GetById};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
         socket-> write(jsString.toLatin1());
     }
-
-    //qDebug() << formatted;
 }
 
-void Operations::GetUserData(int id, QTcpSocket *socket)
+void Operations::GetUserData(const int &id, QTcpSocket *socket)
 {
     QJsonObject GetById
     {
@@ -82,18 +70,15 @@ void Operations::GetUserData(int id, QTcpSocket *socket)
     QJsonArray jsarray {GetById};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
         socket-> write(jsString.toLatin1());
     }
-
-    //qDebug() << formatted;
 }
 
-void Operations::PostTask(int id, QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty)
+void Operations::PostTask(const int &id, QTcpSocket *socket, const QString &header, const QString &body, const QString &starttime,
+                          const QString &endtime, const QString &Category, const int &difficulty)
 {
     QJsonObject NewTask
     {
@@ -112,8 +97,6 @@ void Operations::PostTask(int id, QTcpSocket *socket, QString header, QString bo
     QJsonArray jsarray {NewTask};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -121,7 +104,8 @@ void Operations::PostTask(int id, QTcpSocket *socket, QString header, QString bo
     }
 }
 
-void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QString starttime,  QString endtime, QString Category, int difficulty, int taskid)
+void Operations::EditTask(QTcpSocket *socket, const QString &header, const QString &body, const QString &starttime,  const QString &endtime, const QString &Category,
+                          const int &difficulty, const int &taskid)
 {
     QJsonObject EditTask
     {
@@ -138,8 +122,6 @@ void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QStr
     QJsonArray jsarray {EditTask};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -147,7 +129,7 @@ void Operations::EditTask(QTcpSocket *socket, QString header, QString body, QStr
     }
 }
 
-void Operations::DeleteTask(QTcpSocket *socket, int taskid)
+void Operations::DeleteTask(QTcpSocket *socket, const int &taskid)
 {
     QJsonObject DeleteTask
     {
@@ -158,8 +140,6 @@ void Operations::DeleteTask(QTcpSocket *socket, int taskid)
     QJsonArray jsarray {DeleteTask};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -167,7 +147,7 @@ void Operations::DeleteTask(QTcpSocket *socket, int taskid)
     }
 }
 
-void Operations::EditCategory(QTcpSocket *socket, int id, QString newvalue)
+void Operations::EditCategory(QTcpSocket *socket, const int &id, const QString &newvalue)
 {
     QJsonObject EditCategory
     {
@@ -179,8 +159,6 @@ void Operations::EditCategory(QTcpSocket *socket, int id, QString newvalue)
     QJsonArray jsarray {EditCategory};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -188,7 +166,7 @@ void Operations::EditCategory(QTcpSocket *socket, int id, QString newvalue)
     }
 }
 
-void Operations::DeleteFriend(QTcpSocket *socket, int friendshipid)
+void Operations::DeleteFriend(QTcpSocket *socket, const int &friendshipid)
 {
     QJsonObject DeleteFriend
     {
@@ -199,8 +177,6 @@ void Operations::DeleteFriend(QTcpSocket *socket, int friendshipid)
     QJsonArray jsarray {DeleteFriend};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -208,7 +184,7 @@ void Operations::DeleteFriend(QTcpSocket *socket, int friendshipid)
     }
 }
 
-void Operations::ComleteTask(QTcpSocket *socket, int userid, int newpoints, int taskid)
+void Operations::ComleteTask(QTcpSocket *socket, const int &userid, const int &newpoints, const int &taskid)
 {
     QJsonObject ComleteTask
     {
@@ -221,8 +197,6 @@ void Operations::ComleteTask(QTcpSocket *socket, int userid, int newpoints, int 
     QJsonArray jsarray {ComleteTask};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -230,7 +204,7 @@ void Operations::ComleteTask(QTcpSocket *socket, int userid, int newpoints, int 
     }
 }
 
-void Operations::AddCategory(QTcpSocket *socket, int userid, QString name)
+void Operations::AddCategory(QTcpSocket *socket, const int &userid, const QString &name)
 {
     QJsonObject AddCategory
     {
@@ -242,8 +216,6 @@ void Operations::AddCategory(QTcpSocket *socket, int userid, QString name)
     QJsonArray jsarray {AddCategory};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -251,7 +223,7 @@ void Operations::AddCategory(QTcpSocket *socket, int userid, QString name)
     }
 }
 
-void Operations::DeleteCategory(QTcpSocket *socket, int id)
+void Operations::DeleteCategory(QTcpSocket *socket, const int &id)
 {
     QJsonObject DeleteCategory
     {
@@ -262,8 +234,6 @@ void Operations::DeleteCategory(QTcpSocket *socket, int id)
     QJsonArray jsarray {DeleteCategory};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -271,7 +241,7 @@ void Operations::DeleteCategory(QTcpSocket *socket, int id)
     }
 }
 
-void Operations::SendFriendRequest(QTcpSocket *socket, QString email, int myid)
+void Operations::SendFriendRequest(QTcpSocket *socket, const QString &email, const int &myid)
 {
     QJsonObject SendFriendRequest
     {
@@ -283,8 +253,6 @@ void Operations::SendFriendRequest(QTcpSocket *socket, QString email, int myid)
     QJsonArray jsarray {SendFriendRequest};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {
@@ -292,7 +260,7 @@ void Operations::SendFriendRequest(QTcpSocket *socket, QString email, int myid)
     }
 }
 
-void Operations::AnswerFriendRequest(QTcpSocket *socket, QString answer, int friendshipid)
+void Operations::AnswerFriendRequest(QTcpSocket *socket, const QString &answer, const int &friendshipid)
 {
     QJsonObject AnswerFriendRequest
     {
@@ -304,8 +272,6 @@ void Operations::AnswerFriendRequest(QTcpSocket *socket, QString answer, int fri
     QJsonArray jsarray {AnswerFriendRequest};
     QJsonDocument jsDoc(jsarray);
     QString jsString = QString::fromLatin1(jsDoc.toJson());
-    QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-    QString formatted = doc.toJson(QJsonDocument::Compact);
 
     if(socket->isOpen())
     {

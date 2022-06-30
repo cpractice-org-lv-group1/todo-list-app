@@ -23,20 +23,22 @@ Registration::Registration(QWidget *parent)
     logstream.setDevice(&log);
 
     //INI FILE INITIALIZATION
+    QString defaultIP = "127.0.0.1";
+    int defaultPORT = 8888;
 
     if(QFile::exists("settings.ini"))
     {
         QSettings sett("settings.ini", QSettings::IniFormat);
-        socket->connectToHost(sett.value("IP", "127.0.0.1").toString(), sett.value("PORT", 8888).toInt());
+        socket->connectToHost(sett.value("IP", defaultIP).toString(), sett.value("PORT", defaultPORT).toInt());
     }
     //DEFAULT VALUE IF INI DOES NOT YET EXIST
     else
     {
         QSettings* settings = new QSettings("settings.ini", QSettings::IniFormat);
-        settings->setValue("IP", "127.0.0.1");
-        settings->setValue("PORT", 8888);
+        settings->setValue("IP", defaultIP);
+        settings->setValue("PORT", defaultPORT);
         settings->sync();
-        socket->connectToHost(settings->value("IP", "127.0.0.1").toString(), settings->value("PORT", 8888).toInt());
+        socket->connectToHost(settings->value("IP", defaultIP).toString(), settings->value("PORT", defaultPORT).toInt());
     }
 
     //socket->connectToHost("127.0.0.1", 8888);
@@ -257,7 +259,7 @@ void Registration::sockReady()
             }
             else
             {
-                qDebug() << "Parse error: " << docError.errorString();
+                logstream << LogWriter::Send("Parse error: " + docError.errorString());
                 return;
             }
         }

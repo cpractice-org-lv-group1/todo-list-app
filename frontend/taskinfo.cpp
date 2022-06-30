@@ -17,7 +17,7 @@ TaskInfo::~TaskInfo()
     delete ui;
 }
 
-void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categories, QTcpSocket *sock, int points)
+void TaskInfo::GetTaskData(QJsonObject *obj, const vector<QJsonObject> &categories,QTcpSocket *sock, const int &points)
 {
     socket = sock;
     currentTask = *obj;
@@ -71,6 +71,8 @@ void TaskInfo::GetTaskData(QJsonObject *obj,const vector<QJsonObject> &categorie
     currentpoints = (QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch() -
                 QDateTime::fromString(currentTask.value("task_Start_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm").toSecsSinceEpoch()) *
              currentTask.value("task_Difficulty").toDouble() / (3600*10);
+
+    if(currentpoints < 2) currentpoints = 2;
 
     if(QDateTime::currentDateTime() > QDateTime::fromString(currentTask.value("task_Expected_End_Time").toString().sliced(0, 16), "yyyy-MM-dd hh:mm"))
         currentpoints = currentpoints/2;
@@ -179,6 +181,8 @@ void TaskInfo::on_EditButton_clicked()
 
             if(QDateTime::currentDateTime() > ui->TaskExpEnd->dateTime())
                 currentpoints = currentpoints/2;
+
+            if(currentpoints < 2) currentpoints = 2;
 
             ui->DonePoints->setText("Points:\n+ " + QString::number(currentpoints));
             ui->DonePoints_2->setText("Points:\n+ " + QString::number(currentpoints/2));

@@ -30,7 +30,7 @@ public:
     int Id;
 
 public slots:
-    void GetToAddFriend(QTcpSocket *sock, int id);
+    void GetToAddFriend(QTcpSocket *sock, const int &id);
 
 private slots:
     void on_pushButton_clicked();

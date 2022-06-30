@@ -38,7 +38,7 @@ signals:
     void ChangeCategory(QString category);
 
 public slots:
-    void GetCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category, int userid);
+    void GetCategoriesData(const vector<QJsonObject> &vect, QTcpSocket *sock, const QString &Category, const int &userid);
     void onItemSelected(QListWidgetItem* item);
 
 private slots:

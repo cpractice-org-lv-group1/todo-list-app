@@ -15,7 +15,7 @@ AddFriend::~AddFriend()
 }
 
 //SLOT ON WINDOW SHOW
-void AddFriend::GetToAddFriend(QTcpSocket *sock, int id)
+void AddFriend::GetToAddFriend(QTcpSocket *sock, const int &id)
 {
     socket = sock;
     Id = id;

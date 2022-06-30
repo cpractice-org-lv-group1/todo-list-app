@@ -30,7 +30,7 @@ public:
     int Id;
 
 public slots:
-    void GetToAddTask(QTcpSocket *sock, int id, const vector<QJsonObject> &categories);
+    void GetToAddTask(QTcpSocket *sock, const int &id, const vector<QJsonObject> &categories);
 
 private slots:
     void on_AddButton_clicked();

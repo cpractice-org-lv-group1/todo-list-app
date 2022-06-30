@@ -69,8 +69,12 @@ Form::Form(QWidget *parent) :
 
     //VARIABLE TO CONNECT SIGNAL ONLY ONCE
     ifFirstTime = true;
+
+    //CHECK IF HISTORY WINDOW IS OPEN
+    ifHistoryOpen = false;
 }
 
+//DESTRUCTOR
 Form::~Form()
 {
     delete ui;
@@ -88,7 +92,8 @@ Form::~Form()
 //SLOT WHICH GETS CALLED EVERY 1 MINUTE
 void Form::Refresh()
 {
-    if(ifOpen)
+    //REFRESH HAPPENS IF WINDOW IS OPEN AND HISTORY OPTION IS NOT CHOSEN
+    if(ifOpen && !ifHistoryOpen)
     Operations::GetTasks(Id, socket);
 }
 
@@ -131,6 +136,7 @@ void Form::onTaskClicked(QListWidgetItem* item)
             break;
         }
     }
+    //GO TO TASK INFO WINDOW
     emit SendTaskData(&chosen, VectorData::Categories, socket, VectorData::User.value("userPoints").toDouble());
     taskwindow->show();
 }
@@ -153,6 +159,7 @@ void Form::slot(int id, QTcpSocket *sock, QTextStream *sendlogstream)
     logstream.setDevice(&*sendlogstream->device());
     sendlogstream->setDevice(NULL);
 
+    //GET ALL DATA TO DISPLAY
     Operations::GetTasks(id, socket);
 }
 
@@ -164,13 +171,12 @@ void Form::sockDisc()
 //------------------------------------------------------------FUNCTION THAT HANDLES INCOMING DATA FROM SERVER--------------------------------------------------------//
 void Form::sockReady()
 {
-    if(ifOpen)
+    if(ifOpen) //CHECK IF THIS WINDOW IS OPEN
     {
         if (socket->waitForConnected(500))
         {
             socket->waitForReadyRead(10);
             Data = socket->readAll();
-            //qDebug() << Data;
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
             {
@@ -394,14 +400,14 @@ void Form::sockReady()
                     }
                     else
                     {
-                        qDebug() << "Wrong array data!";
+                        logstream << LogWriter::Send("Wrong array data!");
                         return;
                     }
                 }
             }
             else
             {
-                qDebug() << "Parse error: " << docError.errorString();
+                logstream << LogWriter::Send("Parse error: " + docError.errorString());
                 return;
             }
         }
@@ -411,6 +417,7 @@ void Form::sockReady()
 //ARCHIVE BUTTON
 void Form::on_ArchiveButton_clicked()
 {
+    //IF YOU WANT TO GO TO HISTORY
     if(ui->ArchiveButton->text() == "History")
     {
         ui->ArchiveButton->setText("Back");
@@ -426,7 +433,9 @@ void Form::on_ArchiveButton_clicked()
         ui->InProgresslabel->setText("    DELETED");
         ui->ToDolabel->setText("FASTEST COMPLETIONS");
         DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, 10);
+        ifHistoryOpen = true;
     }
+    //IF YOU WANT TO GO BACK
     else
     {
         ui->ArchiveButton->setText("History");
@@ -439,14 +448,19 @@ void Form::on_ArchiveButton_clicked()
         ui->Donelabel->setText("DONE (LAST " + QString::number(hours) + "h)");
         ui->InProgresslabel->setText(" IN PROGRESS");
         ui->ToDolabel->setText("      TODO (NEXT " + QString::number(hours) + "h)");
+        ifHistoryOpen = false;
     }
 }
 
-
+//CHANGE DEPTH OF SEARCH
 void Form::on_SearchOk_clicked()
 {
+    //IF IT IS HISTORY SEARCH
     if(ui->ArchiveButton->text() == "Back")
-    DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, ui->SearchDepth->text().toInt());
+    {
+        DataFillHelper::FillWithHistoryTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, ui->SearchDepth->text().toInt());
+    }
+    //IF IT IS CURRENT TASKS SEARCH(SET HOURS TO SHOW)
     else
     {
         hours = ui->SearchDepth->text().toInt();
@@ -465,22 +479,24 @@ void Form::on_CategoriesButton_clicked()
 }
 
 //SLOT WHICH REACTS TO CHANGE OF CATEGORY
-void Form::GetChangedCategory(QString category)
+void Form::GetChangedCategory(const QString &category)
 {
     CurrentCategory = category;
     DataFillHelper::FillWithTasks(ui->ToDo, ui->InProgress, ui->Done, VectorData::Tasks, hours, CurrentCategory);
     ui->Categorylabel->setText(CurrentCategory);
 }
 
-//SHOW FRIEND REQUEST
+//SHOW FRIENDS
 void Form::on_FriendRequests_clicked()
 {
+    //GO TO FRIEND REQUESTS
     if(ui->FriendRequests->text() == "Friend requests")
     {
         ui->FriendRequests->setText("Friends");
         DataFillHelper::FillFriendRequests(ui->Friendlist, VectorData::Friends);
         ui->friendlabel->setText("Friend requests");
     }
+    //GO TO FRIENDS
     else
     {
         ui->FriendRequests->setText("Friend requests");

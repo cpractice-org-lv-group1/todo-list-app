@@ -51,14 +51,15 @@ public:
     int hours;
     QString CurrentCategory;
     bool ifFirstTime;
+    bool ifHistoryOpen;
 
 signals:
      void backSignal();
-     void SendTaskData(QJsonObject *obj, vector<QJsonObject> categories,QTcpSocket *sock, int points);
+     void SendTaskData(QJsonObject *obj, const vector<QJsonObject> &categories,QTcpSocket *sock, const int &points);
      void SendFriendData(QJsonObject *obj, QTcpSocket *sock);
-     void SendCategoriesData(vector<QJsonObject> vect, QTcpSocket *sock, QString Category, int userid);
-     void SendToAddTask(QTcpSocket *sock, int id, const vector<QJsonObject> &categories);
-     void SendToAddFriend(QTcpSocket *sock, int id);
+     void SendCategoriesData(const vector<QJsonObject> &vect, QTcpSocket *sock, const QString &Category, const int &userid);
+     void SendToAddTask(QTcpSocket *sock, const int &id, const vector<QJsonObject> &categories);
+     void SendToAddFriend(QTcpSocket *sock, const int &id);
 
 private slots:
 
@@ -76,7 +77,7 @@ public slots:
     void sockDisc();
     void onTaskClicked(QListWidgetItem* item);
     void onFriendClicked(QListWidgetItem* item);
-    void GetChangedCategory(QString category);
+    void GetChangedCategory(const QString &category);
     void Refresh();
 
 private:
