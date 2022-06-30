@@ -79,6 +79,7 @@ bool Users::Post(const nlohmann::json& newObject)
         Logger("{Users.cpp//Users::Post} Query is failed!");
         return false;
     }
+    SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 
     if (userEmail_id != 0) //NEW USER ADD
     {
