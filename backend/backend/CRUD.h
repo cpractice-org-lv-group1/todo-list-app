@@ -11,7 +11,7 @@ public:
 		  return obj;
 	  }
 	  template <class T>
-	  static T Get(string email)
+	  static T Get(std::string email)
 	  {
 		  T obj;
 		  obj.Get(email);

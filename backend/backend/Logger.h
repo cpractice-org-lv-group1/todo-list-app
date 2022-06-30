@@ -5,4 +5,4 @@
 #include <chrono>
 
 inline std::string getCurrentDateTime();
-void Logger(std::string logMsg);
+void Logger(const std::string& logMsg);

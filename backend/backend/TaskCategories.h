@@ -4,8 +4,6 @@
 
 #define FIELD_LEN 50
 
-using namespace std;
-
 class TaskCategories : public iCrudOperations
 {
     struct TaskCategoriesStruct
@@ -16,10 +14,10 @@ class TaskCategories : public iCrudOperations
 
         void Print()
         {
-            cout << this->taskCategories_Id << "\t" << this->taskCategories_Name << "\t" << this->taskCategories_User;
-            cout << endl;
+            std::cout << this->taskCategories_Id << "\t" << this->taskCategories_Name << "\t" << this->taskCategories_User;
+            std::cout << std::endl;
         }
-        string JSON()
+        std::string JSON()
         {
             std::stringstream stream;
             std::string JSON_string = "";
@@ -31,14 +29,14 @@ class TaskCategories : public iCrudOperations
             return JSON_string;
         }
     };
-    vector<TaskCategoriesStruct> AllTaskCategories;
+    std::vector<TaskCategoriesStruct> AllTaskCategories;
 public:
     void Get() override;
     void Get(int userId) override;
-    bool Post(nlohmann::json newObject) override;
-    bool Put(nlohmann::json newObject) override;
+    bool Post(const nlohmann::json& newObject) override;
+    bool Put(const nlohmann::json &newObject) override;
     bool Delete(int id) override;
-    vector<TaskCategoriesStruct> GetData();
+    std::vector<TaskCategoriesStruct> GetData() const;
 };
 
 

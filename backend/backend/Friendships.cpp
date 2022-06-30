@@ -2,10 +2,10 @@
 
 bool Friendships::Delete(int id)
 {
-    string sqldelete = "Delete from Friendships where friendship_Id = ";
-    sqldelete += to_string(id);
+    std::string sqldelete = "Delete from Friendships where friendship_Id = ";
+    sqldelete += std::to_string(id);
 
-    wstring wsqldelete = GetWCharFromString(sqldelete);
+    std::wstring wsqldelete = GetWCharFromString(sqldelete);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
@@ -20,12 +20,12 @@ bool Friendships::Delete(int id)
 bool Friendships::checkAlreadyFriend(int friendship_RequesterId, int addresserId)
 {
     //------------------------CHECK ALREADY BE FRIEND---------------------------
-    string put = "SELECT friendship_Id FROM Friendships\
-                  where friendship_RequesterId =";
-    put += to_string(friendship_RequesterId) +
+    std::string put = "SELECT friendship_Id FROM Friendships\
+                       where friendship_RequesterId =";
+    put += std::to_string(friendship_RequesterId) +
         " and friendship_AdresserId =";
-    put += to_string(addresserId) + " and (friendship_Status = 1 or friendship_Status = 2)";
-        wstring wput = GetWCharFromString(put);
+    put += std::to_string(addresserId) + " and (friendship_Status = 1 or friendship_Status = 2)";
+        std::wstring wput = GetWCharFromString(put);
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
     int friendshipId = 0;
@@ -35,7 +35,7 @@ bool Friendships::checkAlreadyFriend(int friendship_RequesterId, int addresserId
         retcode = SQLFetch(sqlStmtHandle);
         if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
         {
-            cout << "Error reading query!\n";
+            std::cout << "Error reading query!\n";
             Logger("{Friendships.cpp//Friendships::checkAlreadyFriend} Error reading query to add new friend!");
             return false;
         }
@@ -52,7 +52,7 @@ bool Friendships::checkAlreadyFriend(int friendship_RequesterId, int addresserId
 
     if (friendshipId != 0) 
     {
-        string str = "This userId: " + to_string(friendship_RequesterId) + " ALREADY has a requst/friend #"+ to_string(addresserId);
+        std::string str = "This userId: " + std::to_string(friendship_RequesterId) + " ALREADY has a requst/friend #"+ std::to_string(addresserId);
         Logger(str);
         SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
         return true;
@@ -64,12 +64,12 @@ bool Friendships::checkAlreadyFriend(int friendship_RequesterId, int addresserId
     }
 }
 
-vector<Friendships::FriendshipsStruct> Friendships::GetData()
+std::vector<Friendships::FriendshipsStruct> Friendships::GetData() const
 {
     return AllFriendships;
 }
 
-vector<Friendships::FriendStruct> Friendships::GetAllFriends()
+std::vector<Friendships::FriendStruct> Friendships::GetAllFriends() const
 {
     return this->AllFriends;
 }
@@ -86,7 +86,7 @@ void Friendships::Get()
             retcode = SQLFetch(sqlStmtHandle);
             if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
             {
-                cout << "Error reading query!\n";
+                std::cout << "Error reading query!\n";
             }
             if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
             {
@@ -105,28 +105,29 @@ void Friendships::Get()
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
 void Friendships::Get(int userId)
 {
-    string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, u.user_Points, u.user_Rank, fs.friend_status_Name, fr.friendship_ResponceTime,\
+    std::string put = "select u.user_Id, u.user_Name, u.user_Surname, u.user_Birthday, u.user_Mail, \
+                       u.user_Points, u.user_Rank, fs.friend_status_Name, fr.friendship_ResponceTime,\
         fr.friendship_Id\
         from Friendships fr\
         left join Users u on(user_Id = fr.friendship_AdresserId and user_Id != ";
-    put += to_string(userId) + ") or (user_Id = fr.friendship_RequesterId and user_Id !=";
-    put += to_string(userId) + ")\
+    put += std::to_string(userId) + ") or (user_Id = fr.friendship_RequesterId and user_Id !=";
+    put += std::to_string(userId) + ")\
         left join FriendStatuses fs on fr.friendship_Status = fs.friend_status_Id\
         where(fr.friendship_AdresserId = ";
-    put += to_string(userId) + " and fs.friend_status_Name = 'waiting for responce')\
+    put += std::to_string(userId) + " and fs.friend_status_Name = 'waiting for responce')\
         or (fr.friendship_RequesterId = ";
-    put += to_string(userId) + " and fs.friend_status_Name = 'added') or (fr.friendship_AdresserId = ";
-    put += to_string(userId) + " and fs.friend_status_Name = 'added')\
+    put += std::to_string(userId) + " and fs.friend_status_Name = 'added') or (fr.friendship_AdresserId = ";
+    put += std::to_string(userId) + " and fs.friend_status_Name = 'added')\
         and user_Id != ";
-    put += to_string(userId); 
-    wstring wput = GetWCharFromString(put);
+    put += std::to_string(userId);
+    std::wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
@@ -137,7 +138,7 @@ void Friendships::Get(int userId)
             retcode = SQLFetch(sqlStmtHandle);
             if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
             {
-                cout << "Error reading query!\n";
+                std::cout << "Error reading query!\n";
             }
             if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
             {
@@ -160,17 +161,17 @@ void Friendships::Get(int userId)
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
-bool Friendships::Post(nlohmann::json newObject)
+bool Friendships::Post(const nlohmann::json& newObject)
 {
     //----------------------CHECK VALID EMAIL-------------------------------------
-    string put = "SELECT user_Id FROM USERS where user_Mail ='"; 
-    put += newObject["user_Mail"].get<string>() + "'";
-    wstring wput = GetWCharFromString(put);
+    std::string put = "SELECT user_Id FROM USERS where user_Mail ='";
+    put += newObject["user_Mail"].get<std::string>() + "'";
+    std::wstring wput = GetWCharFromString(put);
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
     int addresserId = 0;
@@ -180,7 +181,7 @@ bool Friendships::Post(nlohmann::json newObject)
         retcode = SQLFetch(sqlStmtHandle);
         if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
         {
-            cout << "Error reading query!\n";
+            std::cout << "Error reading query!\n";
             Logger("{Friendships.cpp//Friendships::Post} Error reading query to add new friend!");
             return false;
         }
@@ -200,13 +201,13 @@ bool Friendships::Post(nlohmann::json newObject)
     //--------------------------POST FRIEND----------------------------------------
     if (addresserId != 0 && checkAlreadyFriend(newObject["friendship_RequesterId"].get<int>(), addresserId) == false)
     {
-        string put = "INSERT INTO Friendships VALUES(";
-        put += to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
-            to_string(addresserId) + ", GETDATE()" + ", NULL, " +
-            to_string(1) + ");";
+        std::string insert = "INSERT INTO Friendships VALUES(";
+        put += std::to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
+            std::to_string(addresserId) + ", GETDATE()" + ", NULL, " +
+            std::to_string(1) + ");";
 
-        wstring wput = GetWCharFromString(put);
-        retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
+        std::wstring winsert = GetWCharFromString(insert);
+        retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)winsert.c_str(), SQL_NTS);
 
         if (retcode == SQL_SUCCESS)
         {
@@ -224,10 +225,10 @@ bool Friendships::Post(nlohmann::json newObject)
     }
 }
 
-bool Friendships::Put(nlohmann::json newObject)
+bool Friendships::Put(const nlohmann::json &newObject)
 {
     int friendship_Status;
-    if (newObject["Answer"].get<string>() == "yes") 
+    if (newObject["Answer"].get<std::string>() == "yes")
     {
         friendship_Status = 2;
     }
@@ -235,11 +236,11 @@ bool Friendships::Put(nlohmann::json newObject)
     {
         friendship_Status = 3;
     }
-    string put = "UPDATE Friendships SET ";
-    put += "friendship_Status = " + to_string(friendship_Status) + ", friendship_ResponceTime = GETDATE()" 
-        " where friendship_Id = " + to_string(newObject["friendship_Id"].get<int>()) ;
+    std::string put = "UPDATE Friendships SET ";
+    put += "friendship_Status = " + std::to_string(friendship_Status) + ", friendship_ResponceTime = GETDATE()"
+        " where friendship_Id = " + std::to_string(newObject["friendship_Id"].get<int>()) ;
 
-    wstring wput = GetWCharFromString(put);
+    std::wstring wput = GetWCharFromString(put);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
     {

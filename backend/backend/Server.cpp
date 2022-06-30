@@ -11,10 +11,7 @@
 
 #define DEFAULT_BUFLEN 4096
 
-Server::Server(mINI::INIStructure myINI)
-{
-	this->iniCFG = myINI;
-}
+Server::Server(const mINI::INIStructure& myINI) : iniCFG(myINI) {};
 
 void Server::UpdateStatusesTask()
 {
@@ -22,13 +19,13 @@ void Server::UpdateStatusesTask()
 
 	for(int i = 0; i < aTasks.size(); ++i)
 	{
-		string taskTime((const char*)aTasks[i].task_Start_Time);
+		std::string taskTime((const char*)aTasks[i].task_Start_Time);
 		if (taskTime <= getCurrentTime()) 
 		{
-			string put = "UPDATE Tasks SET ";
+			std::string put = "UPDATE Tasks SET ";
 			put += "task_Status = 2\
-                    where task_Id = " + to_string(aTasks[i].task_Id) + ";";
-			wstring wput = GetWCharFromString(put);
+                    where task_Id = " + std::to_string(aTasks[i].task_Id) + ";";
+			std::wstring wput = GetWCharFromString(put);
 			SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 		}
 	}
@@ -40,7 +37,7 @@ void Server::fUpdateTaskStatusTimer(int timeInterval)
 	start = time(0);
 	int interval = timeInterval;
 
-	while (1) 
+	while (true) 
 	{
 		if (time(0) - start == interval) 
 		{
@@ -62,8 +59,8 @@ void Server::Initiliaze()
 void Server::RunSERVER() 
 {
 	//initializations
-    sqlConnHandle = NULL;
-    sqlStmtHandle = NULL;
+    sqlConnHandle = nullptr;
+    sqlStmtHandle = nullptr;
 
     //allocations
     if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sqlEnvHandle))
@@ -75,8 +72,8 @@ void Server::RunSERVER()
     if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, sqlEnvHandle, &sqlConnHandle))
         completedConnections();
 
-    cout << "Attempting connection to SQL Server...";
-    cout << "\n";
+	std::cout << "Attempting connection to SQL Server...";
+	std::cout << "\n";
 	Logger("Attempting connection to SQL Server...");
 
     switch (SQLDriverConnect(sqlConnHandle,
@@ -85,24 +82,24 @@ void Server::RunSERVER()
         SQL_NTS,
         retconstring,
         1024,
-        NULL,
+        nullptr,
         SQL_DRIVER_NOPROMPT)) {
 
     case SQL_SUCCESS || SQL_SUCCESS_WITH_INFO :
-        cout << "Successfully connected to SQL Server";
-        cout << "\n";
+		std::cout << "Successfully connected to SQL Server";
+		std::cout << "\n";
 		Logger("Successfully connected to SQL Server");
         break;
 
     case SQL_INVALID_HANDLE:
-        cout << "Could not connect to SQL Server";
-        cout << "\n";
+		std::cout << "Could not connect to SQL Server";
+		std::cout << "\n";
 		Logger("Could not connect to SQL Server");
         completedConnections();
 
     case SQL_ERROR:
-        cout << "Could not connect to SQL Server";
-        cout << "\n";
+		std::cout << "Could not connect to SQL Server";
+		std::cout << "\n";
 		Logger("Could not connect to SQL Server");
         completedConnections();
 
@@ -117,7 +114,7 @@ void Server::RunSERVER()
 	Initiliaze();
 
 	//--------------------UPDATE STATUS TASK THREAD-----------------------------------------------
-	thread thUpdateStatusTask(fUpdateTaskStatusTimer, stoi(iniCFG["Options"]["SECONDS_OF_UPDATING_TASKSTATUS"]));
+	std::thread thUpdateStatusTask(fUpdateTaskStatusTimer, stoi(iniCFG["Options"]["SECONDS_OF_UPDATING_TASKSTATUS"]));
 	thUpdateStatusTask.detach();
 	//--------------------------------------------------------------------------------------------
 
@@ -131,7 +128,7 @@ void Server::RunSERVER()
 		client_socket.InitClientSocket();
 
 		// wait for an activity on any of the sockets, timeout is NULL, so wait indefinitely
-		if (select(0, client_socket.GetFD_SET(), NULL, NULL, NULL) == SOCKET_ERROR) 
+		if (select(0, client_socket.GetFD_SET(), nullptr, nullptr, nullptr) == SOCKET_ERROR) 
 		{
 			Logger("Select function call failed with error code :" + WSAGetLastError());
 			return;
@@ -147,15 +144,15 @@ void Server::RunSERVER()
 			if (!server_socket.Accept(new_socket, address, addrlen)) 
 			{
 				Logger("Exiting from server: ACCEPT error");
-				cout << "Exit";
+				std::cout << "Exit";
 				return;
 			};
 			char buf[512];
 			printf("New connection, socket fd is %I64u, ip is: %s, port: %d\n", new_socket, inet_ntop(AF_INET, &address.sin_addr,buf,512), ntohs(address.sin_port));
 			
-			string str(inet_ntop(AF_INET, &address.sin_addr, buf, 512));
-			string outputLog = "New connection, socket fd is " + new_socket;
-			outputLog += "IP is: " + str + " PORT: " + to_string(ntohs(address.sin_port));
+			std::string str(inet_ntop(AF_INET, &address.sin_addr, buf, 512));
+			std::string outputLog = "New connection, socket fd is " + new_socket;
+			outputLog += "IP is: " + str + " PORT: " + std::to_string(ntohs(address.sin_port));
 			Logger(outputLog);
 
 			client_socket.AddNewClientToArray(new_socket);
@@ -180,7 +177,7 @@ void Server::RunSERVER()
 				client_message[client_message_length] = '\0';
 
 				if (client_message_length != 0) {
-					string s_client_message(client_message);
+					std::string s_client_message(client_message);
 					s_client_message.erase(std::remove(s_client_message.begin(), s_client_message.end(), '['), s_client_message.end());
 					s_client_message.erase(std::remove(s_client_message.begin(), s_client_message.end(), ']'), s_client_message.end());
 
@@ -192,12 +189,12 @@ void Server::RunSERVER()
 					{
 						Users user;
 						auto tempIt = myJSON.find("Email");
-						user = CRUD::Get<Users>(tempIt.value().get<string>());
+						user = CRUD::Get<Users>(tempIt.value().get<std::string>());
 						int userId = user.GetCurrentUser().userID;
-						string userPass((const char*)user.GetCurrentUser().userPassword);
+						std::string userPass((const char*)user.GetCurrentUser().userPassword);
 						userPass[userPass.length()] = '\0';
 
-						Logger("Login User Mail" + tempIt.value().get<string>());
+						Logger("Login User Mail" + tempIt.value().get<std::string>());
 
 						nlohmann::json result;
 
@@ -209,7 +206,7 @@ void Server::RunSERVER()
 							SendMSG(result.dump(), i);
 							Logger("User Email Error");
 						}
-						else if (myJSON["Password"].get<string>() != userPass) //UNCORRECT USER password
+						else if (myJSON["Password"].get<std::string>() != userPass) //UNCORRECT USER password
 						{
 							result["Operation"] = "Login";
 							result["Result"] = "Erorr Password";
@@ -229,7 +226,7 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetTasks") //GET TASKS
 					{
 						auto tempIt = myJSON.find("Id");
-						Logger(" Get Tasks for userId = " + to_string(tempIt.value().get<int>()));
+						Logger(" Get Tasks for userId = " + std::to_string(tempIt.value().get<int>()));
 
 						int Id = tempIt.value().get<int>();
 						auto data = CRUD::Get<Tasks>(Id).GetData();
@@ -240,7 +237,7 @@ void Server::RunSERVER()
 						}
 						else 
 						{
-							string result = "[";
+							std::string result = "[";
 							for (int i = 0; i < data.size(); ++i) 
 							{
 								result += data[i].JSON().dump();
@@ -282,7 +279,7 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetUserFriends") // GET FRIENDS
 					{
 						auto data = CRUD::Get<Friendships>(myJSON["Id"].get<int>()).GetAllFriends();
-						Logger(" Getting friends for userId = " + to_string(myJSON["Id"].get<int>()));
+						Logger(" Getting friends for userId = " + std::to_string(myJSON["Id"].get<int>()));
 
 						if (data.empty())
 						{
@@ -291,7 +288,7 @@ void Server::RunSERVER()
 						}
 						else 
 						{
-							string result = "[";
+							std::string result = "[";
 							for (int i = 0; i < data.size(); ++i)
 							{
 								result += data[i].JSON().dump();
@@ -307,9 +304,9 @@ void Server::RunSERVER()
 					else if (jsonIterator.value() == "GetCategories") //GET CATEGORIES
 					{
 						auto data = CRUD::Get<TaskCategories>(myJSON["Id"].get<int>()).GetData();
-						Logger(" Getting Categories for userId = " + to_string(myJSON["Id"].get<int>()));
+						Logger(" Getting Categories for userId = " + std::to_string(myJSON["Id"].get<int>()));
 
-						string result = "[";
+						std::string result = "[";
 						for (int i = 0; i < data.size(); ++i)
 						{
 							result += data[i].JSON();
@@ -491,15 +488,15 @@ void Server::RunSERVER()
 					}
 					else 
 					{
-						cout << "Unknown command";
+						std::cout << "Unknown command";
 						Logger("Unknown command");
 					}
 				}
 				else 
 				{
 					printf("Client has been disconected ip is: %s, port: %d\n",inet_ntop(AF_INET, &address.sin_addr, client_message, 512), ntohs(address.sin_port));
-					string str(inet_ntop(AF_INET, &address.sin_addr, client_message, 512));
-					string outputLog = "Client has been disconected IP is: " + str + " PORT: " + to_string(ntohs(address.sin_port));
+					std::string str(inet_ntop(AF_INET, &address.sin_addr, client_message, 512));
+					std::string outputLog = "Client has been disconected IP is: " + str + " PORT: " + std::to_string(ntohs(address.sin_port));
 					Logger(outputLog);
 
 					client_socket.clearSocker(i);
@@ -509,7 +506,7 @@ void Server::RunSERVER()
 	}
 }
 
-void Server::SendMSG(std::string MESSAGE, int SocketNum)
+void Server::SendMSG(const std::string &MESSAGE, int SocketNum)
 {
 	send(client_socket.GetClientArrayById(SocketNum), MESSAGE.c_str(), MESSAGE.length(), 0);
 }

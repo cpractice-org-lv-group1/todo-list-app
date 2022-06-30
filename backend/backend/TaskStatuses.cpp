@@ -2,10 +2,10 @@
 
 bool TaskStatuses::Delete(int id)
 {
-    string sqldelete = "Delete from TaskStatuses where task_status_Id = ";
-    sqldelete += to_string(id);
+    std::string sqldelete = "Delete from TaskStatuses where task_status_Id = ";
+    sqldelete += std::to_string(id);
 
-    wstring wsqldelete = GetWCharFromString(sqldelete);
+    std::wstring wsqldelete = GetWCharFromString(sqldelete);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
@@ -17,7 +17,7 @@ bool TaskStatuses::Delete(int id)
     }
 }
 
-vector<TaskStatuses::TaskStatusesStruct> TaskStatuses::GetData()
+std::vector<TaskStatuses::TaskStatusesStruct> TaskStatuses::GetData() const
 {
     return AllTaskStatuses;
 }
@@ -34,7 +34,7 @@ void TaskStatuses::Get()
             retcode = SQLFetch(sqlStmtHandle);
             if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
             {
-                cout << "Error reading query!\n";
+                std::cout << "Error reading query!\n";
             }
             if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
             {
@@ -50,18 +50,18 @@ void TaskStatuses::Get()
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
-bool TaskStatuses::Post(nlohmann::json newObject)
+bool TaskStatuses::Post(const nlohmann::json& newObject)
 {
-    string put = "INSERT INTO TaskStatuses VALUES('";
-    put += newObject["task_status_Name"].get<string>() + "', '" +
-        newObject["task_status_Description"].get<string>() + "'," + ");";
+    std::string put = "INSERT INTO TaskStatuses VALUES('";
+    put += newObject["task_status_Name"].get<std::string>() + "', '" +
+        newObject["task_status_Description"].get<std::string>() + "'," + ");";
 
-    wstring wput = GetWCharFromString(put);
+    std::wstring wput = GetWCharFromString(put);
 
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)

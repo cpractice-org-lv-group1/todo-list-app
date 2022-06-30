@@ -11,11 +11,11 @@ class Server
 	serverSocket server_socket;
 	mINI::INIStructure iniCFG;
 public:
-	Server(mINI::INIStructure myINI);
+	explicit Server(const mINI::INIStructure &myINI);
 	static void UpdateStatusesTask();
 	static void fUpdateTaskStatusTimer(int timeInterval);
 	void Initiliaze();
 	void RunSERVER();
-	void SendMSG(std::string MESSAGE, int SocketNum);
+	void SendMSG(const std::string &MESSAGE, int SocketNum);
 };
 

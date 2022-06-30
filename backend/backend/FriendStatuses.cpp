@@ -2,10 +2,10 @@
 
 bool FriendStatuses::Delete(int id)
 {
-    string sqldelete = "Delete from FriendStatuses where friend_status_Id = ";
-    sqldelete += to_string(id);
+    std::string sqldelete = "Delete from FriendStatuses where friend_status_Id = ";
+    sqldelete += std::to_string(id);
 
-    wstring wsqldelete = GetWCharFromString(sqldelete);
+    std::wstring wsqldelete = GetWCharFromString(sqldelete);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
@@ -17,7 +17,7 @@ bool FriendStatuses::Delete(int id)
     }
 }
 
-vector<FriendStatuses::FriendStatusesStruct> FriendStatuses::GetData()
+std::vector<FriendStatuses::FriendStatusesStruct> FriendStatuses::GetData() const
 {
     return AllFriendStatuses;
 }
@@ -34,7 +34,7 @@ void FriendStatuses::Get()
             retcode = SQLFetch(sqlStmtHandle);
             if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
             {
-                cout << "Error reading query!\n";
+                std::cout << "Error reading query!\n";
             }
             if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
             {
@@ -50,18 +50,18 @@ void FriendStatuses::Get()
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
-bool FriendStatuses::Post(nlohmann::json newObject)
+bool FriendStatuses::Post(const nlohmann::json& newObject)
 {
-    string put = "INSERT INTO FriendStatuses VALUES('";
-    put += newObject["friend_status_Name"].get<string>() + "', '" +
-        newObject["friend_status_Description"].get<string>() + "');";
+    std::string put = "INSERT INTO FriendStatuses VALUES('";
+    put += newObject["friend_status_Name"].get<std::string>() + "', '" +
+        newObject["friend_status_Description"].get<std::string>() + "');";
 
-    wstring wput = GetWCharFromString(put);
+    std::wstring wput = GetWCharFromString(put);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
     {

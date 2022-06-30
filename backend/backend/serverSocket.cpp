@@ -46,7 +46,7 @@ bool serverSocket::BindSocket(unsigned short uhSinPort)
 	// prepare the sockaddr_in structure
 	sockaddr_in server;
 	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = htonl(INADDR_ANY);;
+	server.sin_addr.s_addr = htonl(INADDR_ANY);
 	server.sin_port = htons(uhSinPort);
 
 	// bind socket

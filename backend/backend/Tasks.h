@@ -5,8 +5,6 @@
 
 #define FIELD_LEN 50
 
-using namespace std;
-
 class Tasks : public iCrudOperations
 {
     struct TasksStruct
@@ -22,25 +20,25 @@ class Tasks : public iCrudOperations
         SQLINTEGER task_User;
         SQLINTEGER task_Difficulty;
         
-        void Print()
+        void Print() const
         {
-            cout << this->task_Id << "\t" << this->task_Header << "\t" << this->task_Body
+            std::cout << this->task_Id << "\t" << this->task_Header << "\t" << this->task_Body
                 << "\t" << this->task_Start_Time << "\t" << this->task_Expected_End_Time << "\t" << this->task_Real_End_Time
                 << "\t" << this->task_Status << "\t" << this->task_Category << "\t" << this->task_User << "\t" << this->task_Difficulty;
-            cout << endl;
+            std::cout << std::endl;
         }
 
         nlohmann::json JSON()
         {
-            string task_Header2((const char*)task_Header);
-            string task_Body2((const char*)task_Body);
-            string task_Start_Time2((const char*)task_Start_Time);
-            string task_Expected_End_Time2((const char*)task_Expected_End_Time);
-            string task_Real_End_Time2((const char*)task_Real_End_Time);
-            string task_Status2((const char*)task_Status);
-            string task_Category2((const char*)task_Category);
+            std::string task_Header2((const char*)task_Header);
+            std::string task_Body2((const char*)task_Body);
+            std::string task_Start_Time2((const char*)task_Start_Time);
+            std::string task_Expected_End_Time2((const char*)task_Expected_End_Time);
+            std::string task_Real_End_Time2((const char*)task_Real_End_Time);
+            std::string task_Status2((const char*)task_Status);
+            std::string task_Category2((const char*)task_Category);
 
-            nlohmann::json myJSON = nlohmann::json{ {"task_Id", task_Id},
+            auto myJSON = nlohmann::json{ {"task_Id", task_Id},
                                                     {"task_Header", task_Header2},
                                                     {"task_Body", task_Body2},
                                                     {"task_Start_Time", task_Start_Time2},
@@ -53,16 +51,16 @@ class Tasks : public iCrudOperations
             return myJSON;
         }
     };
-    vector<TasksStruct> CurrentTasks;
-    vector<TasksStruct>AllNotStartedTasks;
+    std::vector<TasksStruct> CurrentTasks;
+    std::vector<TasksStruct>AllNotStartedTasks;
 public:
     void Get(int id) override;
     void Get() override; //NotStarted Tasks
-    bool Post(nlohmann::json newObject) override;
-    bool Put(nlohmann::json newObject) override;
+    bool Post(const nlohmann::json& newObject) override;
+    bool Put(const nlohmann::json& newObject) override;
     bool Delete(int id) override;
-    vector<TasksStruct> GetData();
-    vector<TasksStruct> GetAllNotStartedTasks();
+    std::vector<TasksStruct> GetData() const;
+    std::vector<TasksStruct> GetAllNotStartedTasks() const;
     int takeCategoryId_FromString(nlohmann::json newObject);
     int takeTaskStatusId_FromString(nlohmann::json newObject);
 };

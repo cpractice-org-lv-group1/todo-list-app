@@ -9,9 +9,9 @@ inline std::string getCurrentDateTime()
     return str;
 }
 
-void Logger(std::string logMsg)
+void Logger(const std::string &logMsg)
 {
-    std::string file ="logFile.txt";
+    std::string file ="server.log";
     std::string now(getCurrentDateTime());
     now.erase(std::remove_if(now.begin(),
         now.end(),

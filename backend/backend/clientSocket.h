@@ -11,7 +11,7 @@ public:
 	bool AddNewClientToArray(SOCKET &new_socket);
 
 	fd_set* GetFD_SET();
-	SOCKET GetClientArrayById(int i);
+	SOCKET GetClientArrayById(int i) const;
 	void clearSocker(int i);
 private:
 	fd_set readfds;

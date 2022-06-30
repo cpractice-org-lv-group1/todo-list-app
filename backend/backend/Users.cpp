@@ -1,24 +1,24 @@
 #include "Users.h"
 
-vector<Users::UsersStruct> Users::GetData()
+std::vector<Users::UsersStruct> Users::GetData() const
 {
     return AllUsers;
 }
-Users::UsersStruct Users::GetCurrentUser()
+Users::UsersStruct Users::GetCurrentUser() const
 {
     return currentUser;
 }
 
-Users::UsersStruct Users::GetCurrentData()
+Users::UsersStruct Users::GetCurrentData() const
 {
     return currentData;
 }
 
-void Users::Get(string email) 
+void Users::Get(const std::string &email)
 {
-    string put = "SELECT * FROM USERS where user_Mail ='";
+    std::string put = "SELECT * FROM USERS where user_Mail ='";
            put += email+"'";
-    wstring wput = GetWCharFromString(put);
+           std::wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
@@ -27,7 +27,7 @@ void Users::Get(string email)
         retcode = SQLFetch(sqlStmtHandle);
         if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
         {
-            cout << "Error reading query!\n";
+            std::cout << "Error reading query!\n";
         }
         if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
         {
@@ -46,16 +46,16 @@ void Users::Get(string email)
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
-bool Users::Post(nlohmann::json newObject)
+bool Users::Post(const nlohmann::json& newObject)
 {  
-    string put = "SELECT user_Id FROM USERS where user_Mail ='"; //CHECK VALID EMAIL
-    put += newObject["userMail"].get<string>() + "'";
-    wstring wput = GetWCharFromString(put);
+    std::string put = "SELECT user_Id FROM USERS where user_Mail ='"; //CHECK VALID EMAIL
+    put += newObject["userMail"].get<std::string>() + "'";
+    std::wstring wput = GetWCharFromString(put);
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
     int userEmail_id = 0;
@@ -65,7 +65,7 @@ bool Users::Post(nlohmann::json newObject)
         retcode = SQLFetch(sqlStmtHandle);
         if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
         {
-            cout << "Error reading query!\n";
+            std::cout << "Error reading query!\n";
             Logger("{Users.cpp//Users::Post} Error reading query to add new user!");
             return false;
         }
@@ -82,16 +82,16 @@ bool Users::Post(nlohmann::json newObject)
 
     if (userEmail_id != 0) //NEW USER ADD
     {
-        string put = "INSERT INTO Users VALUES('";
-        put += newObject["userNameArr"].get<string>() + "', '" +
-            newObject["userSurnameArr"].get<string>() + "', '" +
-            newObject["userBithday"].get<string>() + "', '" +
-            newObject["userMail"].get<string>() + "', '" +
-            newObject["userPassword"].get<string>() + "', " + to_string(0) + ", '" + "Novice" + "');";
+        std::string insert = "INSERT INTO Users VALUES('";
+        put += newObject["userNameArr"].get<std::string>() + "', '" +
+            newObject["userSurnameArr"].get<std::string>() + "', '" +
+            newObject["userBithday"].get<std::string>() + "', '" +
+            newObject["userMail"].get<std::string>() + "', '" +
+            newObject["userPassword"].get<std::string>() + "', " + std::to_string(0) + ", '" + "Novice" + "');";
 
-        wstring wput = GetWCharFromString(put);
+        std::wstring winsert = GetWCharFromString(insert);
 
-        if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
+        if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)winsert.c_str(), SQL_NTS) == SQL_SUCCESS)
         {
             return true;
         }
@@ -106,18 +106,18 @@ bool Users::Post(nlohmann::json newObject)
     }
 }
 
-bool Users::Put(nlohmann::json newObject)
+bool Users::Put(const nlohmann::json& newObject)
 {
-    string sTasksUpdate = "UPDATE Tasks SET ";
-    sTasksUpdate += "task_Status = " + to_string(3) + "," + 
+    std::string sTasksUpdate = "UPDATE Tasks SET ";
+    sTasksUpdate += "task_Status = " + std::to_string(3) + "," +
         "task_Real_End_Time = GETDATE() " + 
-        "where task_Id = " + to_string(newObject["task_Id"].get<int>()) + ";";
+        "where task_Id = " + std::to_string(newObject["task_Id"].get<int>()) + ";";
 
-    wstring wTasksUpdate = GetWCharFromString(sTasksUpdate);
+    std::wstring wTasksUpdate = GetWCharFromString(sTasksUpdate);
 
     if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wTasksUpdate.c_str(), SQL_NTS) == SQL_SUCCESS)
     {
-        string userRank;
+        std::string userRank;
         if (newObject["user_Points"].get<int>() >= 0 && newObject["user_Points"].get<int>() <= 300)
         {
             userRank = "Novice";
@@ -139,12 +139,12 @@ bool Users::Put(nlohmann::json newObject)
             userRank = "Immortal";
         }
 
-        string put = "UPDATE Users SET ";
-        put += "user_Points = " + to_string(newObject["user_Points"].get<int>()) + "," +
+        std::string put = "UPDATE Users SET ";
+        put += "user_Points = " + std::to_string(newObject["user_Points"].get<int>()) + "," +
             "user_Rank = '" + userRank + "' "
-            "where user_Id = " + to_string(newObject["user_Id"].get<int>());
+            "where user_Id = " + std::to_string(newObject["user_Id"].get<int>());
 
-        wstring wput = GetWCharFromString(put);
+        std::wstring wput = GetWCharFromString(put);
 
         if (SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS) == SQL_SUCCESS)
         {
@@ -163,10 +163,10 @@ bool Users::Put(nlohmann::json newObject)
 
 bool Users::Delete(int id)
 {
-    string sqldelete = "Delete from Users where user_Id = ";
-    sqldelete += to_string(id);
+    std::string sqldelete = "Delete from Users where user_Id = ";
+    sqldelete += std::to_string(id);
 
-    wstring wsqldelete = GetWCharFromString(sqldelete);
+    std::wstring wsqldelete = GetWCharFromString(sqldelete);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wsqldelete.c_str(), SQL_NTS);
 
@@ -192,7 +192,7 @@ void Users::Get()
             retcode = SQLFetch(sqlStmtHandle);
             if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
             {
-                cout << "Error reading query!\n";
+                std::cout << "Error reading query!\n";
             }
             if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
             {
@@ -213,16 +213,16 @@ void Users::Get()
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }
 
 void Users::Get(int id)
 {
-    string put = "SELECT * FROM USERS where user_Id ='";
-    put += to_string(id) + "'";
-    wstring wput = GetWCharFromString(put);
+    std::string put = "SELECT * FROM USERS where user_Id ='";
+    put += std::to_string(id) + "'";
+    std::wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
 
@@ -231,7 +231,7 @@ void Users::Get(int id)
         retcode = SQLFetch(sqlStmtHandle);
         if (retcode == SQL_ERROR || retcode == SQL_SUCCESS_WITH_INFO)
         {
-            cout << "Error reading query!\n";
+            std::cout << "Error reading query!\n";
         }
         if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO)
         {
@@ -250,7 +250,7 @@ void Users::Get(int id)
     }
     else
     {
-        cout << "Error getting data!";
+        std::cout << "Error getting data!";
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 }

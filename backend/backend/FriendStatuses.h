@@ -3,8 +3,6 @@
 #include "config.h"
 #define FIELD_LEN 50
 
-using namespace std;
-
 class FriendStatuses : public iCrudOperations
 {
     struct FriendStatusesStruct
@@ -13,20 +11,20 @@ class FriendStatuses : public iCrudOperations
         SQLCHAR  friend_status_Name[FIELD_LEN];
         SQLCHAR  friend_status_Description[FIELD_LEN];
 
-        void Print()
+        void Print() const
         {
-            cout << this->friend_status_Id << "\t" << this->friend_status_Name << "\t" << this->friend_status_Description;
-            cout << endl;
+            std::cout << this->friend_status_Id << "\t" << this->friend_status_Name << "\t" << this->friend_status_Description;
+            std::cout << std::endl;
         }
     };
-    vector<FriendStatusesStruct> AllFriendStatuses;
+    std::vector<FriendStatusesStruct> AllFriendStatuses;
 public:
     void Get() override;
     void Get(int id) override {};
-    bool Post(nlohmann::json newObject) override;
-    bool Put(nlohmann::json newObject) override { return true; };
+    bool Post(const nlohmann::json& newObject) override;
+    bool Put(const nlohmann::json &newObject) override { return true; };
     bool Delete(int id) override;
-    vector<FriendStatusesStruct> GetData();
+    std::vector<FriendStatusesStruct> GetData() const;
 };
 
 
