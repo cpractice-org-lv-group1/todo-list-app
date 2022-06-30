@@ -91,3 +91,13 @@ void AddTask::on_AddButton_clicked()
     }
 }
 
+void AddTask::SlotClearAddTaskWindow()
+{
+    ui->Header->clear();
+    ui->Body->clear();
+    ui->StartTime->clear();
+    ui->ExpEndTime->clear();
+    ui->Difficulty->clear();
+    ui->Category->clear();
+}
+

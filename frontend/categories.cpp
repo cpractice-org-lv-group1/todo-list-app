@@ -156,3 +156,8 @@ void Categories::on_AddNewButton_clicked()
     }
 }
 
+void Categories::SlotClearCategoryWindow()
+{
+    ui->lineEdit->clear();
+}
+

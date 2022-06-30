@@ -247,7 +247,6 @@ void Server::RunSERVER()
 								}
 							}
 							result += "]";
-							std::cout << result + "\n";
 							SendMSG(result, i);
 						}
 					}

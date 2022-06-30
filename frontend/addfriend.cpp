@@ -44,3 +44,8 @@ void AddFriend::on_pushButton_clicked()
     }
 }
 
+void AddFriend::SlotClearAddFriendWindow()
+{
+    ui->lineEdit->clear();
+}
+

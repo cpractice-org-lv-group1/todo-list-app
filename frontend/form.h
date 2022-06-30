@@ -60,6 +60,9 @@ signals:
      void SendCategoriesData(const vector<QJsonObject> &vect, QTcpSocket *sock, const QString &Category, const int &userid);
      void SendToAddTask(QTcpSocket *sock, const int &id, const vector<QJsonObject> &categories);
      void SendToAddFriend(QTcpSocket *sock, const int &id);
+     void ClearAddTaskWindow();
+     void ClearAddFriendWindow();
+     void ClearCategoryWindow();
 
 private slots:
 

@@ -36,11 +36,8 @@ public slots:
 
 private slots:
     void on_EditButton_clicked();
-
     void on_DeleteButton_clicked();
-
     void on_DoneButton_clicked();
-
     void on_DoneButton_2_clicked();
 
 private:

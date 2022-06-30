@@ -31,6 +31,7 @@ public:
 
 public slots:
     void GetToAddTask(QTcpSocket *sock, const int &id, const vector<QJsonObject> &categories);
+    void SlotClearAddTaskWindow();
 
 private slots:
     void on_AddButton_clicked();

@@ -231,6 +231,7 @@ void Registration::sockReady()
                         ui->Img->move(0,0);
                         ui->SignUpButton->move(160,350);
                         ui->LogEmail->setText(ui->SignUpEmail->toPlainText());
+                        ui->LogPass->clear();
                         ui->LogWrongEmail->show();
                         ui->LogWrongEmail->setStyleSheet("color: green");
                         ui->LogWrongEmail->setText(" Signup successful!");
@@ -573,8 +574,6 @@ void Registration::on_SignUpButton_clicked()
             QJsonArray jsarray {NewUser};
             QJsonDocument jsDoc(jsarray);
             QString jsString = QString::fromLatin1(jsDoc.toJson());
-            QJsonDocument doc = QJsonDocument::fromJson(jsString.toUtf8());
-            QString formatted = doc.toJson(QJsonDocument::Compact);
 
             if(socket->isOpen())
             {

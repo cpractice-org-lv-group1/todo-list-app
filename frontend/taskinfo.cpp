@@ -239,3 +239,4 @@ void TaskInfo::on_DoneButton_2_clicked()
     Operations::ComleteTask(socket, currentTask.value("task_User").toDouble(), (userpoints + (currentpoints/2)), currentTask.value("task_Id").toDouble());
 }
 
+

@@ -31,6 +31,7 @@ public:
 
 public slots:
     void GetToAddFriend(QTcpSocket *sock, const int &id);
+    void SlotClearAddFriendWindow();
 
 private slots:
     void on_pushButton_clicked();

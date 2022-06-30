@@ -41,6 +41,9 @@ Form::Form(QWidget *parent) :
     connect(this, &Form::SendToAddTask, addtaskwindow, &AddTask::GetToAddTask);
     connect(this, &Form::SendToAddFriend, addfriendwindow, &AddFriend::GetToAddFriend);
     connect(categorywindow, SIGNAL(ChangeCategory(QString)), this, SLOT(GetChangedCategory(QString)));
+    connect(this, &Form::ClearAddTaskWindow, addtaskwindow, &AddTask::SlotClearAddTaskWindow);
+    connect(this, &Form::ClearCategoryWindow, categorywindow, &Categories::SlotClearCategoryWindow);
+    connect(this, &Form::ClearAddFriendWindow, addfriendwindow, &AddFriend::SlotClearAddFriendWindow);
 
     //LOG FILE
     log.setFileName("log.txt");
@@ -153,6 +156,10 @@ void Form::slot(int id, QTcpSocket *sock, QTextStream *sendlogstream)
         ifFirstTime = false;
     }
     ifOpen = true;
+    //CLEAR WINDOWS
+    emit ClearAddTaskWindow();
+    emit ClearAddFriendWindow();
+    emit ClearCategoryWindow();
 
     Id = id;
 
