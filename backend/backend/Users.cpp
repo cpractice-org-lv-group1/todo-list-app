@@ -81,7 +81,7 @@ bool Users::Post(const nlohmann::json& newObject)
     }
     SQLFreeStmt(sqlStmtHandle, SQL_CLOSE);
 
-    if (userEmail_id != 0) //NEW USER ADD
+    if (userEmail_id == 0) //NEW USER ADD
     {
         std::string insert = "INSERT INTO Users VALUES('";
         put += newObject["userNameArr"].get<std::string>() + "', '" +
