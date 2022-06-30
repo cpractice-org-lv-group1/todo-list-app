@@ -27,7 +27,6 @@ bool TaskCategories::Delete(int id)
     std::wstring wput = GetWCharFromString(put);
 
     retcode = SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)wput.c_str(), SQL_NTS);
-    std::cout << retcode << std::endl;
 
     
     std::string sqldelete = "Delete from TaskCategories where taskCategories_Id = ";

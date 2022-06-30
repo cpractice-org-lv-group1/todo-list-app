@@ -84,7 +84,7 @@ bool Users::Post(const nlohmann::json& newObject)
     if (userEmail_id == 0) //NEW USER ADD
     {
         std::string insert = "INSERT INTO Users VALUES('";
-        put += newObject["userNameArr"].get<std::string>() + "', '" +
+        insert += newObject["userNameArr"].get<std::string>() + "', '" +
             newObject["userSurnameArr"].get<std::string>() + "', '" +
             newObject["userBithday"].get<std::string>() + "', '" +
             newObject["userMail"].get<std::string>() + "', '" +
@@ -98,6 +98,7 @@ bool Users::Post(const nlohmann::json& newObject)
         }
         else
         {
+            std::cout << "GAY1";
             return false;
         }
     }

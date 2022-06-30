@@ -202,7 +202,7 @@ bool Friendships::Post(const nlohmann::json& newObject)
     if (addresserId != 0 && checkAlreadyFriend(newObject["friendship_RequesterId"].get<int>(), addresserId) == false)
     {
         std::string insert = "INSERT INTO Friendships VALUES(";
-        put += std::to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
+        insert += std::to_string(newObject["friendship_RequesterId"].get<int>()) + "," +
             std::to_string(addresserId) + ", GETDATE()" + ", NULL, " +
             std::to_string(1) + ");";
 
