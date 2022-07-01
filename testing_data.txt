@@ -1,0 +1,10 @@
+
+
+SQL Server: mnkserver.database.windows.net
+	    UID=sanyok;
+            PWD=!Politech;
+
+
+Testing account (created all needed data):
+            Email: ivanglina@gmail.com
+            Password: 2281337a
