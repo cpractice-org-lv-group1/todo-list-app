@@ -60,5 +60,22 @@ You can make a selection of tasks. Just select the category you want to sample a
 
 and then click **OK**. Tasks whose start times fall within the specified time are displayed.
 
+On the left side there is information about the user, his friends and a number of additional actions.
 
-    
+![image](https://user-images.githubusercontent.com/84669679/176924564-14aa8d2f-005b-4dc4-81f1-56c76220bab1.png)
+
+1. Exit to start page.
+2. History of tasks. There are tasks whose was deleted, done and fastest completed:
+
+<img src="https://user-images.githubusercontent.com/84669679/176925342-e1e97d24-2528-49f4-a28e-0d4b17576af1.png" width="600" height="350">
+
+Search depth is also present here. Just write a number in the field and click **Ok**.
+> To go back, just press the button in the same place **Back**
+
+3. Friend requests - shows all friend requests. There you can accept or reject request.
+> To go back, just press the button in the same place **Friends**
+
+4. Add friend - after clicking, a dialog box appears, through which you can send a request to a friend, knowing his email.
+![image](https://user-images.githubusercontent.com/84669679/176928923-499c24fe-7b43-4c39-82cb-76fc0b479f98.png)
+
+***
