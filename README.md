@@ -20,7 +20,9 @@ To work with it properly, we use `nlohmann` library, which provides easy-to-use 
 
 <img src="https://user-images.githubusercontent.com/84669679/176893451-74b61181-7d6d-42b6-a2b8-479ae0066f4f.png"  width="100" height="100">
 
-Frontend client was made in `QT` using `qmake`. It connects to server using sockets from <QTcpSocket> library. All code is written on C++. All data requests and reactions to data received from server are connected by signals with proper slots, as well as signals to go from one window to another. To work with `.ini` file we use `<QSettings>` library. To serialize user data and to log the work of programm we use `.txt` files. To display images we use resource group, which contains all needed files.
+Frontend client was made in `QT` using `qmake`. It connects to server using sockets from `<QTcpSocket>` library. All code is written on C++. All data requests and reactions to data received from server are connected by signals with proper slots, as well as signals to go from one window to another. To work with `.ini` file we use `<QSettings>` library. To serialize user data and to log the work of programm we use `.txt` files. To display images we use resource group, which contains all needed files.
+
+To help testing all parts of this software, you can use `testing_data.txt` file from this repository, where you can find login details for database and user with most tasks, friends, categories etc.
 
 ***
 
