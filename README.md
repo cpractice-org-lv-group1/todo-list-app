@@ -27,7 +27,7 @@ Frontend client was made in `QT` using `qmake`. It connects to server using sock
 ## ***User documentation***
 - **How to download this app?**
 
-    [Click to the reference](https://github.com/sbanashchuk-eleks/todo-list-app/archive/refs/tags/v0.1.0.zip) and the download of the program archive will start           automatically. If downloading did not start, you can try download archive yourself. Just [click there](https://github.com/sbanashchuk-eleks/todo-list-app/releases/tag/v0.1.0) and then click to archive `frontend.exe` and downloading will start automatically.
+    [Click to the reference](https://github.com/sbanashchuk-eleks/todo-list-app/releases/download/v1.0.0/frontend.exe.rar) and the download of the program archive will start automatically. If downloading did not start, you can try download archive yourself. Just [click there](https://github.com/sbanashchuk-eleks/todo-list-app/releases/tag/v1.0.0) and then click to archive `frontend.exe` and downloading will start automatically.
 - **How to install?**
 
     Open the archive and unpack to the desired folder.
