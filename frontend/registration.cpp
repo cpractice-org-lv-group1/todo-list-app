@@ -23,8 +23,8 @@ Registration::Registration(QWidget *parent)
     logstream.setDevice(&log);
 
     //INI FILE INITIALIZATION
-    QString defaultIP = "127.0.0.1";
-    int defaultPORT = 8888;
+    QString defaultIP = "20.254.120.221";
+    int defaultPORT = 50827;
 
     if(QFile::exists("settings.ini"))
     {
@@ -40,8 +40,6 @@ Registration::Registration(QWidget *parent)
         settings->sync();
         socket->connectToHost(settings->value("IP", defaultIP).toString(), settings->value("PORT", defaultPORT).toInt());
     }
-
-    //socket->connectToHost("127.0.0.1", 8888);
 
     //UI STYLES
     ui->LoginButton->setStyleSheet("QPushButton {border: 1px solid black; } QPushButton:hover { border: 1px solid darkgreen;}");
@@ -154,9 +152,9 @@ void Registration::sockReady()
 {
     if(ifOpen)
     {
-        if (socket->waitForConnected(500))
+        if (socket->waitForConnected(5000))
         {
-            socket->waitForReadyRead(10);
+            socket->waitForReadyRead(1);
             Data = socket->readAll();
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)

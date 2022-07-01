@@ -180,9 +180,9 @@ void Form::sockReady()
 {
     if(ifOpen) //CHECK IF THIS WINDOW IS OPEN
     {
-        if (socket->waitForConnected(500))
+        if (socket->waitForConnected(5000))
         {
-            socket->waitForReadyRead(10);
+            socket->waitForReadyRead(1);
             Data = socket->readAll();
             doc  = QJsonDocument::fromJson(Data, &docError);
             if(docError.errorString().toInt() == QJsonParseError::NoError)
