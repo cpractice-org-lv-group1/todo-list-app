@@ -78,6 +78,7 @@ Search depth is also present here. Just write a number in the field and click **
 > To go back, just press the button in the same place **Friends**
 
 4. Add friend - after clicking, a dialog box appears, through which you can send a request to a friend, knowing his email.
+
 ![image](https://user-images.githubusercontent.com/84669679/176928923-499c24fe-7b43-4c39-82cb-76fc0b479f98.png)
 
 ***
